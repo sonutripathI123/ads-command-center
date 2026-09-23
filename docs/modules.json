@@ -17,8 +17,8 @@
      "depends_on": ["P02"], "tables": [], "api_prefix": null,
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P02", "name": "Authentication & User Access", "slug": "auth", "package": "p02_auth", "status": "planned",
-     "depends_on": [], "tables": ["users", "roles", "user_roles", "sessions"], "api_prefix": "/api/v1/auth",
+    {"id": "P02", "name": "Authentication & User Access", "slug": "auth", "package": "p02_auth", "status": "review",
+     "depends_on": [], "tables": ["users", "sessions"], "api_prefix": "/api/v1/auth",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P03", "name": "Website Intelligence", "slug": "websites", "package": "p03_website_intel", "status": "planned",
