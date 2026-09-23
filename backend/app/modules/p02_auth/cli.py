@@ -20,10 +20,14 @@ from app.shared.db import session_scope
 from app.shared.errors import AppError
 
 
-def _prompt_password() -> str:
-    pw = getpass.getpass("Password (min 12 chars): ")
-    if pw != getpass.getpass("Repeat password: "):
-        sys.exit("Passwords do not match")
+def _prompt_password(visible: bool = False) -> str:
+    if visible:
+        # For terminals where hidden input/paste misbehaves. Clear the screen afterwards.
+        pw = input("Password (min 12 chars, VISIBLE): ").strip()
+    else:
+        pw = getpass.getpass("Password (min 12 chars): ")
+        if pw != getpass.getpass("Repeat password: "):
+            sys.exit("Passwords do not match")
     validate_password(pw)
     return pw
 
@@ -31,9 +35,11 @@ def _prompt_password() -> str:
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="p02_auth.cli")
     sub = p.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("create-admin")
+    ca = sub.add_parser("create-admin")
+    ca.add_argument("--visible", action="store_true", help="show the password while typing (asked once)")
     rp = sub.add_parser("reset-password")
     rp.add_argument("email")
+    rp.add_argument("--visible", action="store_true", help="show the password while typing (asked once)")
     se = sub.add_parser("set-execute")
     se.add_argument("email")
     se.add_argument("state", choices=["on", "off"])
@@ -44,7 +50,7 @@ def main(argv: list[str] | None = None) -> None:
             if args.cmd == "create-admin":
                 email = input("Admin email: ").strip()
                 name = input("Name: ").strip()
-                user = create_user(db, email=email, name=name, role="admin", password=_prompt_password())
+                user = create_user(db, email=email, name=name, role="admin", password=_prompt_password(args.visible))
                 print(f"Created admin {user.email} (id {user.id})")
                 return
 
@@ -52,7 +58,7 @@ def main(argv: list[str] | None = None) -> None:
             if user is None:
                 sys.exit(f"No user {args.email}")
             if args.cmd == "reset-password":
-                user.password_hash = hash_password(_prompt_password())
+                user.password_hash = hash_password(_prompt_password(args.visible))
                 print(f"Password reset for {user.email}")
             elif args.cmd == "set-execute":
                 enable = args.state == "on"

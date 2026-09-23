@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PUBLIC_PATHS, UserMenu } from "@/modules/auth";
 import { AppShell } from "@/shell/AppShell";
 import "./globals.css";
 
@@ -11,7 +12,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en-AU" className="h-full antialiased">
       <body className="min-h-full">
-        <AppShell>{children}</AppShell>
+        <AppShell headerRight={<UserMenu />} bareRoutes={PUBLIC_PATHS}>{children}</AppShell>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { useFoundation, type Health, type ModuleInfo } from "./api";
 import { ModuleStatusProvider } from "./ModuleStatus";
@@ -7,11 +8,24 @@ import { ScopeSelector } from "./ScopeSelector";
 import { Sidebar } from "./Sidebar";
 import { AlertStrip, StatusPills } from "./StatusBar";
 
-export function AppShell({ children }: { children: ReactNode }) {
+type AppShellProps = {
+  children: ReactNode;
+  /** Rendered at the right of the top bar (e.g. P02 user menu). Supplied by app/layout.tsx. */
+  headerRight?: ReactNode;
+  /** Routes rendered without sidebar/top bar (e.g. P02 /login). */
+  bareRoutes?: string[];
+};
+
+export function AppShell({ children, headerRight, bareRoutes = [] }: AppShellProps) {
+  const pathname = usePathname();
   const health = useFoundation<Health>("health");
   const modules = useFoundation<ModuleInfo[]>("modules");
   const [menuOpen, setMenuOpen] = useState(false);
   const statusById = Object.fromEntries((modules.data ?? []).map((m) => [m.id, m.status]));
+
+  if (bareRoutes.includes(pathname)) {
+    return <main className="min-h-screen px-4 py-5">{children}</main>;
+  }
 
   return (
     <ScopeProvider>
@@ -38,6 +52,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <ScopeSelector />
               <div className="ml-auto flex flex-wrap items-center gap-2">
                 <StatusPills health={health.data} error={health.error} loading={health.loading} />
+                {headerRight}
               </div>
             </header>
             <AlertStrip error={health.error} />

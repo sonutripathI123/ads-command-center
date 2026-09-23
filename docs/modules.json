@@ -17,7 +17,7 @@
      "depends_on": ["P02"], "tables": [], "api_prefix": null,
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P02", "name": "Authentication & User Access", "slug": "auth", "package": "p02_auth", "status": "review",
+    {"id": "P02", "name": "Authentication & User Access", "slug": "auth", "package": "p02_auth", "status": "approved_frozen",
      "depends_on": [], "tables": ["users", "sessions"], "api_prefix": "/api/v1/auth",
      "feature_flags": [], "may_mutate_google_ads": false},
 

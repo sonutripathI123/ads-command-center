@@ -1,6 +1,6 @@
 # P02 — Authentication & User Access
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-23)
 
 ## Purpose
 Sign-in, server-side sessions, users and roles, and the permission checks every other module uses.
@@ -55,4 +55,4 @@ Execute permission (live Google Ads changes) is off for everyone by default.
 - [x] `require_permission` dependency for other modules.
 - [x] Admin user management with last-admin protection.
 - [x] Frontend login + account page + route guard, with no change to P01.
-- [ ] User review and approval.
+- [x] User review and approval (2026-09-23).

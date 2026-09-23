@@ -11,7 +11,7 @@ Uses mock websites/accounts until P03/P04 exist. Contains **no** business logic 
 |---|---|
 | `src/shell/index.ts` | **public interface** for module pages: `useScope`, `SCOPE_ALL`, `PageHeader`, `useModuleStatus`, `API_BASE`, types |
 | `src/shell/nav.json` / `nav.ts` | section list: label, slug, owning moduleId |
-| `src/shell/AppShell.tsx` | layout: sidebar, top bar, alert strip |
+| `src/shell/AppShell.tsx` | layout: sidebar, top bar, alert strip; props `headerRight` (slot) and `bareRoutes` (no chrome) |
 | `src/shell/Sidebar.tsx` | navigation (shows owning module ID for unbuilt sections) |
 | `src/shell/ScopeSelector.tsx`, `ScopeContext.tsx` | website / ads-account selector (persisted in localStorage) |
 | `src/shell/StatusBar.tsx` | API health + kill-switch pills, alert strip |
@@ -29,8 +29,8 @@ Create `frontend/src/modules/<slug>/index.ts` + components, and `frontend/src/ap
 them. Next.js picks the static route over `[section]`. Import shell features only from `@/shell`.
 
 ## Dependencies
-P00 foundation API (health, modules, flags). P02 (auth) will add a user menu + route guard later — that is
-a P02-targeted change to `AppShell.tsx`.
+P00 foundation API (health, modules, flags). `app/layout.tsx` injects P02's `UserMenu` into `headerRight` and passes
+P02's public routes as `bareRoutes`.
 
 ## Acceptance criteria
 - [x] All 21 MID §19 sections in navigation, each mapped to a registered owning module.

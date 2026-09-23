@@ -7,3 +7,8 @@
 - Frontend: `/login`, `/account` (users admin), `proxy.ts` route guard.
 - Registry: tables reduced from users/roles/user_roles/sessions to users/sessions (roles live in code).
 - Status: `review`.
+
+## 2026-09-23 — approval + follow-ups
+- CLI: `--visible` option for create-admin/reset-password (hidden input failed to match in the user's terminal).
+- `UserMenu` (name → /account, Sign out) shown in the shell top bar; /login shown without shell chrome.
+- Status: `approved_frozen` (user approved 2026-09-23).
