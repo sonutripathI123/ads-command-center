@@ -1,0 +1,12 @@
+[project]
+name = "ads-command-center-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+# Module tests live next to their module: app/modules/<package>/tests
+# Cross-cutting governance tests live in tests/isolation
+testpaths = ["app/modules", "tests"]
+markers = [
+    "module(id): tag a test with its owning MODULE_ID, e.g. @pytest.mark.module('P08')",
+]

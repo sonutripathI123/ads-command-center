@@ -1,0 +1,26 @@
+# Local/dev stack (owner: P00). Production deployment is defined in P24.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ads
+      POSTGRES_PASSWORD: ads
+      POSTGRES_DB: ads_command_center
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  redis:
+    image: redis:7
+    ports: ["6379:6379"]
+
+  backend:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    env_file: backend/.env
+    environment:
+      DATABASE_URL: postgresql+psycopg://ads:ads@postgres:5432/ads_command_center
+      REDIS_URL: redis://redis:6379/0
+    ports: ["8000:8000"]
+    depends_on: [postgres, redis]
+
+volumes:
+  pgdata:

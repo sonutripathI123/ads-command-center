@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* P01 — design tokens. Modules use these utility names (bg-surface, text-muted, border-line, …). */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --line: #e2e5ea;
+  --fg: #16181d;
+  --muted: #646b78;
+  --accent: #1f5fd6;
+  --accent-soft: #e8effc;
+  --ok: #1a7f4b;
+  --warn: #a15c00;
+  --danger: #c0352b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1115;
+    --surface: #161920;
+    --surface-2: #1e222b;
+    --line: #2a2f3a;
+    --fg: #e8eaee;
+    --muted: #9aa1ad;
+    --accent: #7aa7ff;
+    --accent-soft: #1c2a45;
+    --ok: #4cc38a;
+    --warn: #e5a54a;
+    --danger: #ff7a70;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+}

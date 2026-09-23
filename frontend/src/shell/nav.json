@@ -1,0 +1,56 @@
+{
+  "_comment": "P01 — dashboard sections (MID §19). moduleId = module that will own the page. Validated by backend/app/modules/p01_shell/tests.",
+  "groups": [
+    {
+      "label": "Overview",
+      "items": [
+        { "slug": "", "label": "Overview", "moduleId": "P01" }
+      ]
+    },
+    {
+      "label": "Sources",
+      "items": [
+        { "slug": "websites", "label": "Websites", "moduleId": "P03" },
+        { "slug": "ads-accounts", "label": "Ads Accounts", "moduleId": "P04" },
+        { "slug": "conversions", "label": "Conversions", "moduleId": "P06" }
+      ]
+    },
+    {
+      "label": "Google Ads",
+      "items": [
+        { "slug": "campaigns", "label": "Campaigns", "moduleId": "P05" },
+        { "slug": "ad-groups", "label": "Ad Groups", "moduleId": "P05" },
+        { "slug": "keywords", "label": "Keywords", "moduleId": "P08" },
+        { "slug": "search-terms", "label": "Search Terms", "moduleId": "P08" },
+        { "slug": "ads-assets", "label": "Ads & Assets", "moduleId": "P09" }
+      ]
+    },
+    {
+      "label": "Insights",
+      "items": [
+        { "slug": "bookings-revenue", "label": "Bookings / Revenue", "moduleId": "P13" },
+        { "slug": "landing-pages", "label": "Landing Pages", "moduleId": "P10" },
+        { "slug": "competitors", "label": "Competitors", "moduleId": "P11" },
+        { "slug": "recommendations", "label": "AI Recommendations", "moduleId": "P14" }
+      ]
+    },
+    {
+      "label": "Actions",
+      "items": [
+        { "slug": "campaign-builder", "label": "Campaign Builder", "moduleId": "P15" },
+        { "slug": "approvals", "label": "Approval Center", "moduleId": "P16" },
+        { "slug": "experiments", "label": "Experiments", "moduleId": "P20" }
+      ]
+    },
+    {
+      "label": "Operations",
+      "items": [
+        { "slug": "monitoring", "label": "Monitoring & Alerts", "moduleId": "P18" },
+        { "slug": "reports", "label": "Reports", "moduleId": "P19" },
+        { "slug": "business-rules", "label": "Business Rules", "moduleId": "P21" },
+        { "slug": "audit-log", "label": "Audit Log", "moduleId": "P22" },
+        { "slug": "settings", "label": "Settings", "moduleId": "P01" }
+      ]
+    }
+  ]
+}

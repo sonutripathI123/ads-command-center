@@ -1,0 +1,115 @@
+{
+  "_comment": "SOURCE OF TRUTH for module boundaries. Owned by P00. MODULE_REGISTRY.md and DEPENDENCY_MAP.md tables are generated from this file by scripts/gen_registry.py. Editing this file is a cross-module change (see docs/CHANGE_PROTOCOL.md).",
+  "statuses": ["planned", "in_progress", "review", "approved_frozen"],
+  "shared": [
+    {
+      "path": "backend/app/shared/",
+      "owner": "P00",
+      "public_interfaces": ["config.get_settings", "db.Base", "db.get_db", "db.session_scope", "errors.AppError", "logging.get_logger", "feature_flags.is_enabled", "registry.load_registry"]
+    }
+  ],
+  "modules": [
+    {"id": "P00", "name": "Foundation & Governance", "slug": "foundation", "package": "p00_foundation", "status": "approved_frozen",
+     "depends_on": [], "tables": ["feature_flag_overrides"], "api_prefix": "/api/v1/foundation",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P01", "name": "Dashboard Shell", "slug": "shell", "package": "p01_shell", "status": "approved_frozen",
+     "depends_on": ["P02"], "tables": [], "api_prefix": null,
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P02", "name": "Authentication & User Access", "slug": "auth", "package": "p02_auth", "status": "planned",
+     "depends_on": [], "tables": ["users", "roles", "user_roles", "sessions"], "api_prefix": "/api/v1/auth",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P03", "name": "Website Intelligence", "slug": "websites", "package": "p03_website_intel", "status": "planned",
+     "depends_on": ["P21"], "tables": ["websites", "pages", "crawl_runs", "page_signals", "landing_page_mappings"], "api_prefix": "/api/v1/websites",
+     "feature_flags": [{"key": "crawler.enabled", "default": false, "description": "Allow outbound website crawling"}], "may_mutate_google_ads": false},
+
+    {"id": "P04", "name": "Google Ads Connection", "slug": "ads-connection", "package": "p04_ads_connection", "status": "planned",
+     "depends_on": ["P02"], "tables": ["ads_accounts", "connections"], "api_prefix": "/api/v1/ads-connection",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P05", "name": "Google Ads Data Sync & Warehouse", "slug": "ads-sync", "package": "p05_ads_sync", "status": "planned",
+     "depends_on": ["P04"], "tables": ["campaigns", "ad_groups", "keywords", "search_terms", "ads", "ad_assets", "metrics_snapshots", "sync_runs"], "api_prefix": "/api/v1/ads-sync",
+     "feature_flags": [{"key": "ads_sync.scheduled.enabled", "default": false, "description": "Run scheduled incremental syncs"}], "may_mutate_google_ads": false},
+
+    {"id": "P06", "name": "Analytics & Conversion Data", "slug": "conversions", "package": "p06_analytics", "status": "planned",
+     "depends_on": ["P02", "P03"], "tables": ["conversion_events", "leads", "quotes", "bookings", "revenue_records"], "api_prefix": "/api/v1/conversions",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P07", "name": "PPC Audit Engine", "slug": "audit", "package": "p07_ppc_audit", "status": "planned",
+     "depends_on": ["P03", "P05", "P06", "P14", "P21"], "tables": ["audit_runs", "audit_issues"], "api_prefix": "/api/v1/audit",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P08", "name": "Keyword & Search-Term Intelligence", "slug": "keywords", "package": "p08_keyword_intel", "status": "planned",
+     "depends_on": ["P05", "P14", "P21"], "tables": ["keyword_candidates", "negative_keyword_candidates", "search_term_classifications"], "api_prefix": "/api/v1/keywords",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P09", "name": "Ad & Creative Intelligence", "slug": "creatives", "package": "p09_ad_creative", "status": "planned",
+     "depends_on": ["P05", "P14", "P21"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P10", "name": "Landing Page & CRO Intelligence", "slug": "landing-pages", "package": "p10_landing_cro", "status": "planned",
+     "depends_on": ["P03", "P05", "P14"], "tables": ["cro_findings", "implementation_briefs"], "api_prefix": "/api/v1/landing-pages",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P11", "name": "Competitor Intelligence", "slug": "competitors", "package": "p11_competitor_intel", "status": "planned",
+     "depends_on": ["P03", "P14", "P21"], "tables": ["competitors", "competitor_observations"], "api_prefix": "/api/v1/competitors",
+     "feature_flags": [{"key": "competitor.research.enabled", "default": false, "description": "Allow outbound public web/SERP research"}], "may_mutate_google_ads": false},
+
+    {"id": "P12", "name": "Budget / Bid / Geo / Device / Time Intelligence", "slug": "budget-bid", "package": "p12_budget_bid", "status": "planned",
+     "depends_on": ["P05", "P06", "P14"], "tables": ["segment_findings"], "api_prefix": "/api/v1/budget-bid",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P13", "name": "Booking Funnel & Revenue Attribution", "slug": "funnel", "package": "p13_booking_funnel", "status": "planned",
+     "depends_on": ["P05", "P06", "P14"], "tables": ["attribution_records"], "api_prefix": "/api/v1/funnel",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P14", "name": "AI Recommendation Engine", "slug": "recommendations", "package": "p14_recommendations", "status": "planned",
+     "depends_on": ["P21", "P22"], "tables": ["recommendations", "ai_runs", "ai_evidence"], "api_prefix": "/api/v1/recommendations",
+     "feature_flags": [{"key": "ai.live_calls.enabled", "default": false, "description": "Call the live Claude API (otherwise fixture responses)"}], "may_mutate_google_ads": false},
+
+    {"id": "P15", "name": "AI Campaign Builder", "slug": "campaign-builder", "package": "p15_campaign_builder", "status": "planned",
+     "depends_on": ["P03", "P08", "P09", "P10", "P14", "P21"], "tables": ["campaign_drafts"], "api_prefix": "/api/v1/campaign-builder",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P16", "name": "Approval Center", "slug": "approvals", "package": "p16_approvals", "status": "planned",
+     "depends_on": ["P02", "P14", "P22"], "tables": ["approvals"], "api_prefix": "/api/v1/approvals",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P17", "name": "Google Ads Execution", "slug": "execution", "package": "p17_ads_execution", "status": "planned",
+     "depends_on": ["P02", "P04", "P05", "P16", "P22"], "tables": ["executions"], "api_prefix": "/api/v1/execution",
+     "feature_flags": [
+       {"key": "ads.execution.enabled", "default": false, "kill_switch_guarded": true, "description": "Allow approved mutations to be sent to the Google Ads API"},
+       {"key": "ads.execution.automation.enabled", "default": false, "kill_switch_guarded": true, "description": "LEVEL 4: auto-execute allowlisted low-risk operations"}
+     ], "may_mutate_google_ads": true},
+
+    {"id": "P18", "name": "Monitoring & Alerts", "slug": "monitoring", "package": "p18_monitoring", "status": "planned",
+     "depends_on": ["P05", "P06", "P13", "P17", "P22"], "tables": ["alerts", "monitor_checks"], "api_prefix": "/api/v1/monitoring",
+     "feature_flags": [{"key": "monitoring.scheduled.enabled", "default": false, "description": "Run scheduled monitoring checks"}], "may_mutate_google_ads": false},
+
+    {"id": "P19", "name": "Reports & Exports", "slug": "reports", "package": "p19_reports", "status": "planned",
+     "depends_on": ["P05", "P06", "P13", "P14", "P16", "P17"], "tables": ["report_runs"], "api_prefix": "/api/v1/reports",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P20", "name": "Experiments", "slug": "experiments", "package": "p20_experiments", "status": "planned",
+     "depends_on": ["P05", "P06", "P16"], "tables": ["experiments"], "api_prefix": "/api/v1/experiments",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P21", "name": "Business Memory & Rules", "slug": "business-rules", "package": "p21_business_rules", "status": "planned",
+     "depends_on": [], "tables": ["business_rules", "business_rule_versions"], "api_prefix": "/api/v1/business-rules",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P22", "name": "Security / Audit / Rollback", "slug": "security", "package": "p22_security_audit", "status": "planned",
+     "depends_on": ["P02"], "tables": ["audit_logs"], "api_prefix": "/api/v1/security",
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P23", "name": "Testing & QA", "slug": "qa", "package": "p23_testing_qa", "status": "planned",
+     "depends_on": [], "tables": [], "api_prefix": null,
+     "feature_flags": [], "may_mutate_google_ads": false},
+
+    {"id": "P24", "name": "Production Hardening", "slug": "hardening", "package": "p24_hardening", "status": "planned",
+     "depends_on": [], "tables": [], "api_prefix": null,
+     "feature_flags": [], "may_mutate_google_ads": false}
+  ]
+}
