@@ -25,7 +25,7 @@
      "depends_on": ["P21"], "tables": ["websites", "pages", "crawl_runs", "page_signals", "landing_page_mappings"], "api_prefix": "/api/v1/websites",
      "feature_flags": [{"key": "crawler.enabled", "default": false, "description": "Allow outbound website crawling"}], "may_mutate_google_ads": false},
 
-    {"id": "P04", "name": "Google Ads Connection", "slug": "ads-connection", "package": "p04_ads_connection", "status": "planned",
+    {"id": "P04", "name": "Google Ads Connection", "slug": "ads-connection", "package": "p04_ads_connection", "status": "review",
      "depends_on": ["P02"], "tables": ["ads_accounts", "connections"], "api_prefix": "/api/v1/ads-connection",
      "feature_flags": [], "may_mutate_google_ads": false},
 

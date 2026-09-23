@@ -16,7 +16,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P01 | Dashboard Shell | `approved_frozen` | `backend/app/modules/p01_shell/` | — | — | — |
 | P02 | Authentication & User Access | `approved_frozen` | `backend/app/modules/p02_auth/` | `/api/v1/auth` | users, sessions | — |
 | P03 | Website Intelligence | `planned` | `backend/app/modules/p03_website_intel/` | `/api/v1/websites` | websites, pages, crawl_runs, page_signals, landing_page_mappings | crawler.enabled |
-| P04 | Google Ads Connection | `planned` | `backend/app/modules/p04_ads_connection/` | `/api/v1/ads-connection` | ads_accounts, connections | — |
+| P04 | Google Ads Connection | `review` | `backend/app/modules/p04_ads_connection/` | `/api/v1/ads-connection` | ads_accounts, connections | — |
 | P05 | Google Ads Data Sync & Warehouse | `planned` | `backend/app/modules/p05_ads_sync/` | `/api/v1/ads-sync` | campaigns, ad_groups, keywords, search_terms, ads, ad_assets, metrics_snapshots, sync_runs | ads_sync.scheduled.enabled |
 | P06 | Analytics & Conversion Data | `planned` | `backend/app/modules/p06_analytics/` | `/api/v1/conversions` | conversion_events, leads, quotes, bookings, revenue_records | — |
 | P07 | PPC Audit Engine | `planned` | `backend/app/modules/p07_ppc_audit/` | `/api/v1/audit` | audit_runs, audit_issues | — |
