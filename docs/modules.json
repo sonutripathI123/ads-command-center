@@ -69,8 +69,8 @@
      "depends_on": ["P02", "P05", "P07", "P21", "P22"], "tables": ["recommendations", "ai_runs", "ai_evidence"], "api_prefix": "/api/v1/recommendations",
      "feature_flags": [{"key": "ai.live_calls.enabled", "default": false, "description": "Call the live Claude API (otherwise fixture responses)"}], "may_mutate_google_ads": false},
 
-    {"id": "P15", "name": "AI Campaign Builder", "slug": "campaign-builder", "package": "p15_campaign_builder", "status": "planned",
-     "depends_on": ["P03", "P08", "P09", "P10", "P14", "P21"], "tables": ["campaign_drafts"], "api_prefix": "/api/v1/campaign-builder",
+    {"id": "P15", "name": "AI Campaign Builder", "slug": "campaign-builder", "package": "p15_campaign_builder", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P06", "P08", "P09", "P21"], "tables": ["campaign_drafts"], "api_prefix": "/api/v1/campaign-builder",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P16", "name": "Approval Center", "slug": "approvals", "package": "p16_approvals", "status": "planned",
