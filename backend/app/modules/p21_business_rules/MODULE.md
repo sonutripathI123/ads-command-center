@@ -1,6 +1,6 @@
 # P21 — Business Memory & Rules
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 One versioned document of business facts that analysis modules use: services, areas served, places not served,
@@ -30,4 +30,4 @@ all accept `?account_id=`.
 - [x] Services, locations, excluded intent, priorities (thresholds, target CPA) editable.
 - [x] Versioned with author/time/note; restore.
 - [x] Interface used by P08.
-- [ ] User review and approval (review the default lists!).
+- [x] User review and approval (2026-09-28).

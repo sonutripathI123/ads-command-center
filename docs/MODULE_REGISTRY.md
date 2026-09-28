@@ -15,12 +15,12 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P00 | Foundation & Governance | `approved_frozen` | `backend/app/modules/p00_foundation/` | `/api/v1/foundation` | feature_flag_overrides | — |
 | P01 | Dashboard Shell | `approved_frozen` | `backend/app/modules/p01_shell/` | — | — | — |
 | P02 | Authentication & User Access | `approved_frozen` | `backend/app/modules/p02_auth/` | `/api/v1/auth` | users, sessions | — |
-| P03 | Website Intelligence | `planned` | `backend/app/modules/p03_website_intel/` | `/api/v1/websites` | websites, pages, crawl_runs, page_signals, landing_page_mappings | crawler.enabled |
+| P03 | Website Intelligence | `review` | `backend/app/modules/p03_website_intel/` | `/api/v1/websites` | websites, pages, crawl_runs, page_signals, landing_page_mappings | crawler.enabled |
 | P04 | Google Ads Connection | `approved_frozen` | `backend/app/modules/p04_ads_connection/` | `/api/v1/ads-connection` | ads_accounts, connections | — |
-| P05 | Google Ads Data Sync & Warehouse | `review` | `backend/app/modules/p05_ads_sync/` | `/api/v1/ads-sync` | campaigns, ad_groups, keywords, search_terms, ads, ad_assets, metrics_snapshots, sync_runs | ads_sync.scheduled.enabled |
+| P05 | Google Ads Data Sync & Warehouse | `approved_frozen` | `backend/app/modules/p05_ads_sync/` | `/api/v1/ads-sync` | campaigns, ad_groups, keywords, search_terms, ads, ad_assets, metrics_snapshots, sync_runs | ads_sync.scheduled.enabled |
 | P06 | Analytics & Conversion Data | `planned` | `backend/app/modules/p06_analytics/` | `/api/v1/conversions` | conversion_events, leads, quotes, bookings, revenue_records | — |
 | P07 | PPC Audit Engine | `planned` | `backend/app/modules/p07_ppc_audit/` | `/api/v1/audit` | audit_runs, audit_issues | — |
-| P08 | Keyword & Search-Term Intelligence | `review` | `backend/app/modules/p08_keyword_intel/` | `/api/v1/keywords` | keyword_candidates, negative_keyword_candidates, search_term_classifications | — |
+| P08 | Keyword & Search-Term Intelligence | `approved_frozen` | `backend/app/modules/p08_keyword_intel/` | `/api/v1/keywords` | keyword_candidates, negative_keyword_candidates, search_term_classifications | — |
 | P09 | Ad & Creative Intelligence | `planned` | `backend/app/modules/p09_ad_creative/` | `/api/v1/creatives` | ad_drafts, claim_checks | — |
 | P10 | Landing Page & CRO Intelligence | `planned` | `backend/app/modules/p10_landing_cro/` | `/api/v1/landing-pages` | cro_findings, implementation_briefs | — |
 | P11 | Competitor Intelligence | `planned` | `backend/app/modules/p11_competitor_intel/` | `/api/v1/competitors` | competitors, competitor_observations | competitor.research.enabled |
@@ -33,7 +33,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P18 | Monitoring & Alerts | `planned` | `backend/app/modules/p18_monitoring/` | `/api/v1/monitoring` | alerts, monitor_checks | monitoring.scheduled.enabled |
 | P19 | Reports & Exports | `planned` | `backend/app/modules/p19_reports/` | `/api/v1/reports` | report_runs | — |
 | P20 | Experiments | `planned` | `backend/app/modules/p20_experiments/` | `/api/v1/experiments` | experiments | — |
-| P21 | Business Memory & Rules | `review` | `backend/app/modules/p21_business_rules/` | `/api/v1/business-rules` | business_rules, business_rule_versions | — |
+| P21 | Business Memory & Rules | `approved_frozen` | `backend/app/modules/p21_business_rules/` | `/api/v1/business-rules` | business_rules, business_rule_versions | — |
 | P22 | Security / Audit / Rollback | `planned` | `backend/app/modules/p22_security_audit/` | `/api/v1/security` | audit_logs | — |
 | P23 | Testing & QA | `planned` | `backend/app/modules/p23_testing_qa/` | — | — | — |
 | P24 | Production Hardening | `planned` | `backend/app/modules/p24_hardening/` | — | — | — |

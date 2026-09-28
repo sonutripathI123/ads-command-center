@@ -1,6 +1,6 @@
 # P05 — Google Ads Data Sync & Warehouse
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 Copy Google Ads entities and **daily** metrics into the local database (read-only GAQL through P04), and serve
@@ -50,4 +50,4 @@ aggregated performance to the dashboard and to analysis modules (P07, P08, P12, 
 - [x] Read-only toward Google (SELECT-only, no mutate).
 - [x] Real sync of Corporate Cars Melbourne succeeded (2026-09-28: 4 campaigns, ad groups, 1.5k keyword rows, 2.8k search-term rows).
 - [x] Dashboard pages: Campaigns (tiles, daily spend chart, table), Ad Groups, Keywords, Search Terms.
-- [ ] User review and approval.
+- [x] User review and approval (2026-09-28).

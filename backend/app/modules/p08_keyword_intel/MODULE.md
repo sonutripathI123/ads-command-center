@@ -1,6 +1,6 @@
 # P08 — Keyword & Search-Term Intelligence
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 Turn P05 search-term/keyword data + P21 rules into: an intent class per search term, **negative keyword
@@ -46,4 +46,4 @@ Insights: wasters, winners (cheapest cost/conv first; flags above target CPA), l
 - [x] Duplicate/overlap detection, keyword expansion ideas, waste/winner/QS insights.
 - [x] Human review (accept/reject), export; no live mutation.
 - [x] Real run on Corporate Cars Melbourne (2026-09-28).
-- [ ] User review and approval.
+- [x] User review and approval (2026-09-28).

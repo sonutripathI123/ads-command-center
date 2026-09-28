@@ -12,3 +12,4 @@
 ## 2026-09-28 — for P08
 - Interface: `list_accounts` (so analysis modules need not depend on P04).
 - Keywords/Search Terms pages link to P08's insights and negative-suggestion pages.
+- Status: `approved_frozen` (user approved 2026-09-28).

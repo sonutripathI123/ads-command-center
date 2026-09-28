@@ -7,3 +7,4 @@
   ("rent a car with a chauffeur"); idle/duplicates only for enabled campaigns, duplicates within one campaign.
 - Registry: depends_on adds P02.
 - Status: `review`.
+- Status: `approved_frozen` (user approved 2026-09-28).
