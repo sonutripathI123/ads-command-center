@@ -37,8 +37,8 @@
      "depends_on": ["P02", "P03", "P05"], "tables": ["conversion_events", "leads", "quotes", "bookings", "revenue_records", "analytics_daily", "search_console_daily", "conversion_mappings", "analytics_sync_runs"], "api_prefix": "/api/v1/conversions",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P07", "name": "PPC Audit Engine", "slug": "audit", "package": "p07_ppc_audit", "status": "planned",
-     "depends_on": ["P03", "P05", "P06", "P14", "P21"], "tables": ["audit_runs", "audit_issues"], "api_prefix": "/api/v1/audit",
+    {"id": "P07", "name": "PPC Audit Engine", "slug": "audit", "package": "p07_ppc_audit", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P06", "P08", "P14", "P21"], "tables": ["audit_runs", "audit_issues"], "api_prefix": "/api/v1/audit",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P08", "name": "Keyword & Search-Term Intelligence", "slug": "keywords", "package": "p08_keyword_intel", "status": "approved_frozen",
