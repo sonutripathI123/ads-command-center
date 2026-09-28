@@ -9,3 +9,4 @@
   (P00 has read-only flags) — raised as a cross-module request.
 - Status: `review`.
 - `modules/websites/scope.ts` → `loadScope()` feeds the P01 scope selector (approved Request 2).
+- Status: `approved_frozen` (user approved 2026-09-28).

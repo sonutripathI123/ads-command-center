@@ -1,6 +1,6 @@
 # P03 — Website Intelligence
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 Onboard each business website (domain, main service, area, linked Google Ads account, GA4 property,
@@ -37,5 +37,5 @@ multiple H1, thin content, no CTA, no form or phone, no viewport, slow (> 3 s), 
 - [x] Sitemap/robots-aware crawl; page extraction; service/location detection; issues; crawl history.
 - [x] Landing-page relevance records (ad final URL → page status).
 - [x] Real test scan of corporatecarsmelbourne.com.au (8 pages, 2026-09-28).
-- [ ] `crawler.enabled` switched on (needs an approved way to set flags — see CHANGELOG).
-- [ ] User review and approval.
+- [x] `crawler.enabled` switched on via `app.shared.flags_cli` (approved 2026-09-28).
+- [x] User review and approval (2026-09-28). First full scan: Corporate Cars Melbourne, 50 pages.

@@ -21,7 +21,7 @@
      "depends_on": [], "tables": ["users", "sessions"], "api_prefix": "/api/v1/auth",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P03", "name": "Website Intelligence", "slug": "websites", "package": "p03_website_intel", "status": "review",
+    {"id": "P03", "name": "Website Intelligence", "slug": "websites", "package": "p03_website_intel", "status": "approved_frozen",
      "depends_on": ["P02", "P05", "P21"], "tables": ["websites", "pages", "crawl_runs", "page_signals", "landing_page_mappings"], "api_prefix": "/api/v1/websites",
      "feature_flags": [{"key": "crawler.enabled", "default": false, "description": "Allow outbound website crawling"}], "may_mutate_google_ads": false},
 
