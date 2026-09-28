@@ -18,8 +18,8 @@ Generated from `modules.json` — do not edit the table by hand.
 | P02 Authentication & User Access | — (shared only) | P01, P03, P04, P05, P06, P08, P16, P17, P21, P22 | no |
 | P03 Website Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | P06, P07, P10, P11, P15 | no |
 | P04 Google Ads Connection | P02 Authentication & User Access | P05, P17 | no |
-| P05 Google Ads Data Sync & Warehouse | P02 Authentication & User Access, P04 Google Ads Connection | P03, P07, P08, P09, P10, P12, P13, P17, P18, P19, P20 | no |
-| P06 Analytics & Conversion Data | P02 Authentication & User Access, P03 Website Intelligence | P07, P12, P13, P18, P19, P20 | no |
+| P05 Google Ads Data Sync & Warehouse | P02 Authentication & User Access, P04 Google Ads Connection | P03, P06, P07, P08, P09, P10, P12, P13, P17, P18, P19, P20 | no |
+| P06 Analytics & Conversion Data | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse | P07, P12, P13, P18, P19, P20 | no |
 | P07 PPC Audit Engine | P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P14 AI Recommendation Engine, P21 Business Memory & Rules | — | no |
 | P08 Keyword & Search-Term Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P14 AI Recommendation Engine, P21 Business Memory & Rules | P15 | no |
 | P09 Ad & Creative Intelligence | P05 Google Ads Data Sync & Warehouse, P14 AI Recommendation Engine, P21 Business Memory & Rules | P15 | no |

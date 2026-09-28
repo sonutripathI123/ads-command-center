@@ -33,8 +33,8 @@
      "depends_on": ["P02", "P04"], "tables": ["campaigns", "ad_groups", "keywords", "search_terms", "ads", "ad_assets", "metrics_snapshots", "sync_runs"], "api_prefix": "/api/v1/ads-sync",
      "feature_flags": [{"key": "ads_sync.scheduled.enabled", "default": false, "description": "Run scheduled incremental syncs"}], "may_mutate_google_ads": false},
 
-    {"id": "P06", "name": "Analytics & Conversion Data", "slug": "conversions", "package": "p06_analytics", "status": "planned",
-     "depends_on": ["P02", "P03"], "tables": ["conversion_events", "leads", "quotes", "bookings", "revenue_records"], "api_prefix": "/api/v1/conversions",
+    {"id": "P06", "name": "Analytics & Conversion Data", "slug": "conversions", "package": "p06_analytics", "status": "review",
+     "depends_on": ["P02", "P03", "P05"], "tables": ["conversion_events", "leads", "quotes", "bookings", "revenue_records", "analytics_daily", "search_console_daily", "conversion_mappings", "analytics_sync_runs"], "api_prefix": "/api/v1/conversions",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P07", "name": "PPC Audit Engine", "slug": "audit", "package": "p07_ppc_audit", "status": "planned",
