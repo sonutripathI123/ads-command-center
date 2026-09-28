@@ -19,7 +19,9 @@ function load(): { accountId?: number; days?: number } {
   }
 }
 
-export function AdsDataFrame({ title, children }: { title: string; children: (ctx: FrameCtx) => ReactNode }) {
+export function AdsDataFrame({ title, moduleId = "P05", children }: {
+  title: string; moduleId?: string; children: (ctx: FrameCtx) => ReactNode;
+}) {
   const router = useRouter();
   const [accounts, setAccounts] = useState<SyncAccount[] | null>(null);
   const [accountId, setAccountId] = useState<number | null>(null);
@@ -88,7 +90,7 @@ export function AdsDataFrame({ title, children }: { title: string; children: (ct
 
   return (
     <>
-      <PageHeader title={title} moduleId="P05">
+      <PageHeader title={title} moduleId={moduleId}>
         <div className="flex flex-wrap items-center gap-2">
           {accounts && accounts.length > 1 && (
             <select className="rounded-md border border-line bg-surface px-2 py-1 text-sm" value={accountId ?? ""}

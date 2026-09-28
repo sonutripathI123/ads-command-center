@@ -1,5 +1,6 @@
 "use client";
 // P05 — data pages. Each renders inside AdsDataFrame (account, range, sync).
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { AdsDataFrame, type FrameCtx } from "./AdsDataFrame";
 import { syncApi, type AdGroupRow, type CampaignRow, type KeywordRow, type Metrics, type SearchTermRow, type Summary } from "./api";
@@ -158,6 +159,7 @@ function KeywordsBody({ accountId, days, currency, refreshKey }: FrameCtx) {
     <section className={card}>
       <div className="mb-3 flex flex-wrap items-center gap-3">
         <h2 className="font-semibold">Keywords · last {days} days</h2>
+        <Link href="/keywords/insights" className="rounded-md bg-accent-soft px-2.5 py-1 text-sm font-medium text-accent">Keyword insights →</Link>
         <label className="ml-auto flex items-center gap-1.5 text-sm">
           <input type="checkbox" checked={activeOnly} onChange={(e) => setActiveOnly(e.target.checked)} /> Only with impressions
         </label>
@@ -191,6 +193,7 @@ function SearchTermsBody({ accountId, days, currency, refreshKey }: FrameCtx) {
     <section className={card}>
       <div className="mb-3 flex flex-wrap items-center gap-3">
         <h2 className="font-semibold">Search terms · last {days} days</h2>
+        <Link href="/search-terms/negatives" className="rounded-md bg-accent-soft px-2.5 py-1 text-sm font-medium text-accent">Negative keyword suggestions →</Link>
         <form className="ml-auto flex gap-2" onSubmit={(e) => { e.preventDefault(); setQuery(q.trim()); }}>
           <input className="rounded-md border border-line bg-surface px-2 py-1 text-sm" placeholder="Filter, e.g. cheap" value={q} onChange={(e) => setQ(e.target.value)} />
           <button className="rounded-md border border-line px-2.5 py-1 text-sm">Filter</button>
@@ -199,7 +202,7 @@ function SearchTermsBody({ accountId, days, currency, refreshKey }: FrameCtx) {
       {rows.data && (
         <p className="mb-3 text-sm text-muted">
           Spend on search terms with <b>0 conversions</b>: <span className="font-medium text-fg">{money(wasted, currency)}</span>
-          {" "}— candidates for negative keywords (P08 will analyse these).
+          {" "}— review the <Link className="text-accent underline" href="/search-terms/negatives">negative keyword suggestions</Link>.
         </p>
       )}
       {rows.data ? <DataTable rows={rows.data} columns={cols} rowKey={(r) => r.key} initialSort="cost" /> : <Loading error={rows.error} />}

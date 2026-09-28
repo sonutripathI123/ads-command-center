@@ -41,8 +41,8 @@
      "depends_on": ["P03", "P05", "P06", "P14", "P21"], "tables": ["audit_runs", "audit_issues"], "api_prefix": "/api/v1/audit",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P08", "name": "Keyword & Search-Term Intelligence", "slug": "keywords", "package": "p08_keyword_intel", "status": "planned",
-     "depends_on": ["P05", "P14", "P21"], "tables": ["keyword_candidates", "negative_keyword_candidates", "search_term_classifications"], "api_prefix": "/api/v1/keywords",
+    {"id": "P08", "name": "Keyword & Search-Term Intelligence", "slug": "keywords", "package": "p08_keyword_intel", "status": "review",
+     "depends_on": ["P02", "P05", "P14", "P21"], "tables": ["keyword_candidates", "negative_keyword_candidates", "search_term_classifications"], "api_prefix": "/api/v1/keywords",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P09", "name": "Ad & Creative Intelligence", "slug": "creatives", "package": "p09_ad_creative", "status": "planned",
@@ -96,8 +96,8 @@
      "depends_on": ["P05", "P06", "P16"], "tables": ["experiments"], "api_prefix": "/api/v1/experiments",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P21", "name": "Business Memory & Rules", "slug": "business-rules", "package": "p21_business_rules", "status": "planned",
-     "depends_on": [], "tables": ["business_rules", "business_rule_versions"], "api_prefix": "/api/v1/business-rules",
+    {"id": "P21", "name": "Business Memory & Rules", "slug": "business-rules", "package": "p21_business_rules", "status": "review",
+     "depends_on": ["P02"], "tables": ["business_rules", "business_rule_versions"], "api_prefix": "/api/v1/business-rules",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P22", "name": "Security / Audit / Rollback", "slug": "security", "package": "p22_security_audit", "status": "planned",

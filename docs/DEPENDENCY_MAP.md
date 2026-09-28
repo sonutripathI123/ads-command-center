@@ -15,13 +15,13 @@ Generated from `modules.json` — do not edit the table by hand.
 |---|---|---|---|
 | P00 Foundation & Governance | — (shared only) | — | no |
 | P01 Dashboard Shell | P02 Authentication & User Access | — | no |
-| P02 Authentication & User Access | — (shared only) | P01, P04, P05, P06, P16, P17, P22 | no |
+| P02 Authentication & User Access | — (shared only) | P01, P04, P05, P06, P08, P16, P17, P21, P22 | no |
 | P03 Website Intelligence | P21 Business Memory & Rules | P06, P07, P10, P11, P15 | no |
 | P04 Google Ads Connection | P02 Authentication & User Access | P05, P17 | no |
 | P05 Google Ads Data Sync & Warehouse | P02 Authentication & User Access, P04 Google Ads Connection | P07, P08, P09, P10, P12, P13, P17, P18, P19, P20 | no |
 | P06 Analytics & Conversion Data | P02 Authentication & User Access, P03 Website Intelligence | P07, P12, P13, P18, P19, P20 | no |
 | P07 PPC Audit Engine | P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P14 AI Recommendation Engine, P21 Business Memory & Rules | — | no |
-| P08 Keyword & Search-Term Intelligence | P05 Google Ads Data Sync & Warehouse, P14 AI Recommendation Engine, P21 Business Memory & Rules | P15 | no |
+| P08 Keyword & Search-Term Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P14 AI Recommendation Engine, P21 Business Memory & Rules | P15 | no |
 | P09 Ad & Creative Intelligence | P05 Google Ads Data Sync & Warehouse, P14 AI Recommendation Engine, P21 Business Memory & Rules | P15 | no |
 | P10 Landing Page & CRO Intelligence | P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P14 AI Recommendation Engine | P15 | no |
 | P11 Competitor Intelligence | P03 Website Intelligence, P14 AI Recommendation Engine, P21 Business Memory & Rules | — | no |
@@ -34,7 +34,7 @@ Generated from `modules.json` — do not edit the table by hand.
 | P18 Monitoring & Alerts | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P13 Booking Funnel & Revenue Attribution, P17 Google Ads Execution, P22 Security / Audit / Rollback | — | no |
 | P19 Reports & Exports | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P13 Booking Funnel & Revenue Attribution, P14 AI Recommendation Engine, P16 Approval Center, P17 Google Ads Execution | — | no |
 | P20 Experiments | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P16 Approval Center | — | no |
-| P21 Business Memory & Rules | — (shared only) | P03, P07, P08, P09, P11, P14, P15 | no |
+| P21 Business Memory & Rules | P02 Authentication & User Access | P03, P07, P08, P09, P11, P14, P15 | no |
 | P22 Security / Audit / Rollback | P02 Authentication & User Access | P14, P16, P17, P18 | no |
 | P23 Testing & QA | — (shared only) | — | no |
 | P24 Production Hardening | — (shared only) | — | no |
