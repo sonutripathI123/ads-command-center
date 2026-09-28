@@ -7,3 +7,4 @@
 - First real audit (Corporate Cars Melbourne): 4 critical — all campaigns paused, no GA4 key events,
   form submits not tracked, Maximize Conversions on weak data; "Ad group 1" holds 1,057 keywords.
 - Status: `review`.
+- Registry: removed unused P14 from depends_on (P14 now consumes P07 — avoids a dependency cycle).

@@ -26,7 +26,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P11 | Competitor Intelligence | `planned` | `backend/app/modules/p11_competitor_intel/` | `/api/v1/competitors` | competitors, competitor_observations | competitor.research.enabled |
 | P12 | Budget / Bid / Geo / Device / Time Intelligence | `planned` | `backend/app/modules/p12_budget_bid/` | `/api/v1/budget-bid` | segment_findings | — |
 | P13 | Booking Funnel & Revenue Attribution | `planned` | `backend/app/modules/p13_booking_funnel/` | `/api/v1/funnel` | attribution_records | — |
-| P14 | AI Recommendation Engine | `planned` | `backend/app/modules/p14_recommendations/` | `/api/v1/recommendations` | recommendations, ai_runs, ai_evidence | ai.live_calls.enabled |
+| P14 | AI Recommendation Engine | `review` | `backend/app/modules/p14_recommendations/` | `/api/v1/recommendations` | recommendations, ai_runs, ai_evidence | ai.live_calls.enabled |
 | P15 | AI Campaign Builder | `planned` | `backend/app/modules/p15_campaign_builder/` | `/api/v1/campaign-builder` | campaign_drafts | — |
 | P16 | Approval Center | `planned` | `backend/app/modules/p16_approvals/` | `/api/v1/approvals` | approvals | — |
 | P17 | Google Ads Execution | `planned` | `backend/app/modules/p17_ads_execution/` | `/api/v1/execution` | executions | ads.execution.enabled, ads.execution.automation.enabled |

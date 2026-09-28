@@ -38,11 +38,11 @@
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P07", "name": "PPC Audit Engine", "slug": "audit", "package": "p07_ppc_audit", "status": "review",
-     "depends_on": ["P02", "P03", "P05", "P06", "P08", "P14", "P21"], "tables": ["audit_runs", "audit_issues"], "api_prefix": "/api/v1/audit",
+     "depends_on": ["P02", "P03", "P05", "P06", "P08", "P21"], "tables": ["audit_runs", "audit_issues"], "api_prefix": "/api/v1/audit",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P08", "name": "Keyword & Search-Term Intelligence", "slug": "keywords", "package": "p08_keyword_intel", "status": "approved_frozen",
-     "depends_on": ["P02", "P05", "P14", "P21"], "tables": ["keyword_candidates", "negative_keyword_candidates", "search_term_classifications"], "api_prefix": "/api/v1/keywords",
+     "depends_on": ["P02", "P05", "P21"], "tables": ["keyword_candidates", "negative_keyword_candidates", "search_term_classifications"], "api_prefix": "/api/v1/keywords",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P09", "name": "Ad & Creative Intelligence", "slug": "creatives", "package": "p09_ad_creative", "status": "planned",
@@ -65,8 +65,8 @@
      "depends_on": ["P05", "P06", "P14"], "tables": ["attribution_records"], "api_prefix": "/api/v1/funnel",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P14", "name": "AI Recommendation Engine", "slug": "recommendations", "package": "p14_recommendations", "status": "planned",
-     "depends_on": ["P21", "P22"], "tables": ["recommendations", "ai_runs", "ai_evidence"], "api_prefix": "/api/v1/recommendations",
+    {"id": "P14", "name": "AI Recommendation Engine", "slug": "recommendations", "package": "p14_recommendations", "status": "review",
+     "depends_on": ["P02", "P05", "P07", "P21", "P22"], "tables": ["recommendations", "ai_runs", "ai_evidence"], "api_prefix": "/api/v1/recommendations",
      "feature_flags": [{"key": "ai.live_calls.enabled", "default": false, "description": "Call the live Claude API (otherwise fixture responses)"}], "may_mutate_google_ads": false},
 
     {"id": "P15", "name": "AI Campaign Builder", "slug": "campaign-builder", "package": "p15_campaign_builder", "status": "planned",

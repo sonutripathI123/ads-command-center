@@ -8,3 +8,6 @@
 - Registry: depends_on adds P02.
 - Status: `review`.
 - Status: `approved_frozen` (user approved 2026-09-28).
+
+## 2026-09-28 — registry only (no code change)
+- Removed unused P14 from `depends_on` to break the cycle P07 → P08 → P14 → P07 created when P14 started consuming P07. P08 code never imported P14.

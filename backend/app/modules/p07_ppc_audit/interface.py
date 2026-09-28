@@ -20,4 +20,4 @@ def latest_audit(db: DbSession, account_id: int) -> dict | None:
             "issues": [{"code": i.code, "category": i.category, "severity": i.severity, "title": i.title,
                         "observation": i.observation, "evidence": json.loads(i.evidence), "reasoning": i.reasoning,
                         "proposed_action": i.action, "expected_impact": i.impact, "confidence": i.confidence, "risk": i.risk,
-                        "entity_type": i.entity_type, "entity_id": i.entity_id} for i in issues if i.status == "open"]}
+                        "entity_type": i.entity_type, "entity_id": i.entity_id, "link": i.link} for i in issues if i.status == "open"]}
