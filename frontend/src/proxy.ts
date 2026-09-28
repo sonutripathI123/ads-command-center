@@ -13,9 +13,7 @@ export function proxy(request: NextRequest) {
     url.searchParams.set("next", pathname + search);
     return NextResponse.redirect(url);
   }
-  if (hasSession && pathname === "/login") {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
+  // /login is always reachable: a leftover cookie may belong to an expired or revoked session.
   return NextResponse.next();
 }
 
