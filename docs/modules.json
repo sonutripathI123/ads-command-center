@@ -37,7 +37,7 @@
      "depends_on": ["P02", "P03", "P05"], "tables": ["conversion_events", "leads", "quotes", "bookings", "revenue_records", "analytics_daily", "search_console_daily", "conversion_mappings", "analytics_sync_runs"], "api_prefix": "/api/v1/conversions",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P07", "name": "PPC Audit Engine", "slug": "audit", "package": "p07_ppc_audit", "status": "review",
+    {"id": "P07", "name": "PPC Audit Engine", "slug": "audit", "package": "p07_ppc_audit", "status": "approved_frozen",
      "depends_on": ["P02", "P03", "P05", "P06", "P08", "P21"], "tables": ["audit_runs", "audit_issues"], "api_prefix": "/api/v1/audit",
      "feature_flags": [], "may_mutate_google_ads": false},
 
@@ -65,7 +65,7 @@
      "depends_on": ["P05", "P06", "P14"], "tables": ["attribution_records"], "api_prefix": "/api/v1/funnel",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P14", "name": "AI Recommendation Engine", "slug": "recommendations", "package": "p14_recommendations", "status": "review",
+    {"id": "P14", "name": "AI Recommendation Engine", "slug": "recommendations", "package": "p14_recommendations", "status": "approved_frozen",
      "depends_on": ["P02", "P05", "P07", "P21", "P22"], "tables": ["recommendations", "ai_runs", "ai_evidence"], "api_prefix": "/api/v1/recommendations",
      "feature_flags": [{"key": "ai.live_calls.enabled", "default": false, "description": "Call the live Claude API (otherwise fixture responses)"}], "may_mutate_google_ads": false},
 

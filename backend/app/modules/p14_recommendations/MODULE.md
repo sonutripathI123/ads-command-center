@@ -1,6 +1,6 @@
 # P14 — AI Recommendation Engine
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 One standard recommendation store (MID §18 contract) fed by analysis modules (today: P07 audit), prioritised,
@@ -43,4 +43,4 @@ requires_approval · status · decided_by · created_at · approved_at · execut
 - [x] Decision workflow; ingestion from P07; superseding.
 - [x] AI plan with traceable evidence; safe when AI is off.
 - [ ] Live Claude plan tested with a real key (needs ANTHROPIC_API_KEY + flag).
-- [ ] User review and approval.
+- [x] User review and approval (2026-09-28).

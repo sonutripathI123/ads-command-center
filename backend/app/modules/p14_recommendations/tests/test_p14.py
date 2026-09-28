@@ -137,7 +137,7 @@ def test_live_plan_uses_claude_and_drops_unknown_ids(client, monkeypatch):
             ids = [r.id for r in service.list_recs(s, 7)][:1]
         plan = ai.ActionPlan(summary="Fix tracking first.", top_actions=[ai.Action(
             title="Fix tracking", why="no data", steps=["add generate_lead"], owner="website developer", effort="low",
-            recommendation_ids=ids + [99999])], thirty_day_plan=[ai.Week(week=1, focus="Measure", tasks=["x"])],
+            recommendation_ids=ids + [99999])], thirty_day_plan=[ai.Week(week=1, focus="Measure", tasks=["x"]), ai.Week(week=1, focus="", tasks=[])],
             measure=["leads"], caveats=[])
         return plan, 1200, 800, "claude-opus-5"
 
@@ -145,6 +145,7 @@ def test_live_plan_uses_claude_and_drops_unknown_ids(client, monkeypatch):
     run = client.post(f"{B}/accounts/7/plan").json()
     assert run["mode"] == "live" and run["model"] == "claude-opus-5" and run["output_tokens"] == 800
     assert 99999 not in run["plan"]["top_actions"][0]["recommendation_ids"]
+    assert [w["focus"] for w in run["plan"]["thirty_day_plan"]] == ["Measure"]  # empty week dropped
     assert seen["key"] == "test-key" and "T no_key_events" in seen["prompt"] and "1949408641" in seen["prompt"]
     with session_scope() as db:
         assert db.query(AIEvidence).filter_by(run_id=run["id"]).count() == 4

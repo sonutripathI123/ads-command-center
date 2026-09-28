@@ -135,6 +135,7 @@ def generate_plan(db: DbSession, account_id: int, *, by: str) -> AIRun:
         known = {r["id"] for r in brief}
         for a in plan.top_actions:  # drop hallucinated ids
             a.recommendation_ids = [i for i in a.recommendation_ids if i in known]
+        plan.thirty_day_plan = [w for w in plan.thirty_day_plan if w.focus.strip() and w.tasks]  # drop empty weeks
         run.output, run.status = plan.model_dump_json(), "success"
     except ai.AIError as e:
         run.error = str(e)

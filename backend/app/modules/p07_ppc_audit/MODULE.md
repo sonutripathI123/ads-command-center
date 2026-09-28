@@ -1,6 +1,6 @@
 # P07 — PPC Audit Engine
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 One-click, evidence-backed audit of a Google Ads account using everything the other modules know:
@@ -38,4 +38,4 @@ Score = 100 − 15 × critical − 5 × warning − 1 × info (min 0).
 - [x] Evidence-backed issues in the recommendation shape; dismissals persist.
 - [x] Real audit of Corporate Cars Melbourne (2026-09-28).
 - [ ] Link from Overview (needs an approved P01 change).
-- [ ] User review and approval.
+- [x] User review and approval (2026-09-28).
