@@ -73,8 +73,8 @@
      "depends_on": ["P02", "P03", "P05", "P06", "P08", "P09", "P21"], "tables": ["campaign_drafts"], "api_prefix": "/api/v1/campaign-builder",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P16", "name": "Approval Center", "slug": "approvals", "package": "p16_approvals", "status": "planned",
-     "depends_on": ["P02", "P14", "P22"], "tables": ["approvals"], "api_prefix": "/api/v1/approvals",
+    {"id": "P16", "name": "Approval Center", "slug": "approvals", "package": "p16_approvals", "status": "review",
+     "depends_on": ["P02", "P05", "P08", "P09", "P14", "P15", "P22"], "tables": ["approvals", "approval_events"], "api_prefix": "/api/v1/approvals",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P17", "name": "Google Ads Execution", "slug": "execution", "package": "p17_ads_execution", "status": "planned",
@@ -92,8 +92,8 @@
      "depends_on": ["P05", "P06", "P13", "P14", "P16", "P17"], "tables": ["report_runs"], "api_prefix": "/api/v1/reports",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P20", "name": "Experiments", "slug": "experiments", "package": "p20_experiments", "status": "planned",
-     "depends_on": ["P05", "P06", "P16"], "tables": ["experiments"], "api_prefix": "/api/v1/experiments",
+    {"id": "P20", "name": "Experiments", "slug": "experiments", "package": "p20_experiments", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P06", "P16"], "tables": ["experiments"], "api_prefix": "/api/v1/experiments",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P21", "name": "Business Memory & Rules", "slug": "business-rules", "package": "p21_business_rules", "status": "approved_frozen",

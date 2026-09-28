@@ -28,11 +28,11 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P13 | Booking Funnel & Revenue Attribution | `planned` | `backend/app/modules/p13_booking_funnel/` | `/api/v1/funnel` | attribution_records | — |
 | P14 | AI Recommendation Engine | `approved_frozen` | `backend/app/modules/p14_recommendations/` | `/api/v1/recommendations` | recommendations, ai_runs, ai_evidence | ai.live_calls.enabled |
 | P15 | AI Campaign Builder | `review` | `backend/app/modules/p15_campaign_builder/` | `/api/v1/campaign-builder` | campaign_drafts | — |
-| P16 | Approval Center | `planned` | `backend/app/modules/p16_approvals/` | `/api/v1/approvals` | approvals | — |
+| P16 | Approval Center | `review` | `backend/app/modules/p16_approvals/` | `/api/v1/approvals` | approvals, approval_events | — |
 | P17 | Google Ads Execution | `planned` | `backend/app/modules/p17_ads_execution/` | `/api/v1/execution` | executions | ads.execution.enabled, ads.execution.automation.enabled |
 | P18 | Monitoring & Alerts | `planned` | `backend/app/modules/p18_monitoring/` | `/api/v1/monitoring` | alerts, monitor_checks | monitoring.scheduled.enabled |
 | P19 | Reports & Exports | `planned` | `backend/app/modules/p19_reports/` | `/api/v1/reports` | report_runs | — |
-| P20 | Experiments | `planned` | `backend/app/modules/p20_experiments/` | `/api/v1/experiments` | experiments | — |
+| P20 | Experiments | `review` | `backend/app/modules/p20_experiments/` | `/api/v1/experiments` | experiments | — |
 | P21 | Business Memory & Rules | `approved_frozen` | `backend/app/modules/p21_business_rules/` | `/api/v1/business-rules` | business_rules, business_rule_versions | — |
 | P22 | Security / Audit / Rollback | `planned` | `backend/app/modules/p22_security_audit/` | `/api/v1/security` | audit_logs | — |
 | P23 | Testing & QA | `planned` | `backend/app/modules/p23_testing_qa/` | — | — | — |
