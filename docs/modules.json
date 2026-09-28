@@ -25,12 +25,12 @@
      "depends_on": ["P21"], "tables": ["websites", "pages", "crawl_runs", "page_signals", "landing_page_mappings"], "api_prefix": "/api/v1/websites",
      "feature_flags": [{"key": "crawler.enabled", "default": false, "description": "Allow outbound website crawling"}], "may_mutate_google_ads": false},
 
-    {"id": "P04", "name": "Google Ads Connection", "slug": "ads-connection", "package": "p04_ads_connection", "status": "review",
+    {"id": "P04", "name": "Google Ads Connection", "slug": "ads-connection", "package": "p04_ads_connection", "status": "approved_frozen",
      "depends_on": ["P02"], "tables": ["ads_accounts", "connections"], "api_prefix": "/api/v1/ads-connection",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P05", "name": "Google Ads Data Sync & Warehouse", "slug": "ads-sync", "package": "p05_ads_sync", "status": "planned",
-     "depends_on": ["P04"], "tables": ["campaigns", "ad_groups", "keywords", "search_terms", "ads", "ad_assets", "metrics_snapshots", "sync_runs"], "api_prefix": "/api/v1/ads-sync",
+    {"id": "P05", "name": "Google Ads Data Sync & Warehouse", "slug": "ads-sync", "package": "p05_ads_sync", "status": "review",
+     "depends_on": ["P02", "P04"], "tables": ["campaigns", "ad_groups", "keywords", "search_terms", "ads", "ad_assets", "metrics_snapshots", "sync_runs"], "api_prefix": "/api/v1/ads-sync",
      "feature_flags": [{"key": "ads_sync.scheduled.enabled", "default": false, "description": "Run scheduled incremental syncs"}], "may_mutate_google_ads": false},
 
     {"id": "P06", "name": "Analytics & Conversion Data", "slug": "conversions", "package": "p06_analytics", "status": "planned",

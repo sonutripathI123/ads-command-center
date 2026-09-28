@@ -1,6 +1,6 @@
 # P04 — Google Ads Connection
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 Connect a Google login to the dashboard (OAuth), discover the Google Ads accounts it can read (incl. accounts
@@ -49,5 +49,5 @@ P04: `GOOGLE_ADS_API_VERSION` (default v25), `GOOGLE_ADS_OAUTH_REDIRECT_URI`, `F
 - [x] Read-only health check with clear errors (deleted client, revoked grant, missing developer token, no permission).
 - [x] Disconnect revokes the grant.
 - [x] `ReadSession` interface for P05.
-- [ ] Real connection tested with the user's Google account (needs a new OAuth client).
-- [ ] User review and approval.
+- [x] Real connection tested: Corporate Cars Melbourne 194-940-8641 imported via `cli import-env CCM` (2026-09-28).
+- [x] User review and approval (2026-09-28).

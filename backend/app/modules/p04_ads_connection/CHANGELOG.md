@@ -12,3 +12,4 @@
 - `cli.py`: `check-env PREFIX` (verify refresh token, developer token, account) and `import-env PREFIX`
   (store encrypted connection + add account) — for accounts whose tokens already exist.
 - Default Google Ads API version v26 -> v25 (v26 returned 'Method not found' with a real token; v22-v25 work).
+- Status: `approved_frozen` (user approved 2026-09-28).
