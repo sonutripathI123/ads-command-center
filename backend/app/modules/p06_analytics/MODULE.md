@@ -1,6 +1,6 @@
 # P06 — Analytics & Conversion Data
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-09-28)
 
 ## Purpose
 Bring website analytics and real bookings next to the Ads data, keeping three kinds of numbers apart:
@@ -39,4 +39,4 @@ Search Console not linked · no bookings imported.
 - [x] Real sync of Corporate Cars Melbourne (2026-09-28): 380 sessions, 9k Search Console rows; health found 2 critical issues.
 - [ ] Driver App live adapter (needs approval to change the Driver App).
 - [ ] Offline conversion upload to Google Ads (later: P13 + P17).
-- [ ] User review and approval.
+- [x] User review and approval (2026-09-28).

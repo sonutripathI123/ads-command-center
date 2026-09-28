@@ -6,3 +6,4 @@
 - Conversions & Analytics page. Migration `0008_p06`. Registry: depends_on adds P05; tables list extended.
 - First real sync (Corporate Cars Melbourne): GA4 only from 2026-09-14, 0 key events, form_start without submit.
 - Status: `review`.
+- Status: `approved_frozen` (user approved 2026-09-28). Driver App adapter not approved yet.

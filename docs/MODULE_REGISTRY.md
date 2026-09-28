@@ -18,7 +18,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P03 | Website Intelligence | `approved_frozen` | `backend/app/modules/p03_website_intel/` | `/api/v1/websites` | websites, pages, crawl_runs, page_signals, landing_page_mappings | crawler.enabled |
 | P04 | Google Ads Connection | `approved_frozen` | `backend/app/modules/p04_ads_connection/` | `/api/v1/ads-connection` | ads_accounts, connections | — |
 | P05 | Google Ads Data Sync & Warehouse | `approved_frozen` | `backend/app/modules/p05_ads_sync/` | `/api/v1/ads-sync` | campaigns, ad_groups, keywords, search_terms, ads, ad_assets, metrics_snapshots, sync_runs | ads_sync.scheduled.enabled |
-| P06 | Analytics & Conversion Data | `review` | `backend/app/modules/p06_analytics/` | `/api/v1/conversions` | conversion_events, leads, quotes, bookings, revenue_records, analytics_daily, search_console_daily, conversion_mappings, analytics_sync_runs | — |
+| P06 | Analytics & Conversion Data | `approved_frozen` | `backend/app/modules/p06_analytics/` | `/api/v1/conversions` | conversion_events, leads, quotes, bookings, revenue_records, analytics_daily, search_console_daily, conversion_mappings, analytics_sync_runs | — |
 | P07 | PPC Audit Engine | `planned` | `backend/app/modules/p07_ppc_audit/` | `/api/v1/audit` | audit_runs, audit_issues | — |
 | P08 | Keyword & Search-Term Intelligence | `approved_frozen` | `backend/app/modules/p08_keyword_intel/` | `/api/v1/keywords` | keyword_candidates, negative_keyword_candidates, search_term_classifications | — |
 | P09 | Ad & Creative Intelligence | `planned` | `backend/app/modules/p09_ad_creative/` | `/api/v1/creatives` | ad_drafts, claim_checks | — |
