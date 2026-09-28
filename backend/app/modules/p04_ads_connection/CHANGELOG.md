@@ -8,3 +8,6 @@
 - Frontend `/ads-accounts` page.
 - Dependency: `cryptography` added to backend/requirements.txt (approved P00 file change).
 - Status: `review`.
+## 2026-09-28 — env import CLI
+- `cli.py`: `check-env PREFIX` (verify refresh token, developer token, account) and `import-env PREFIX`
+  (store encrypted connection + add account) — for accounts whose tokens already exist.
