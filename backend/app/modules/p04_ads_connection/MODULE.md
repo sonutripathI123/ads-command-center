@@ -39,7 +39,7 @@ under a manager/MCC), add chosen accounts, and check connection health. **Read-o
 
 ## Configuration (`backend/.env`)
 Shared: `GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_CLIENT_SECRET`, `GOOGLE_ADS_DEVELOPER_TOKEN`.
-P04: `GOOGLE_ADS_API_VERSION` (default v26), `GOOGLE_ADS_OAUTH_REDIRECT_URI`, `FRONTEND_URL`,
+P04: `GOOGLE_ADS_API_VERSION` (default v25), `GOOGLE_ADS_OAUTH_REDIRECT_URI`, `FRONTEND_URL`,
 `CREDENTIALS_ENCRYPTION_KEY` (required in production; dev derives one from `APP_SECRET_KEY` — changing
 `APP_SECRET_KEY` in dev makes stored tokens unreadable → reconnect).
 

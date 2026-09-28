@@ -20,7 +20,7 @@ def test_status_requires_login(client):
 def test_status_reports_configuration(client, as_role):
     as_role("viewer")
     s = client.get(f"{B}/status").json()
-    assert s["oauth_client_configured"] and s["developer_token_configured"] and s["api_version"] == "v26"
+    assert s["oauth_client_configured"] and s["developer_token_configured"] and s["api_version"] == "v25"
     assert s["redirect_uri"].endswith("/api/v1/ads-connection/oauth/callback")
 
 

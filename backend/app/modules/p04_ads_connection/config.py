@@ -15,7 +15,7 @@ from app.shared.config import get_settings
 class P04Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
-    google_ads_api_version: str = "v26"
+    google_ads_api_version: str = "v25"  # v26 answers "Method not found" (checked 2026-09-28)
     google_ads_oauth_redirect_uri: str = "http://localhost:8000/api/v1/ads-connection/oauth/callback"
     frontend_url: str = "http://localhost:3000"
     # Fernet key for refresh tokens at rest. Generate with:
