@@ -5,7 +5,7 @@
 | MODULE_ID | P01 |
 | MODULE_NAME | Dashboard Shell |
 | PURPOSE | Layout, navigation, scope selector, global status |
-| OWNER_PATHS | `frontend/src/shell/`, `frontend/src/app/layout.tsx`, `frontend/src/app/globals.css`, `frontend/src/app/page.tsx`, `frontend/src/app/[section]/`, `frontend/src/app/settings/`, `frontend/package.json`, `frontend/*.config.*`, `frontend/tsconfig.json`, `frontend/README.md`, `backend/app/modules/p01_shell/` |
+| OWNER_PATHS | `frontend/src/shell/`, `frontend/src/app/layout.tsx`, `frontend/src/app/ShellFrame.tsx`, `frontend/src/app/globals.css`, `frontend/src/app/page.tsx`, `frontend/src/app/[section]/`, `frontend/src/app/settings/`, `frontend/package.json`, `frontend/*.config.*`, `frontend/tsconfig.json`, `frontend/README.md`, `backend/app/modules/p01_shell/` |
 | OWNED_ROUTES | UI: `/`, `/settings`, `/[section]` fallback. API: none |
 | OWNED_COMPONENTS | AppShell, Sidebar, ScopeSelector, StatusPills, AlertStrip, ModulePlaceholder, PageHeader |
 | OWNED_SERVICES | none |

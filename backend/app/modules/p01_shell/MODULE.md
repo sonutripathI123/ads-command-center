@@ -4,7 +4,7 @@
 
 ## Purpose
 Global layout, navigation for all MID §19 sections, website/ads-account selector, global status/alerts.
-Uses mock websites/accounts until P03/P04 exist. Contains **no** business logic for other modules.
+Websites and ads accounts come from P03 through a loader passed in by `app/ShellFrame.tsx`. Contains **no** business logic for other modules.
 
 ## Files (all under `frontend/`)
 | File | Role |
@@ -18,7 +18,8 @@ Uses mock websites/accounts until P03/P04 exist. Contains **no** business logic 
 | `src/shell/ModuleStatus.tsx` | registry statuses from P00 |
 | `src/shell/ModulePlaceholder.tsx`, `PageHeader.tsx` | placeholder for unbuilt sections |
 | `src/shell/api.ts` | read-only client for `/api/v1/foundation/*` |
-| `src/shell/mock/scope.ts` | **mock** websites, accounts, notices |
+| `src/shell/scope-types.ts` | scope data contract (`Website`, `AdsAccount`, `ScopeLoader`) |
+| `src/app/ShellFrame.tsx` | client composition: AppShell + P02 UserMenu/public routes + P03 scope loader |
 | `src/app/layout.tsx`, `globals.css` | root layout + design tokens |
 | `src/app/page.tsx` | Overview |
 | `src/app/[section]/page.tsx` | fallback page for every unbuilt section |
@@ -36,7 +37,7 @@ P02's public routes as `bareRoutes`.
 - [x] All 21 MID §19 sections in navigation, each mapped to a registered owning module.
 - [x] Website/account selector available to every page via `useScope()`.
 - [x] Global status: backend health, kill-switch state, offline warning, notices.
-- [x] Mock data clearly labelled; no invented performance numbers.
+- [x] Real websites/accounts in the selector (mock data removed 2026-09-28); no invented performance numbers.
 - [x] Shell imports no feature module and calls no module API except P00.
 - [x] Responsive (mobile drawer), light/dark.
 - [x] User review and approval (2026-09-23).

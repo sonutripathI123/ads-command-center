@@ -8,3 +8,4 @@
 - Scanning is behind `crawler.enabled` (default off). There is no approved way yet to switch a flag on
   (P00 has read-only flags) — raised as a cross-module request.
 - Status: `review`.
+- `modules/websites/scope.ts` → `loadScope()` feeds the P01 scope selector (approved Request 2).

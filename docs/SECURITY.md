@@ -17,7 +17,8 @@
 
 Controls already enforced in P00:
 - `ADS_EXECUTION_KILL_SWITCH` env var (default `true`) overrides every kill-switch-guarded flag.
-- No API endpoint can change flags until P02 auth + P22 audit exist.
+- No API endpoint can change flags. Operators use `python -m app.shared.flags_cli` on the server (reason + who stored);
+  it refuses execution (kill-switch-guarded) flags.
 - Test: only P17 code may contain Google Ads mutate calls.
 - New campaigns default to draft/paused (enforced in P15/P17).
 

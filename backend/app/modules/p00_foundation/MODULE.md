@@ -13,6 +13,7 @@ conventions, feature flags, and the governance tests that keep every other modul
 | `backend/app/modules/p00_foundation/schemas.py` | response contracts |
 | `backend/app/modules/p00_foundation/interface.py` | public interface (empty; reusable code is in shared) |
 | `backend/app/shared/*` | SHARED code — see MODULE_REGISTRY.md |
+| `backend/app/shared/flags_cli.py` | operator CLI: list / set / clear flag overrides (not execution flags) |
 | `backend/app/main.py` | app factory + auto-mount |
 | `backend/alembic/` , `backend/alembic.ini` | migration framework |
 | `backend/conftest.py`, `backend/pyproject.toml` | test bootstrap |

@@ -4,4 +4,4 @@ export { useScope, SCOPE_ALL } from "./ScopeContext";
 export { PageHeader } from "./PageHeader";
 export { useModuleStatus } from "./ModuleStatus";
 export { API_BASE } from "./api";
-export type { Website, AdsAccount } from "./mock/scope";
+export type { Website, AdsAccount, ScopeData, ScopeLoader } from "./scope-types";

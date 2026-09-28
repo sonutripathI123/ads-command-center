@@ -12,3 +12,10 @@
   (routes rendered without sidebar/top bar, used for P02 `/login`). Wired in `app/layout.tsx`.
 - Shell still imports no feature module; nav.json unchanged (Account is reached from the user menu).
 - Approved by user 2026-09-23.
+
+## 2026-09-28 — approved cross-module change (requested by P03, "Request 2")
+- Scope selector shows real websites (P03) and connected ads accounts via a `scopeLoader` prop; reloads on navigation;
+  remembered selections that no longer exist fall back to "all".
+- Removed `src/shell/mock/scope.ts` and the "Demo data" banner. Types moved to `src/shell/scope-types.ts`.
+- New `src/app/ShellFrame.tsx` (client) composes the shell with P02/P03 pieces; `layout.tsx` renders it.
+- Overview tile notes updated. Shell still imports no feature module and calls only the P00 API.

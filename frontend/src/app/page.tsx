@@ -23,8 +23,8 @@ export default function OverviewPage() {
       <PageHeader title="Overview" moduleId="P01" />
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <Tile label="Websites in scope" value={websiteId === SCOPE_ALL ? String(websites.length) : "1"} note="demo list" />
-        <Tile label="Ads accounts" value={String(adsAccounts.length)} note="demo list" />
+        <Tile label="Websites in scope" value={websiteId === SCOPE_ALL ? String(websites.length) : "1"} note="added on the Websites page" />
+        <Tile label="Ads accounts" value={String(adsAccounts.length)} note="connected on Ads Accounts" />
         <Tile
           label="Modules approved"
           value={loading ? "…" : modules ? `${done} / ${modules.length}` : "—"}

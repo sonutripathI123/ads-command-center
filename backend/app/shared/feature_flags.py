@@ -21,7 +21,7 @@ from app.shared.registry import load_registry
 
 
 class FeatureFlagOverride(Base):
-    """Table owned by P00. Rows are written only by an authorised admin path (P02/P22, later)."""
+    """Table owned by P00. Rows are written only by the operator CLI `app/shared/flags_cli.py` (no HTTP path)."""
 
     __tablename__ = "feature_flag_overrides"
 

@@ -1,7 +1,6 @@
 "use client";
-// P01 — global status. Real alerts arrive from P18 later; until then: backend health + mock notices.
+// P01 — global status: backend health + kill switch. Real alerts arrive from P18 later.
 import type { Health } from "./api";
-import { MOCK_ALERTS } from "./mock/scope";
 
 type Tone = "ok" | "warn" | "danger" | "info";
 const toneCls: Record<Tone, string> = {
@@ -36,9 +35,6 @@ export function AlertStrip({ error }: { error: string | null }) {
           Can’t reach the backend ({error}). Start it with <code>uvicorn app.main:app</code> in <code>backend/</code>.
         </div>
       )}
-      {MOCK_ALERTS.map((a) => (
-        <div key={a.id} className={`rounded-md border px-3 py-2 text-sm ${toneCls[a.level]}`}>{a.text}</div>
-      ))}
     </div>
   );
 }

@@ -11,14 +11,14 @@ export function ScopeSelector() {
       <select id="scope-website" className={selectCls} value={websiteId} onChange={(e) => setWebsiteId(e.target.value)}>
         <option value={SCOPE_ALL}>All websites ({websites.length})</option>
         {websites.map((w) => (
-          <option key={w.id} value={w.id}>{w.name} — {w.location}</option>
+          <option key={w.id} value={w.id}>{w.name}{w.location ? ` — ${w.location}` : ""}</option>
         ))}
       </select>
       <label className="sr-only" htmlFor="scope-account">Ads account</label>
       <select id="scope-account" className={selectCls} value={adsAccountId} onChange={(e) => setAdsAccountId(e.target.value)}>
         <option value={SCOPE_ALL}>All ads accounts</option>
         {adsAccounts.map((a) => (
-          <option key={a.id} value={a.id}>{a.name} ({a.customerId})</option>
+          <option key={a.id} value={a.id}>{a.name || "Account"} ({a.customerId.replace(/^(\d{3})(\d{3})(\d{4})$/, "$1-$2-$3")})</option>
         ))}
       </select>
     </div>

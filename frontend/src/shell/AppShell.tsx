@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import { useFoundation, type Health, type ModuleInfo } from "./api";
 import { ModuleStatusProvider } from "./ModuleStatus";
 import { ScopeProvider } from "./ScopeContext";
+import type { ScopeLoader } from "./scope-types";
 import { ScopeSelector } from "./ScopeSelector";
 import { Sidebar } from "./Sidebar";
 import { AlertStrip, StatusPills } from "./StatusBar";
@@ -14,9 +15,11 @@ type AppShellProps = {
   headerRight?: ReactNode;
   /** Routes rendered without sidebar/top bar (e.g. P02 /login). */
   bareRoutes?: string[];
+  /** Supplies websites + ads accounts for the scope selector (P03, via app/ShellFrame.tsx). */
+  scopeLoader?: ScopeLoader;
 };
 
-export function AppShell({ children, headerRight, bareRoutes = [] }: AppShellProps) {
+export function AppShell({ children, headerRight, bareRoutes = [], scopeLoader }: AppShellProps) {
   const pathname = usePathname();
   const health = useFoundation<Health>("health");
   const modules = useFoundation<ModuleInfo[]>("modules");
@@ -28,7 +31,7 @@ export function AppShell({ children, headerRight, bareRoutes = [] }: AppShellPro
   }
 
   return (
-    <ScopeProvider>
+    <ScopeProvider loader={scopeLoader}>
       <ModuleStatusProvider value={{ modules: modules.data, loading: modules.loading }}>
         <div className="flex min-h-screen">
           <aside

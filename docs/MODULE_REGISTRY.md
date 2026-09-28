@@ -48,6 +48,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | `backend/app/shared/errors.py` | `AppError`, `NotFoundError`, `ValidationFailed`, `PermissionDenied`, `FeatureDisabled` |
 | `backend/app/shared/logging.py` | `get_logger(module_id)` |
 | `backend/app/shared/feature_flags.py` | `is_enabled`, `require_enabled`, `resolve_all` |
+| `backend/app/shared/flags_cli.py` | operator CLI (`python -m app.shared.flags_cli`) |
 | `backend/app/shared/registry.py` | `load_registry()` |
 | `backend/app/main.py` | app factory; auto-mounts active module routers |
 
