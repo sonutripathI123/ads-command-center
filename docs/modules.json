@@ -45,8 +45,8 @@
      "depends_on": ["P02", "P05", "P21"], "tables": ["keyword_candidates", "negative_keyword_candidates", "search_term_classifications"], "api_prefix": "/api/v1/keywords",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P09", "name": "Ad & Creative Intelligence", "slug": "creatives", "package": "p09_ad_creative", "status": "planned",
-     "depends_on": ["P05", "P14", "P21"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
+    {"id": "P09", "name": "Ad & Creative Intelligence", "slug": "creatives", "package": "p09_ad_creative", "status": "review",
+     "depends_on": ["P02", "P05", "P21"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P10", "name": "Landing Page & CRO Intelligence", "slug": "landing-pages", "package": "p10_landing_cro", "status": "planned",
