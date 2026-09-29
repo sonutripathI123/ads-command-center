@@ -31,7 +31,7 @@ Other modules can call `interface.record` the same way; nothing requires a P22 c
 | `backend/app/modules/p22_security_audit/interface.py` | **public interface**: `record` |
 | `…/service.py`, `router.py`, `models.py` | `/api/v1/security` (admin-only, read-only) |
 | `backend/alembic/versions/0019_p22_security_audit.py` | migration |
-| `frontend/src/modules/security/*`, `frontend/src/app/security/page.tsx` | Audit Log page |
+| `frontend/src/modules/security/*`, `frontend/src/app/audit-log/page.tsx` | Audit Log page (route slug matches nav.json: `audit-log`) |
 
 ## Acceptance criteria
 - [x] Immutable audit log with before/after values, queryable by module/actor/action/entity/date.
