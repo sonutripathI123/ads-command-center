@@ -53,8 +53,8 @@
      "depends_on": ["P02", "P03", "P05", "P06", "P21"], "tables": ["landing_page_checks", "cro_findings", "implementation_briefs"], "api_prefix": "/api/v1/landing-pages",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P11", "name": "Competitor Intelligence", "slug": "competitors", "package": "p11_competitor_intel", "status": "planned",
-     "depends_on": ["P03", "P14", "P21"], "tables": ["competitors", "competitor_observations"], "api_prefix": "/api/v1/competitors",
+    {"id": "P11", "name": "Competitor Intelligence", "slug": "competitors", "package": "p11_competitor_intel", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P21"], "tables": ["competitors", "competitor_observations", "competitor_analyses"], "api_prefix": "/api/v1/competitors",
      "feature_flags": [{"key": "competitor.research.enabled", "default": false, "description": "Allow outbound public web/SERP research"}], "may_mutate_google_ads": false},
 
     {"id": "P12", "name": "Budget / Bid / Geo / Device / Time Intelligence", "slug": "budget-bid", "package": "p12_budget_bid", "status": "planned",
