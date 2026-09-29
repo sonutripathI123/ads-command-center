@@ -177,6 +177,9 @@ def test_add_validate_and_edit(client):
     assert c["search_demand"]["clicks"] == 4 and ov["analysis"] is None and ov["our_pages"] == 1  # 404 page skipped
     client.patch(f"{B}/competitors/{cid}", json={"status": "archived"})
     assert client.get(f"{B}/accounts/7").json()["competitors"] == []
+    again = _add(client, website="https://www.rival.com.au/", brand_terms=[])  # re-adding an archived one restores it
+    assert again.status_code == 201 and again.json()["id"] == cid
+    assert client.get(f"{B}/accounts/7").json()["competitors"][0]["brand_terms"] == ["rival", "rival limo"]
 
 
 def test_research_coverage_gaps_and_history(client):

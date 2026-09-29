@@ -2,12 +2,14 @@
 
     from app.modules.p16_approvals.interface import request_approval, get_approval, approved_changes, mark_executed
 """
+from datetime import date
+
 from sqlalchemy.orm import Session as DbSession
 
 from app.modules.p16_approvals import service
 from app.modules.p16_approvals.models import Approval
 
-__all__ = ["request_approval", "get_approval", "approved_changes", "mark_executed"]
+__all__ = ["request_approval", "get_approval", "approved_changes", "mark_executed", "decisions"]
 
 
 def request_approval(db: DbSession, *, account_id: int, source_module: str, source_ref: str, change_type: str, title: str,
@@ -28,6 +30,17 @@ def get_approval(db: DbSession, approval_id: int) -> dict | None:
 def approved_changes(db: DbSession, account_id: int) -> list[dict]:
     """Approved, not yet executed — the only list P17 may execute from (oldest first)."""
     return [service.approval_dict(db, a) for a in reversed(service.list_approvals(db, account_id, "approved"))]
+
+
+def decisions(db: DbSession, account_id: int, d1: date, d2: date) -> list[dict]:
+    """Requests decided (approved/rejected/withdrawn/executed) between d1 and d2 inclusive — for P19 reports."""
+    out = []
+    for a in service.list_approvals(db, account_id, None):
+        when = a.decided_at or a.executed_at
+        if when and d1 <= when.date() <= d2 and a.status != "pending":
+            out.append({"id": a.id, "title": a.title, "change_type": a.change_type, "status": a.status, "impact": a.impact,
+                        "decided_by": a.decided_by, "decided_at": when})
+    return out
 
 
 def mark_executed(db: DbSession, approval_id: int, *, result: str, by: str) -> dict:

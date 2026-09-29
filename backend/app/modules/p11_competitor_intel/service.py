@@ -64,8 +64,17 @@ def add_competitor(db: DbSession, account_id: int, *, name: str, website: str, b
     domain, base = _site(website)
     if domain in _own_domains(db):
         raise ValidationFailed("That is one of your own websites", module_id=MODULE_ID)
-    if db.scalar(select(Competitor.id).where(Competitor.account_id == account_id, Competitor.domain == domain)):
+    existing = db.scalar(select(Competitor).where(Competitor.account_id == account_id, Competitor.domain == domain))
+    if existing and existing.status == "active":
         raise ValidationFailed("This competitor is already in the list", module_id=MODULE_ID)
+    if existing:  # archived → restore it (its earlier observations come back too)
+        existing.status, existing.name = "active", name.strip() or existing.name
+        if brand_terms:
+            existing.brand_terms = json.dumps(sorted({t.strip().lower() for t in brand_terms if t.strip()}))
+        if notes.strip():
+            existing.notes = notes.strip()
+        db.commit()
+        return existing
     c = Competitor(account_id=account_id, name=name.strip(), domain=domain, base_url=base, notes=notes.strip(),
                    brand_terms=json.dumps(sorted({t.strip().lower() for t in brand_terms if t.strip()})), created_by=by)
     db.add(c)

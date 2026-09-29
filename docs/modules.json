@@ -61,8 +61,8 @@
      "depends_on": ["P05", "P06", "P14"], "tables": ["segment_findings"], "api_prefix": "/api/v1/budget-bid",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P13", "name": "Booking Funnel & Revenue Attribution", "slug": "funnel", "package": "p13_booking_funnel", "status": "planned",
-     "depends_on": ["P05", "P06", "P14"], "tables": ["attribution_records"], "api_prefix": "/api/v1/funnel",
+    {"id": "P13", "name": "Booking Funnel & Revenue Attribution", "slug": "funnel", "package": "p13_booking_funnel", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P06"], "tables": [], "api_prefix": "/api/v1/funnel",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P14", "name": "AI Recommendation Engine", "slug": "recommendations", "package": "p14_recommendations", "status": "approved_frozen",
@@ -84,12 +84,12 @@
        {"key": "ads.execution.automation.enabled", "default": false, "kill_switch_guarded": true, "description": "LEVEL 4: auto-execute allowlisted low-risk operations"}
      ], "may_mutate_google_ads": true},
 
-    {"id": "P18", "name": "Monitoring & Alerts", "slug": "monitoring", "package": "p18_monitoring", "status": "planned",
-     "depends_on": ["P05", "P06", "P13", "P17", "P22"], "tables": ["alerts", "monitor_checks"], "api_prefix": "/api/v1/monitoring",
+    {"id": "P18", "name": "Monitoring & Alerts", "slug": "monitoring", "package": "p18_monitoring", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P06"], "tables": ["alerts", "monitor_checks"], "api_prefix": "/api/v1/monitoring",
      "feature_flags": [{"key": "monitoring.scheduled.enabled", "default": false, "description": "Run scheduled monitoring checks"}], "may_mutate_google_ads": false},
 
-    {"id": "P19", "name": "Reports & Exports", "slug": "reports", "package": "p19_reports", "status": "planned",
-     "depends_on": ["P05", "P06", "P13", "P14", "P16", "P17"], "tables": ["report_runs"], "api_prefix": "/api/v1/reports",
+    {"id": "P19", "name": "Reports & Exports", "slug": "reports", "package": "p19_reports", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P06", "P13", "P14", "P16", "P18"], "tables": ["report_runs"], "api_prefix": "/api/v1/reports",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P20", "name": "Experiments", "slug": "experiments", "package": "p20_experiments", "status": "review",

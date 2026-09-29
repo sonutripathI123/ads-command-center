@@ -15,8 +15,8 @@ Generated from `modules.json` — do not edit the table by hand.
 |---|---|---|---|
 | P00 Foundation & Governance | — (shared only) | — | no |
 | P01 Dashboard Shell | P02 Authentication & User Access | — | no |
-| P02 Authentication & User Access | — (shared only) | P01, P03, P04, P05, P06, P07, P08, P09, P10, P11, P14, P15, P16, P17, P20, P21, P22 | no |
-| P03 Website Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | P06, P07, P10, P11, P15, P20 | no |
+| P02 Authentication & User Access | — (shared only) | P01, P03, P04, P05, P06, P07, P08, P09, P10, P11, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22 | no |
+| P03 Website Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | P06, P07, P10, P11, P13, P15, P18, P19, P20 | no |
 | P04 Google Ads Connection | P02 Authentication & User Access | P05, P17 | no |
 | P05 Google Ads Data Sync & Warehouse | P02 Authentication & User Access, P04 Google Ads Connection | P03, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20 | no |
 | P06 Analytics & Conversion Data | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse | P07, P10, P12, P13, P15, P18, P19, P20 | no |
@@ -26,16 +26,16 @@ Generated from `modules.json` — do not edit the table by hand.
 | P10 Landing Page & CRO Intelligence | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P21 Business Memory & Rules | — | no |
 | P11 Competitor Intelligence | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | — | no |
 | P12 Budget / Bid / Geo / Device / Time Intelligence | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P14 AI Recommendation Engine | — | no |
-| P13 Booking Funnel & Revenue Attribution | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P14 AI Recommendation Engine | P18, P19 | no |
-| P14 AI Recommendation Engine | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P07 PPC Audit Engine, P21 Business Memory & Rules, P22 Security / Audit / Rollback | P12, P13, P16, P19 | no |
+| P13 Booking Funnel & Revenue Attribution | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data | P19 | no |
+| P14 AI Recommendation Engine | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P07 PPC Audit Engine, P21 Business Memory & Rules, P22 Security / Audit / Rollback | P12, P16, P19 | no |
 | P15 AI Campaign Builder | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P08 Keyword & Search-Term Intelligence, P09 Ad & Creative Intelligence, P21 Business Memory & Rules | P16 | no |
 | P16 Approval Center | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P08 Keyword & Search-Term Intelligence, P09 Ad & Creative Intelligence, P14 AI Recommendation Engine, P15 AI Campaign Builder, P22 Security / Audit / Rollback | P17, P19, P20 | no |
-| P17 Google Ads Execution | P02 Authentication & User Access, P04 Google Ads Connection, P05 Google Ads Data Sync & Warehouse, P16 Approval Center, P22 Security / Audit / Rollback | P18, P19 | **YES — gated** |
-| P18 Monitoring & Alerts | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P13 Booking Funnel & Revenue Attribution, P17 Google Ads Execution, P22 Security / Audit / Rollback | — | no |
-| P19 Reports & Exports | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P13 Booking Funnel & Revenue Attribution, P14 AI Recommendation Engine, P16 Approval Center, P17 Google Ads Execution | — | no |
+| P17 Google Ads Execution | P02 Authentication & User Access, P04 Google Ads Connection, P05 Google Ads Data Sync & Warehouse, P16 Approval Center, P22 Security / Audit / Rollback | — | **YES — gated** |
+| P18 Monitoring & Alerts | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data | P19 | no |
+| P19 Reports & Exports | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P13 Booking Funnel & Revenue Attribution, P14 AI Recommendation Engine, P16 Approval Center, P18 Monitoring & Alerts | — | no |
 | P20 Experiments | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P16 Approval Center | — | no |
 | P21 Business Memory & Rules | P02 Authentication & User Access | P03, P07, P08, P09, P10, P11, P14, P15 | no |
-| P22 Security / Audit / Rollback | P02 Authentication & User Access | P14, P16, P17, P18 | no |
+| P22 Security / Audit / Rollback | P02 Authentication & User Access | P14, P16, P17 | no |
 | P23 Testing & QA | — (shared only) | — | no |
 | P24 Production Hardening | — (shared only) | — | no |
 <!-- GENERATED:END -->

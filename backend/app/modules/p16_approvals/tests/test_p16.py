@@ -130,6 +130,12 @@ def test_decisions_confirmation_and_history(client):
     counts = next(a for a in client.get(f"{B}/accounts").json() if a["id"] == 7)["counts"]
     assert counts["approved"] == 2 and counts["rejected"] == 1 and counts["pending"] == 2
     assert {i["id"] for i in _items(client, status="approved")} == {rsa["id"], camp["id"]}
+    from datetime import date, timedelta
+
+    with session_scope() as db:
+        today = date.today()
+        assert {d["status"] for d in interface.decisions(db, 7, today - timedelta(days=1), today + timedelta(days=1))} == {"approved", "rejected"}
+        assert interface.decisions(db, 7, today - timedelta(days=9), today - timedelta(days=2)) == []
 
 
 def test_interface_request_approved_and_executed(client):
