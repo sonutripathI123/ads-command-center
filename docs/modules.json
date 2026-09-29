@@ -46,7 +46,7 @@
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P09", "name": "Ad & Creative Intelligence", "slug": "creatives", "package": "p09_ad_creative", "status": "review",
-     "depends_on": ["P02", "P05", "P21"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
+     "depends_on": ["P02", "P05", "P21", "P22"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P10", "name": "Landing Page & CRO Intelligence", "slug": "landing-pages", "package": "p10_landing_cro", "status": "review",
@@ -100,7 +100,7 @@
      "depends_on": ["P02"], "tables": ["business_rules", "business_rule_versions"], "api_prefix": "/api/v1/business-rules",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P22", "name": "Security / Audit / Rollback", "slug": "security", "package": "p22_security_audit", "status": "planned",
+    {"id": "P22", "name": "Security / Audit / Rollback", "slug": "security", "package": "p22_security_audit", "status": "review",
      "depends_on": ["P02"], "tables": ["audit_logs"], "api_prefix": "/api/v1/security",
      "feature_flags": [], "may_mutate_google_ads": false},
 

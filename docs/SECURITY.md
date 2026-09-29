@@ -22,10 +22,18 @@ Controls already enforced in P00:
 - Test: only P17 code may contain Google Ads mutate calls.
 - New campaigns default to draft/paused (enforced in P15/P17).
 
+## Audit trail (P22)
+- `audit_logs` (append-only, no edit/delete endpoint): who did what, before/after values. `interface.record(...)` is
+  the only write path. Admin-only read API at `/api/v1/security/audit-logs` (filters: module, actor, action, entity,
+  date range) and the "Audit Log" page.
+- Wired in so far: P16 approval decisions (approve/reject/withdraw/execute), P09 ad draft review (approved/rejected).
+- Rollback/compensation procedures are deferred until P17 executes anything against Google Ads — nothing to
+  compensate for yet.
+
 ## Errors
 - Unhandled exceptions return a generic 500 with request_id; stack traces go to logs only.
 
 ## Open items (owned by later modules)
 - P02: session security, RBAC (read / recommend / execute; execute off by default).
-- P22: immutable audit log with before/after values; rollback procedures.
+- P22: rollback/compensation procedures (once P17 exists).
 - P24: rate limiting, dependency scanning, security review.

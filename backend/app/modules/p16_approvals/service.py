@@ -12,6 +12,7 @@ from app.modules.p09_ad_creative.interface import approved_drafts
 from app.modules.p14_recommendations.interface import open_recommendations
 from app.modules.p15_campaign_builder.interface import approved_campaign_drafts
 from app.modules.p16_approvals.models import Approval, ApprovalEvent
+from app.modules.p22_security_audit.interface import record as audit_record
 from app.shared.errors import NotFoundError, PermissionDenied, ValidationFailed
 from app.shared.logging import get_logger
 
@@ -123,9 +124,12 @@ def decide(db: DbSession, approval_id: int, decision: str, *, by: str, note: str
             raise PermissionDenied("Approving your own high-impact request needs a note explaining why", module_id=MODULE_ID)
     if decision == "reject" and not (note or "").strip():
         raise ValidationFailed("Please give a reason when rejecting", module_id=MODULE_ID)
+    before_status = a.status
     a.status = {"approve": "approved", "reject": "rejected", "withdraw": "withdrawn"}[decision]
     a.decided_by, a.decided_at, a.decision_note = by, datetime.now(UTC), note
     _event(db, a, a.status, by, note)
+    audit_record(db, module_id=MODULE_ID, action=f"approval_{a.status}", actor=by, entity_type="approval", entity_id=a.id,
+                before={"status": before_status}, after={"status": a.status}, note=note, commit=False)
     db.commit()
     log.info("approval_decided", extra={"approval_id": a.id, "status": a.status, "by": by, "impact": a.impact})
     return a
@@ -137,6 +141,8 @@ def mark_executed(db: DbSession, approval_id: int, *, result: str, by: str) -> A
         raise ValidationFailed("Only approved requests can be executed", module_id=MODULE_ID)
     a.status, a.executed_at, a.execution_result = "executed", datetime.now(UTC), result[:4000]
     _event(db, a, "executed", by, result[:500])
+    audit_record(db, module_id=MODULE_ID, action="approval_executed", actor=by, entity_type="approval", entity_id=a.id,
+                before={"status": "approved"}, after={"status": "executed", "result": result[:500]}, commit=False)
     db.commit()
     return a
 

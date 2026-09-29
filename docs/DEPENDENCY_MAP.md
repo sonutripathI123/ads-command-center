@@ -22,7 +22,7 @@ Generated from `modules.json` — do not edit the table by hand.
 | P06 Analytics & Conversion Data | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse | P07, P10, P12, P13, P15, P18, P19, P20 | no |
 | P07 PPC Audit Engine | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P08 Keyword & Search-Term Intelligence, P21 Business Memory & Rules | P14 | no |
 | P08 Keyword & Search-Term Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | P07, P15, P16 | no |
-| P09 Ad & Creative Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | P15, P16 | no |
+| P09 Ad & Creative Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules, P22 Security / Audit / Rollback | P15, P16 | no |
 | P10 Landing Page & CRO Intelligence | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P21 Business Memory & Rules | — | no |
 | P11 Competitor Intelligence | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | — | no |
 | P12 Budget / Bid / Geo / Device / Time Intelligence | P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P14 AI Recommendation Engine | — | no |
@@ -35,7 +35,7 @@ Generated from `modules.json` — do not edit the table by hand.
 | P19 Reports & Exports | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P13 Booking Funnel & Revenue Attribution, P14 AI Recommendation Engine, P16 Approval Center, P18 Monitoring & Alerts | — | no |
 | P20 Experiments | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P16 Approval Center | — | no |
 | P21 Business Memory & Rules | P02 Authentication & User Access | P03, P07, P08, P09, P10, P11, P14, P15 | no |
-| P22 Security / Audit / Rollback | P02 Authentication & User Access | P14, P16, P17 | no |
+| P22 Security / Audit / Rollback | P02 Authentication & User Access | P09, P14, P16, P17 | no |
 | P23 Testing & QA | — (shared only) | — | no |
 | P24 Production Hardening | — (shared only) | — | no |
 <!-- GENERATED:END -->

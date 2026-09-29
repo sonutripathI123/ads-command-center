@@ -13,6 +13,7 @@ from app.modules.p09_ad_creative import writer
 from app.modules.p09_ad_creative.checks import check_ad, strength
 from app.modules.p09_ad_creative.models import AdDraft, ClaimCheck
 from app.modules.p21_business_rules.interface import get_rules
+from app.modules.p22_security_audit.interface import record as audit_record
 from app.shared.errors import AppError, NotFoundError, ValidationFailed
 from app.shared.feature_flags import is_enabled
 from app.shared.logging import get_logger
@@ -142,6 +143,7 @@ def get_draft(db: DbSession, draft_id: int) -> AdDraft:
 
 def update_draft(db: DbSession, draft_id: int, fields: dict, by: str) -> AdDraft:
     d = get_draft(db, draft_id)
+    before_status = d.status
     for k in ("headlines", "descriptions", "usps", "keywords"):
         if k in fields and fields[k] is not None:
             setattr(d, k, json.dumps([s.strip() for s in fields[k]]))
@@ -157,6 +159,9 @@ def update_draft(db: DbSession, draft_id: int, fields: dict, by: str) -> AdDraft
     if d.status == "approved" and any(c.severity == "error" for c in checks_for(db, d.id)):
         db.rollback()
         raise ValidationFailed("Fix the errors (red) before approving — Google would reject this ad", module_id=MODULE_ID)
+    if status is not None and status != before_status:
+        audit_record(db, module_id=MODULE_ID, action=f"ad_draft_{status}", actor=by, entity_type="ad_draft", entity_id=d.id,
+                    before={"status": before_status}, after={"status": status}, commit=False)
     db.commit()
     return d
 
