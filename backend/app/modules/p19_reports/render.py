@@ -77,7 +77,7 @@ CSS = """body{font:13px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;color:#
 h1{font-size:20px;margin:0}h2{font-size:14px;margin:22px 0 6px;border-bottom:1px solid #ccc;padding-bottom:3px}
 .meta{color:#555;margin:4px 0 12px}table{border-collapse:collapse;width:100%;margin-bottom:6px}
 th,td{text-align:left;padding:3px 8px 3px 0;border-bottom:1px solid #eee;vertical-align:top}th{color:#555;font-weight:600}
-td.n{text-align:right;font-variant-numeric:tabular-nums}ul{margin:4px 0 0 18px;padding:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}ul{margin:4px 0 0 18px;padding:0}
 .bar{position:sticky;top:0;background:#fff;padding:8px 0;margin-bottom:8px}
 @media print{.bar{display:none}body{margin:0}h2{break-after:avoid}tr{break-inside:avoid}}"""
 
@@ -91,9 +91,11 @@ def to_html(r: dict) -> str:
     if r["content"].get("headline"):
         parts.append("<ul>" + "".join(f"<li>{e(x)}</li>" for x in r["content"]["headline"]) + "</ul>")
     for title, header, rows in tables(r):
-        parts.append(f"<h2>{e(title)}</h2><table><thead><tr>" + "".join(f"<th>{e(h)}</th>" for h in header) + "</tr></thead><tbody>")
+        col_n = [False] + [_col_numeric(rows, i) for i in range(1, len(header))]
+        parts.append(f"<h2>{e(title)}</h2><table><thead><tr>" +
+                     "".join(f"<th{' class=n' if n else ''}>{e(h)}</th>" for h, n in zip(header, col_n)) + "</tr></thead><tbody>")
         for row in rows:
-            parts.append("<tr>" + "".join(f"<td{' class=n' if i and _num(v) else ''}>{e(str(v))}</td>" for i, v in enumerate(row)) + "</tr>")
+            parts.append("<tr>" + "".join(f"<td{' class=n' if col_n[i] else ''}>{e(str(v))}</td>" for i, v in enumerate(row)) + "</tr>")
         parts.append("</tbody></table>")
     for note in r["content"].get("notes", []):
         parts.append(f"<p class='meta'>{e(note)}</p>")
@@ -104,3 +106,8 @@ def to_html(r: dict) -> str:
 def _num(v) -> bool:
     s = str(v).replace(",", "").replace("%", "").replace("+", "").replace("-", "", 1)
     return s.replace(".", "", 1).isdigit()
+
+
+def _col_numeric(rows: list[list], i: int) -> bool:
+    vals = [row[i] for row in rows if row[i] != "—"]
+    return bool(vals) and all(_num(v) for v in vals)
