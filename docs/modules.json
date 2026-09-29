@@ -49,8 +49,8 @@
      "depends_on": ["P02", "P05", "P21"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P10", "name": "Landing Page & CRO Intelligence", "slug": "landing-pages", "package": "p10_landing_cro", "status": "planned",
-     "depends_on": ["P03", "P05", "P14"], "tables": ["cro_findings", "implementation_briefs"], "api_prefix": "/api/v1/landing-pages",
+    {"id": "P10", "name": "Landing Page & CRO Intelligence", "slug": "landing-pages", "package": "p10_landing_cro", "status": "review",
+     "depends_on": ["P02", "P03", "P05", "P06", "P21"], "tables": ["landing_page_checks", "cro_findings", "implementation_briefs"], "api_prefix": "/api/v1/landing-pages",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P11", "name": "Competitor Intelligence", "slug": "competitors", "package": "p11_competitor_intel", "status": "planned",

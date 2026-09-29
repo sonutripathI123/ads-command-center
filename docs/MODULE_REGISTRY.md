@@ -22,7 +22,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P07 | PPC Audit Engine | `approved_frozen` | `backend/app/modules/p07_ppc_audit/` | `/api/v1/audit` | audit_runs, audit_issues | — |
 | P08 | Keyword & Search-Term Intelligence | `approved_frozen` | `backend/app/modules/p08_keyword_intel/` | `/api/v1/keywords` | keyword_candidates, negative_keyword_candidates, search_term_classifications | — |
 | P09 | Ad & Creative Intelligence | `review` | `backend/app/modules/p09_ad_creative/` | `/api/v1/creatives` | ad_drafts, claim_checks | — |
-| P10 | Landing Page & CRO Intelligence | `planned` | `backend/app/modules/p10_landing_cro/` | `/api/v1/landing-pages` | cro_findings, implementation_briefs | — |
+| P10 | Landing Page & CRO Intelligence | `review` | `backend/app/modules/p10_landing_cro/` | `/api/v1/landing-pages` | landing_page_checks, cro_findings, implementation_briefs | — |
 | P11 | Competitor Intelligence | `planned` | `backend/app/modules/p11_competitor_intel/` | `/api/v1/competitors` | competitors, competitor_observations | competitor.research.enabled |
 | P12 | Budget / Bid / Geo / Device / Time Intelligence | `planned` | `backend/app/modules/p12_budget_bid/` | `/api/v1/budget-bid` | segment_findings | — |
 | P13 | Booking Funnel & Revenue Attribution | `planned` | `backend/app/modules/p13_booking_funnel/` | `/api/v1/funnel` | attribution_records | — |
