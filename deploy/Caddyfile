@@ -1,0 +1,12 @@
+# Reverse proxy + automatic HTTPS (Let's Encrypt). Replace the placeholders below with your real domain(s).
+# One Caddy instance can serve both the app and the API on the same domain, so the browser
+# never needs CORS at all — set NEXT_PUBLIC_API_URL to https://YOUR_DOMAIN/api and CORS_ORIGINS
+# to https://YOUR_DOMAIN in that case, or keep them on separate subdomains as shown here.
+
+app.YOUR_DOMAIN.com.au {
+	reverse_proxy frontend:3000
+}
+
+api.YOUR_DOMAIN.com.au {
+	reverse_proxy backend:8000
+}

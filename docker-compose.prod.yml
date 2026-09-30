@@ -1,0 +1,59 @@
+# Production stack. Additive — does NOT replace the dev docker-compose.yml (owned by P00, frozen).
+# Usage: docker compose -f docker-compose.prod.yml --env-file .env up -d --build
+#
+# Before first run:
+#   1. cp .env.production.example .env   (fill every value — see docs/DEPLOY.md; this ".env" is gitignored)
+#   2. Edit deploy/Caddyfile: replace YOUR_DOMAIN with your real domain(s); point its DNS A record at this server.
+#   3. Generate fresh secrets for APP_SECRET_KEY / CREDENTIALS_ENCRYPTION_KEY — never reuse the dev ones.
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ads
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ads_command_center
+    volumes: [pgdata:/var/lib/postgresql/data]
+    # No ports: exposed to the host — only other containers on this network can reach it.
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    # Declared for forward-compat (P24 will move login-throttle state here); not required by the app today.
+
+  backend:
+    build: { context: ., dockerfile: backend/Dockerfile }
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql+psycopg://ads:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@postgres:5432/ads_command_center
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      # GA4/Search Console service-account key (P06) — keep the real file outside git, referenced here read-only.
+      - ./secrets/gsc-service-account.json:/srv/backend/secrets/gsc-service-account.json:ro
+    depends_on: [postgres, redis]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:?set NEXT_PUBLIC_API_URL in .env, e.g. https://api.yourdomain.com.au}
+    restart: unless-stopped
+    depends_on: [backend]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on: [frontend, backend]
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
