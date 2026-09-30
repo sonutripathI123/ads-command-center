@@ -30,10 +30,19 @@ Controls already enforced in P00:
 - Rollback/compensation procedures are deferred until P17 executes anything against Google Ads — nothing to
   compensate for yet.
 
+## Production hardening (P24)
+- Rate limiting: per-client-IP fixed window (default 300 req/min), Redis-backed when reachable, in-memory
+  fallback otherwise. Off during the test suite (`APP_ENV=test`) so it can never affect test runs.
+- Security headers on every response: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, plus HSTS
+  when `APP_ENV=production`.
+- Retries with exponential backoff (`with_retry`) around the Claude API call in P09/P10/P11/P14 — a transient
+  network blip or momentary 5xx/429 no longer fails the whole request.
+- Deployment, backups, smoke tests and the recovery runbook: see `docs/DEPLOY.md` and `docs/RUNBOOK.md`.
+
 ## Errors
 - Unhandled exceptions return a generic 500 with request_id; stack traces go to logs only.
 
 ## Open items (owned by later modules)
 - P02: session security, RBAC (read / recommend / execute; execute off by default).
 - P22: rollback/compensation procedures (once P17 exists).
-- P24: rate limiting, dependency scanning, security review.
+- P24: retries for P04 (Google Ads) / P06 (GA4/Search Console) external calls; formal dependency scanning.

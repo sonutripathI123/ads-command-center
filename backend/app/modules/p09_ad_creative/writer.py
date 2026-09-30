@@ -62,13 +62,17 @@ def brief_text(ad_group: str, keywords: list[str], final_url: str, services: lis
 def write_with_claude(brief: str, settings: P09Settings) -> tuple[AdCopy, int | None, int | None, str]:
     import anthropic
 
+    from app.modules.p24_hardening.interface import with_retry
+
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     try:
-        r = client.beta.messages.create(
-            model=settings.ai_model, max_tokens=16000, thinking={"type": "adaptive"},
-            output_config={"effort": "high", "format": {"type": "json_schema", "schema": SCHEMA}},
-            betas=["server-side-fallback-2026-06-01"], fallbacks=[{"model": FALLBACK_MODEL}],
-            system=SYSTEM, messages=[{"role": "user", "content": brief}])
+        r = with_retry(
+            lambda: client.beta.messages.create(
+                model=settings.ai_model, max_tokens=16000, thinking={"type": "adaptive"},
+                output_config={"effort": "high", "format": {"type": "json_schema", "schema": SCHEMA}},
+                betas=["server-side-fallback-2026-06-01"], fallbacks=[{"model": FALLBACK_MODEL}],
+                system=SYSTEM, messages=[{"role": "user", "content": brief}]),
+            retry_on=(anthropic.APIConnectionError, anthropic.RateLimitError, anthropic.InternalServerError))
     except anthropic.AuthenticationError as e:
         raise WriterError("Claude API key is invalid (ANTHROPIC_API_KEY)") from e
     except anthropic.RateLimitError as e:

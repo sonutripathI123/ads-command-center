@@ -80,18 +80,22 @@ def call_claude(prompt: str, settings: P14Settings) -> tuple[ActionPlan, int | N
     """→ (plan, input_tokens, output_tokens, model that answered)."""
     import anthropic
 
+    from app.modules.p24_hardening.interface import with_retry
+
     client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
     try:
-        response = client.beta.messages.create(
-            model=settings.ai_model,
-            max_tokens=16000,
-            thinking={"type": "adaptive"},
-            output_config={"effort": "high", "format": {"type": "json_schema", "schema": PLAN_SCHEMA}},
-            betas=["server-side-fallback-2026-06-01"],
-            fallbacks=[{"model": FALLBACK_MODEL}],
-            system=SYSTEM,
-            messages=[{"role": "user", "content": prompt}],
-        )
+        response = with_retry(
+            lambda: client.beta.messages.create(
+                model=settings.ai_model,
+                max_tokens=16000,
+                thinking={"type": "adaptive"},
+                output_config={"effort": "high", "format": {"type": "json_schema", "schema": PLAN_SCHEMA}},
+                betas=["server-side-fallback-2026-06-01"],
+                fallbacks=[{"model": FALLBACK_MODEL}],
+                system=SYSTEM,
+                messages=[{"role": "user", "content": prompt}],
+            ),
+            retry_on=(anthropic.APIConnectionError, anthropic.RateLimitError, anthropic.InternalServerError))
     except anthropic.AuthenticationError as e:
         raise AIError("Claude API key is invalid (ANTHROPIC_API_KEY)") from e
     except anthropic.RateLimitError as e:

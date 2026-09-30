@@ -4,8 +4,9 @@ Yeh guide app ko ek real server (VPS) pe live karne ke liye hai. Pehle **status 
 
 ## Deploy karne se pehle jaan lo
 
-- **P24 "Production Hardening"** module abhi khud is project mein banaya nahi gaya hai (rate limiting, dependency
-  scanning wagera). Yeh guide + files jo diye ja rahe hain, woh isliye zaroori hai kyunki woh module abhi khali hai.
+- **P24 "Production Hardening"** ab ban chuka hai — rate limiting, security headers, AI-call retries, smoke
+  test script, backup script, recovery runbook (see `docs/RUNBOOK.md`). Baaki bacha hua: formal dependency
+  scanning, aur P04/P06 (Google Ads/GA4) ke external calls pe retry (abhi sirf AI calls pe hai).
 - **Login throttle** (baar-baar galat password rokta hai) sirf ek server-process ki memory mein hai. Agar aap
   multiple backend workers/replicas chalate ho to yeh consistently kaam nahi karega — abhi single-instance
   deployment ke liye theek hai.
@@ -27,6 +28,8 @@ Yeh guide app ko ek real server (VPS) pe live karne ke liye hai. Pehle **status 
 | `deploy/Caddyfile` (naya) | Reverse proxy — automatic HTTPS (Let's Encrypt), aapko khud SSL certificate nahi lagana |
 | `.env.production.example` (naya) | Saare env variables ek jagah (backend, GA4/GSC, Google Ads, AI, frontend) |
 | `backend/Dockerfile`, `.env.example` (already thi) | Yeh pehle se P00 mein bani hui thi, use ki gayi hain |
+| `backend/app/modules/p24_hardening/*` (naya) | Rate limiting, security headers, AI-call retries, smoke test script |
+| `scripts/backup.sh`, `docs/RUNBOOK.md` (naya) | Automatic backup + recovery guide |
 
 Dev wali `docker-compose.yml` (backend/.env ke saath) waisi hi hai — yeh naya `docker-compose.prod.yml` usse alag,
 naya file hai, kuch delete/replace nahi hua.
@@ -94,9 +97,13 @@ docker compose -f docker-compose.prod.yml exec backend python -m app.modules.p02
   --email you@yourdomain.com.au --name "Your Name"
 ```
 
-### 9. Check karo
-`https://app.yourdomain.com.au` kholo — login page dikhna chahiye. `https://api.yourdomain.com.au/api/v1/foundation/health`
-pe `{"status":"ok",...}` aana chahiye.
+### 9. Check karo (smoke test)
+`https://app.yourdomain.com.au` kholo — login page dikhna chahiye. Fir poora smoke test chalao (P24) — har module
+ka route check karta hai:
+```bash
+docker compose -f docker-compose.prod.yml exec backend \
+  python -m app.modules.p24_hardening.smoke --base-url https://api.yourdomain.com.au
+```
 
 ### 10. Sync/flags chalu karo
 Login karke normal tareeke se: Ads Accounts connect karo (P04), Websites add karo (P03), sync chalao (P05/P06).
@@ -107,10 +114,15 @@ docker compose -f docker-compose.prod.yml exec backend python -m app.shared.flag
 
 ## Backup
 
-Postgres ka data volume `pgdata` mein hai. Roz backup lo:
+`scripts/backup.sh` (P24) roz `pg_dump` leta hai aur purane backups (14 din se zyada) khud delete kar deta hai:
 ```bash
-docker compose -f docker-compose.prod.yml exec postgres pg_dump -U ads ads_command_center > backup-$(date +%F).sql
+./scripts/backup.sh
 ```
+Cron mein daal do (roz raat 2 baje):
+```
+0 2 * * * cd /path/to/ads-command-center && ./scripts/backup.sh >> /var/log/ads-cc-backup.log 2>&1
+```
+Restore karna ho to `docs/RUNBOOK.md` dekho.
 
 ## Update deploy karna (baad mein code badle to)
 

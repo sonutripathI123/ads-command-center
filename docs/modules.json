@@ -46,15 +46,15 @@
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P09", "name": "Ad & Creative Intelligence", "slug": "creatives", "package": "p09_ad_creative", "status": "review",
-     "depends_on": ["P02", "P05", "P21", "P22"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
+     "depends_on": ["P02", "P05", "P21", "P22", "P24"], "tables": ["ad_drafts", "claim_checks"], "api_prefix": "/api/v1/creatives",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P10", "name": "Landing Page & CRO Intelligence", "slug": "landing-pages", "package": "p10_landing_cro", "status": "review",
-     "depends_on": ["P02", "P03", "P05", "P06", "P21"], "tables": ["landing_page_checks", "cro_findings", "implementation_briefs"], "api_prefix": "/api/v1/landing-pages",
+     "depends_on": ["P02", "P03", "P05", "P06", "P21", "P24"], "tables": ["landing_page_checks", "cro_findings", "implementation_briefs"], "api_prefix": "/api/v1/landing-pages",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P11", "name": "Competitor Intelligence", "slug": "competitors", "package": "p11_competitor_intel", "status": "review",
-     "depends_on": ["P02", "P03", "P05", "P21"], "tables": ["competitors", "competitor_observations", "competitor_analyses"], "api_prefix": "/api/v1/competitors",
+     "depends_on": ["P02", "P03", "P05", "P21", "P24"], "tables": ["competitors", "competitor_observations", "competitor_analyses"], "api_prefix": "/api/v1/competitors",
      "feature_flags": [{"key": "competitor.research.enabled", "default": false, "description": "Allow outbound public web/SERP research"}], "may_mutate_google_ads": false},
 
     {"id": "P12", "name": "Budget / Bid / Geo / Device / Time Intelligence", "slug": "budget-bid", "package": "p12_budget_bid", "status": "planned",
@@ -66,7 +66,7 @@
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P14", "name": "AI Recommendation Engine", "slug": "recommendations", "package": "p14_recommendations", "status": "approved_frozen",
-     "depends_on": ["P02", "P05", "P07", "P21", "P22"], "tables": ["recommendations", "ai_runs", "ai_evidence"], "api_prefix": "/api/v1/recommendations",
+     "depends_on": ["P02", "P05", "P07", "P21", "P22", "P24"], "tables": ["recommendations", "ai_runs", "ai_evidence"], "api_prefix": "/api/v1/recommendations",
      "feature_flags": [{"key": "ai.live_calls.enabled", "default": false, "description": "Call the live Claude API (otherwise fixture responses)"}], "may_mutate_google_ads": false},
 
     {"id": "P15", "name": "AI Campaign Builder", "slug": "campaign-builder", "package": "p15_campaign_builder", "status": "review",
@@ -108,7 +108,7 @@
      "depends_on": [], "tables": [], "api_prefix": null,
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P24", "name": "Production Hardening", "slug": "hardening", "package": "p24_hardening", "status": "planned",
+    {"id": "P24", "name": "Production Hardening", "slug": "hardening", "package": "p24_hardening", "status": "review",
      "depends_on": [], "tables": [], "api_prefix": null,
      "feature_flags": [], "may_mutate_google_ads": false}
   ]

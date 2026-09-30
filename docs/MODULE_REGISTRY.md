@@ -36,7 +36,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P21 | Business Memory & Rules | `approved_frozen` | `backend/app/modules/p21_business_rules/` | `/api/v1/business-rules` | business_rules, business_rule_versions | — |
 | P22 | Security / Audit / Rollback | `review` | `backend/app/modules/p22_security_audit/` | `/api/v1/security` | audit_logs | — |
 | P23 | Testing & QA | `planned` | `backend/app/modules/p23_testing_qa/` | — | — | — |
-| P24 | Production Hardening | `planned` | `backend/app/modules/p24_hardening/` | — | — | — |
+| P24 | Production Hardening | `review` | `backend/app/modules/p24_hardening/` | — | — | — |
 <!-- GENERATED:END -->
 
 ## Shared code (owner: P00)

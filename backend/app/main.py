@@ -9,6 +9,7 @@ import uuid
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.modules.p24_hardening.interface import install as install_hardening
 from app.shared.config import get_settings
 from app.shared.errors import register_error_handlers
 from app.shared.logging import configure_logging, get_logger, request_id_var
@@ -48,6 +49,7 @@ def create_app() -> FastAPI:
         return response
 
     register_error_handlers(app)
+    install_hardening(app)  # P24: rate limiting + security headers (see p24_hardening/CHANGELOG.md)
     mounted = mount_modules(app)
     log.info("app_started", extra={"env": settings.app_env, "modules": mounted,
                                    "execution_kill_switch": settings.ads_execution_kill_switch})
