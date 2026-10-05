@@ -138,3 +138,8 @@ docker compose -f docker-compose.prod.yml --env-file .env up -d --build
 Register-ScheduledTask -TaskName AdsCommandCenter-DailySync -Action (New-ScheduledTaskAction -Execute powershell.exe -Argument '-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "C:\Users\Administrator\Desktop\ads-command-center\scripts\daily_sync.ps1"') -Trigger (New-ScheduledTaskTrigger -Daily -At 7:00AM) -Settings (New-ScheduledTaskSettingsSet -StartWhenAvailable -RunOnlyIfNetworkAvailable) -Force
 ```
 Linux server par cron mein: `cd backend && .venv/bin/python -m app.modules.p05_ads_sync.cli sync && .venv/bin/python -m app.modules.p06_analytics.cli sync && .venv/bin/python -m app.modules.p18_monitoring.run`
+
+### Agar Task Scheduler (admin) nahi mil raha — login par roz ek baar (admin nahi chahiye)
+`scripts/daily_sync.ps1 -IfNotRunToday` din mein sirf ek baar chalta hai (aaj ka sync success ho chuka ho to skip). Iska shortcut
+Startup folder mein hai (`shell:startup` -> `AdsCommandCenter-DailySync.lnk`), isliye PC par login karte hi (din mein pehli baar)
+sync apne aap ho jaata hai. Band karna ho to wo shortcut delete kar do. Limit: sync login par hota hai, 7 baje ke time par nahi.
