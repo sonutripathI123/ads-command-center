@@ -39,6 +39,11 @@ Sidebar mein 6 groups hain — Overview, Sources, Google Ads, Insights, Actions,
 
 ## OVERVIEW
 
+### Sync now (upar header mein, har page par)
+Ek click mein Google Ads + GA4 + Search Console ka fresh data aata hai (sirf padhta hai, Google Ads mein kuch change nahi
+karta), phir monitoring alerts refresh hote hain, aur page apne aap reload hoke naya data dikhata hai. Ye apne aap nahi
+chalta (scheduled sync off hai), isliye subah/jab bhi naya data dekhna ho tab dabao. Analyst/approver/admin role chahiye.
+
 ### Overview (P01 — approved_frozen)
 Dashboard ka home page. Yahan se website aur Google Ads account select karte hain (upar dropdown), aur backend
 health / kill-switch status dikhta hai. Isme khud koi business logic nahi hai — yeh sirf baaki modules ko jodta
