@@ -11,8 +11,7 @@ endpoint anywhere in this module.
 MID §11 P22 lists secret security, permission separation, action log, before/after values, execution kill switch,
 and rollback/compensation procedures. Secret handling, RBAC (`Permission`/`require_permission`) and the execution
 kill switch already live in P00/P02 (see `docs/SECURITY.md`) — P22's net-new piece is the **action log** with
-before/after values. Rollback/compensation is deferred until P17 (execution) exists: there is nothing to compensate
-for yet since no module may mutate Google Ads.
+before/after values. Rollback/compensation for executed changes now lives in P17 (every validate/execute/rollback is written here too).
 
 ## Model
 One append-only table, `audit_logs`: `module_id`, `action`, `actor` (+ `actor_role`), `entity_type`/`entity_id`,
@@ -36,5 +35,5 @@ Other modules can call `interface.record` the same way; nothing requires a P22 c
 ## Acceptance criteria
 - [x] Immutable audit log with before/after values, queryable by module/actor/action/entity/date.
 - [x] Wired into P16 approval decisions and P09 ad draft review.
-- [ ] Rollback/compensation procedures (deferred until P17 exists — nothing executes yet to roll back).
+- [x] Rollback/compensation procedures — provided by P17 (`/executions/{id}/rollback`).
 - [ ] User review and approval.

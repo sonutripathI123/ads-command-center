@@ -22,13 +22,20 @@ Controls already enforced in P00:
 - Test: only P17 code may contain Google Ads mutate calls.
 - New campaigns default to draft/paused (enforced in P15/P17).
 
+## Execution (P17)
+- Ships **locked**. A live change needs ALL of: `ADS_EXECUTION_KILL_SWITCH=false`, flag `ads.execution.enabled` ON (only via
+  `python -m app.modules.p17_ads_execution.cli enable`, which asks for a typed phrase), the per-user execute permission
+  (`p02_auth.cli set-execute`), a P16 request still `approved`, typed `EXECUTE`, and a successful *validate* (Google
+  `validateOnly`) of the identical plan within 24 h. `google.send()` re-checks the lock right before the HTTP call.
+- Supported: add negative keywords, add responsive search ads (PAUSED). Rollback removes exactly what an execution created.
+- Every action is stored in `executions` and written to the P22 audit log. Not auto-retried, not scheduled.
+
 ## Audit trail (P22)
 - `audit_logs` (append-only, no edit/delete endpoint): who did what, before/after values. `interface.record(...)` is
   the only write path. Admin-only read API at `/api/v1/security/audit-logs` (filters: module, actor, action, entity,
   date range) and the "Audit Log" page.
 - Wired in so far: P16 approval decisions (approve/reject/withdraw/execute), P09 ad draft review (approved/rejected).
-- Rollback/compensation procedures are deferred until P17 executes anything against Google Ads — nothing to
-  compensate for yet.
+- Rollback/compensation for executed changes is provided by P17 (`/executions/{id}/rollback`), recorded here too.
 
 ## Production hardening (P24)
 - Rate limiting: per-client-IP fixed window (default 300 req/min), Redis-backed when reachable, in-memory
@@ -44,5 +51,4 @@ Controls already enforced in P00:
 
 ## Open items (owned by later modules)
 - P02: session security, RBAC (read / recommend / execute; execute off by default).
-- P22: rollback/compensation procedures (once P17 exists).
 - P24: retries for P04 (Google Ads) / P06 (GA4/Search Console) external calls; formal dependency scanning.

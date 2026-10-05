@@ -29,7 +29,7 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P14 | AI Recommendation Engine | `approved_frozen` | `backend/app/modules/p14_recommendations/` | `/api/v1/recommendations` | recommendations, ai_runs, ai_evidence | ai.live_calls.enabled |
 | P15 | AI Campaign Builder | `review` | `backend/app/modules/p15_campaign_builder/` | `/api/v1/campaign-builder` | campaign_drafts | — |
 | P16 | Approval Center | `review` | `backend/app/modules/p16_approvals/` | `/api/v1/approvals` | approvals, approval_events | — |
-| P17 | Google Ads Execution | `planned` | `backend/app/modules/p17_ads_execution/` | `/api/v1/execution` | executions | ads.execution.enabled, ads.execution.automation.enabled |
+| P17 | Google Ads Execution | `review` | `backend/app/modules/p17_ads_execution/` | `/api/v1/execution` | executions | ads.execution.enabled, ads.execution.automation.enabled |
 | P18 | Monitoring & Alerts | `review` | `backend/app/modules/p18_monitoring/` | `/api/v1/monitoring` | alerts, monitor_checks | monitoring.scheduled.enabled |
 | P19 | Reports & Exports | `review` | `backend/app/modules/p19_reports/` | `/api/v1/reports` | report_runs | — |
 | P20 | Experiments | `review` | `backend/app/modules/p20_experiments/` | `/api/v1/experiments` | experiments | — |

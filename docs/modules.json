@@ -77,8 +77,8 @@
      "depends_on": ["P02", "P05", "P08", "P09", "P14", "P15", "P22"], "tables": ["approvals", "approval_events"], "api_prefix": "/api/v1/approvals",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P17", "name": "Google Ads Execution", "slug": "execution", "package": "p17_ads_execution", "status": "planned",
-     "depends_on": ["P02", "P04", "P05", "P16", "P22"], "tables": ["executions"], "api_prefix": "/api/v1/execution",
+    {"id": "P17", "name": "Google Ads Execution", "slug": "execution", "package": "p17_ads_execution", "status": "review",
+     "depends_on": ["P02", "P04", "P05", "P09", "P16", "P22"], "tables": ["executions"], "api_prefix": "/api/v1/execution",
      "feature_flags": [
        {"key": "ads.execution.enabled", "default": false, "kill_switch_guarded": true, "description": "Allow approved mutations to be sent to the Google Ads API"},
        {"key": "ads.execution.automation.enabled", "default": false, "kill_switch_guarded": true, "description": "LEVEL 4: auto-execute allowlisted low-risk operations"}

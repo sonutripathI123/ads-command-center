@@ -13,11 +13,11 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session as DbSession
 
 from app.modules.p04_ads_connection import service
-from app.modules.p04_ads_connection.adapters.google_ads import GoogleAdsReadClient
+from app.modules.p04_ads_connection.adapters.google_ads import ADS_BASE, GoogleAdsReadClient
 from app.modules.p04_ads_connection.models import AdsAccount, Connection
 from app.shared.errors import NotFoundError, ValidationFailed
 
-__all__ = ["AccountRef", "ReadSession", "active_accounts", "open_read_session"]
+__all__ = ["AccountRef", "ApiCredentials", "ReadSession", "active_accounts", "open_api_credentials", "open_read_session"]
 
 
 @dataclass(frozen=True)
@@ -43,6 +43,20 @@ class ReadSession:
                                    login_customer_id=self.account.login_customer_id)
 
 
+@dataclass
+class ApiCredentials:
+    """Short-lived authenticated access to one account's Google Ads REST API, for P17 (execution) only.
+    P04 itself never uses it to change anything — it only hands out the headers and versioned base URL."""
+
+    account: AccountRef
+    http: httpx.Client
+    base_url: str
+    _headers: dict[str, str]
+
+    def headers(self) -> dict[str, str]:
+        return dict(self._headers)
+
+
 def _ref(a: AdsAccount) -> AccountRef:
     return AccountRef(id=a.id, customer_id=a.customer_id, descriptive_name=a.descriptive_name,
                       currency_code=a.currency_code, time_zone=a.time_zone, login_customer_id=a.login_customer_id)
@@ -63,3 +77,17 @@ def open_read_session(db: DbSession, account_id: int, http: httpx.Client) -> Rea
     client = service.make_client(http)
     token = service._access_token(db, client, service.get_connection(db, acc.connection_id))
     return ReadSession(account=_ref(acc), _client=client, _token=token)
+
+
+def open_api_credentials(db: DbSession, account_id: int, http: httpx.Client) -> ApiCredentials:
+    """For P17 only: authenticated headers + versioned base URL for one active account (token is short-lived)."""
+    acc = db.get(AdsAccount, account_id)
+    if acc is None:
+        raise NotFoundError("Ads account not found", module_id=service.MODULE_ID)
+    if acc.status != "active":
+        raise ValidationFailed("Ads account is disabled", module_id=service.MODULE_ID)
+    client = service.make_client(http)
+    token = service._access_token(db, client, service.get_connection(db, acc.connection_id))
+    ref = _ref(acc)
+    return ApiCredentials(account=ref, http=http, base_url=f"{ADS_BASE}/{client.api_version}",
+                          _headers=client._headers(token, ref.login_customer_id))

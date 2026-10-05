@@ -1,5 +1,6 @@
 "use client";
 // P16 — Approval Center: every proposed Google Ads change, with before/after, evidence and a recorded decision.
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { API_BASE, PageHeader } from "@/shell";
@@ -164,6 +165,7 @@ export function ApprovalsPage() {
     <>
       <PageHeader title="Approval Center" moduleId="P16">
         <div className="flex flex-wrap items-center gap-2">
+          <Link href="/execution" className="text-xs text-accent underline">Send approved changes to Google Ads →</Link>
           {accounts && accounts.length > 1 && (
             <select aria-label="Ads account" className="rounded-md border border-line bg-surface px-2 py-1 text-sm" value={accId ?? ""} onChange={(e) => setAccId(Number(e.target.value))}>
               {accounts.map((a) => <option key={a.id} value={a.id}>{a.name || a.customer_id}</option>)}

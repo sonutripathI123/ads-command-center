@@ -120,8 +120,20 @@ nahi karta** — sirf draft + CSV export.
 ### Approval Center (P16 — review)
 Har proposed change (chahe woh negative keyword ho, naya ad ho, naya campaign ho) yahan ek queue mein aata hai —
 before/after, evidence, risk ke saath. Aap approve/reject/withdraw karte ho. **Approve karne ka matlab yeh nahi ki
-Google Ads mein change ho gaya** — asli execution (P17) abhi banaya hi nahi gaya hai, aur ek "kill switch" hamesha
-on hai jo kisi bhi live change ko rokta hai.
+Google Ads mein change ho gaya** — asli execution alag module (P17) karta hai, jo **locked** hai (neeche dekho),
+aur ek "kill switch" hamesha on hai jo kisi bhi live change ko rokta hai.
+
+### Google Ads Execution (P17 — review, **locked**; page: `/execution`, Approval Center ke link se)
+Approve ho chuke changes ko Google Ads tak pahunchane wala module. Abhi sirf do type: **negative keywords add karna** aur
+**naya responsive search ad add karna (hamesha PAUSED)**. Baaki sab (naya campaign, bid/budget) haath se karna hai.
+- **Validate:** Google se poochhta hai "ye request theek hai?" — **kuch change nahi karta**.
+- **Execute (live):** tabhi chalega jab sab ek saath ho: kill switch off + execution flag on + aapke user ko execute
+  permission + approval abhi bhi "approved" + aap `EXECUTE` type karo + wahi plan 24 ghante ke andar validate ho chuka ho.
+- **Rollback:** execute se jo bana tha, sirf wahi hata deta hai.
+- Har step audit log mein jaata hai. Ye kabhi apne aap, schedule se, nahi chalta.
+- **Unlock sirf server pe operator karta hai** (website pe koi button nahi): `p02_auth.cli set-execute`, phir
+  `p17_ads_execution.cli enable`, phir `ADS_EXECUTION_KILL_SWITCH=false`. Abhi sab **locked** hai, isliye Google Ads
+  waisa hi hai jaisa tha.
 
 ### Experiments (P20 — review)
 A/B test ya before/after test set up karna (ek change ka asar naapne ke liye). Start karne se pehle Approval Center
@@ -159,11 +171,10 @@ Environment info aur feature flags ka status read-only dikhata hai.
 
 ## Zaroori cheezein jo har jagah lagu hoti hain
 
-**1. Google Ads mein kabhi live change nahi hota (abhi)**
-P17 (jo asli execution karega) module hi abhi tak banaya nahi gaya hai. Iske upar ek "kill switch"
-(`ADS_EXECUTION_KILL_SWITCH`) bhi hai jo hamesha on rehta hai — chahe koi flag on kar bhi de, yeh switch usse
-override kar deta hai. Matlab: jo bhi is app mein "approve" karte ho, woh sirf ek record ban ta hai, Google Ads mein
-kuch nahi badalta jab tak aap khud Google Ads mein ja ke na karo.
+**1. Google Ads mein abhi koi live change nahi hota (locked)**
+P17 (execution) ban chuka hai lekin **locked** hai: `ADS_EXECUTION_KILL_SWITCH` on hai — chahe koi flag on kar de, yeh
+switch usse override kar deta hai. Matlab: jo bhi is app mein "approve" karte ho, woh sirf ek record hai, Google Ads mein
+kuch nahi badalta jab tak operator server pe 3 alag cheezein (permission, flag, kill switch) khud unlock na kare.
 
 **2. AI ke 2 mode — dono clearly labeled hain**
 - Jab `ai.live_calls.enabled` flag ON ho (**abhi ON hai**) → Claude AI se real likha hua content aata hai, page pe
