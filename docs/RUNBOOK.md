@@ -50,7 +50,7 @@ docker compose -f docker-compose.prod.yml exec backend python -c \
 ## Deploy ke baad verify karna hai sab theek hai
 ```bash
 docker compose -f docker-compose.prod.yml exec backend \
-  python -m app.modules.p24_hardening.smoke --base-url https://api.yourdomain.com.au
+  python -m app.modules.p24_hardening.smoke --base-url https://app.yourdomain.com.au
 ```
 Har route ka PASS/FAIL list milega.
 

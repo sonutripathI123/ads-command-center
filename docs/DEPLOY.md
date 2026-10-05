@@ -1,5 +1,7 @@
 # Production Deployment Guide (Hinglish)
 
+> **Sabse aasan tareeka:** `docs/GO_LIVE_CHECKLIST.md` + `deploy/server_setup.sh` + `deploy/post_deploy.sh` (secrets khud generate, admin, flags, cron, smoke test). Neeche ke steps uska manual version hain.
+
 Yeh guide app ko ek real server (VPS) pe live karne ke liye hai. Pehle **status samjho**, phir steps follow karo.
 
 ## Deploy karne se pehle jaan lo
@@ -43,7 +45,7 @@ provider. Minimum 2 GB RAM, 2 vCPU kaafi hai shuruaat ke liye.
 ### 2. Domain point karo
 Do subdomains banao (ya ek hi domain pe path split kar sakte ho, par subdomain simplest hai):
 - `app.yourdomain.com.au` → frontend (jo aap browser mein khologe)
-- `api.yourdomain.com.au` → backend API
+- (ek hi domain kaafi hai: `/api/*` apne aap backend ko jaata hai, alag `api.` subdomain NAHI banana — login cookie ki wajah se)
 
 Dono ke DNS mein ek **A record** daalo jo aapke server ke IP address pe point kare.
 
@@ -68,12 +70,12 @@ Ab `.env` file kholo aur har khaali value bharo:
 - `CORS_ORIGINS` — `["https://app.yourdomain.com.au"]`
 - `GOOGLE_OAUTH_CLIENT_ID` / `GOOGLE_OAUTH_CLIENT_SECRET` / `GOOGLE_ADS_DEVELOPER_TOKEN` — jo aapke Google Cloud
   project mein already hain
-- `GOOGLE_ADS_OAUTH_REDIRECT_URI` — `https://api.yourdomain.com.au/api/v1/ads-connection/oauth/callback` (Google
+- `GOOGLE_ADS_OAUTH_REDIRECT_URI` — `https://app.yourdomain.com.au/api/v1/ads-connection/oauth/callback` (Google
   Cloud Console mein bhi yehi URL OAuth client mein add karna hoga)
 - `FRONTEND_URL` — `https://app.yourdomain.com.au`
 - `CREDENTIALS_ENCRYPTION_KEY` — (`python3 -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"`)
 - `ANTHROPIC_API_KEY` — Claude API key
-- `NEXT_PUBLIC_API_URL` — `https://api.yourdomain.com.au`
+- `NEXT_PUBLIC_API_URL` — `https://app.yourdomain.com.au` (wahi domain jo APP_DOMAIN hai)
 
 **GA4/Search Console service account file** ke liye:
 ```bash
@@ -82,7 +84,7 @@ mkdir -p secrets
 ```
 
 ### 6. Caddyfile mein domain daalo
-`deploy/Caddyfile` kholo, `YOUR_DOMAIN` ko apne asli domain se replace karo dono jagah.
+Caddyfile ko haath lagane ki zaroorat nahi: wo `.env` ke `APP_DOMAIN` se domain leta hai.
 
 ### 7. Chalao
 ```bash
@@ -102,7 +104,7 @@ docker compose -f docker-compose.prod.yml exec backend python -m app.modules.p02
 ka route check karta hai:
 ```bash
 docker compose -f docker-compose.prod.yml exec backend \
-  python -m app.modules.p24_hardening.smoke --base-url https://api.yourdomain.com.au
+  python -m app.modules.p24_hardening.smoke --base-url https://app.yourdomain.com.au
 ```
 
 ### 10. Sync/flags chalu karo

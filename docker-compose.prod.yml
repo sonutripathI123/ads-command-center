@@ -3,7 +3,7 @@
 #
 # Before first run:
 #   1. cp .env.production.example .env   (fill every value — see docs/DEPLOY.md; this ".env" is gitignored)
-#   2. Edit deploy/Caddyfile: replace YOUR_DOMAIN with your real domain(s); point its DNS A record at this server.
+#   2. Set APP_DOMAIN in .env (one domain for app + API); point its DNS A record at this server.
 #   3. Generate fresh secrets for APP_SECRET_KEY / CREDENTIALS_ENCRYPTION_KEY — never reuse the dev ones.
 services:
   postgres:
@@ -39,13 +39,15 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:?set NEXT_PUBLIC_API_URL in .env, e.g. https://api.yourdomain.com.au}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:?set NEXT_PUBLIC_API_URL in .env (same value as https://APP_DOMAIN)}
     restart: unless-stopped
     depends_on: [backend]
 
   caddy:
     image: caddy:2
     restart: unless-stopped
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:?set APP_DOMAIN in .env, e.g. app.yourdomain.com.au}
     ports: ["80:80", "443:443"]
     volumes:
       - ./deploy/Caddyfile:/etc/caddy/Caddyfile
