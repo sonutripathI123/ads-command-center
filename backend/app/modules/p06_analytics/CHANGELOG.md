@@ -12,3 +12,8 @@
 - Conversions page split into tabs: Google Analytics (GA4) / Search Console / Bookings, each with a plain-English
   explanation, its own tiles and its own health warnings. Search Console tab adds click rate and average position.
 - Only file changed: `frontend/src/modules/conversions/ConversionsPage.tsx`. Backend/API unchanged.
+
+## 2026-10-05 — scheduled-sync CLI (additive file in a frozen module, requested by the owner)
+- New `cli.py`: `python -m app.modules.p06_analytics.cli sync [--days N]` runs the existing GA4 + Search Console sync for every
+  linked website (same functions the Sync button uses; read-only; mirrors `p05_ads_sync.cli`). Used by `scripts/daily_sync.ps1`.
+  No existing P06 file changed.

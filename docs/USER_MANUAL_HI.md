@@ -44,6 +44,11 @@ Ek click mein Google Ads + GA4 + Search Console ka fresh data aata hai (sirf pad
 karta), phir monitoring alerts refresh hote hain, aur page apne aap reload hoke naya data dikhata hai. Ye apne aap nahi
 chalta (scheduled sync off hai), isliye subah/jab bhi naya data dekhna ho tab dabao. Analyst/approver/admin role chahiye.
 
+**Roz subah 7 baje automatic sync (Windows Task Scheduler):** `scripts/daily_sync.ps1` Google Ads + GA4 + Search Console
+sync karta hai aur monitoring check chalata hai (sab read-only). Log: `C:\Users\Administrator\.ads-command-center\logs\daily_sync.log`.
+Task ek baar *Administrator PowerShell* mein banana padta hai (command docs/DEPLOY.md mein). PC us waqt on ho (nahi to agli
+baar on hote hi chalega). Server par deploy ke baad script ki jagah cron use hota hai.
+
 ### Overview (P01 — approved_frozen)
 Dashboard ka home page. Yahan se website aur Google Ads account select karte hain (upar dropdown), aur backend
 health / kill-switch status dikhta hai. Isme khud koi business logic nahi hai — yeh sirf baaki modules ko jodta
