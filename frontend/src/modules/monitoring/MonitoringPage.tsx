@@ -67,6 +67,7 @@ export function MonitoringPage() {
     <>
       <PageHeader title="Monitoring & Alerts" moduleId="P18">
         <div className="flex flex-wrap items-center gap-2">
+          <Link href="/budget-bid" className="text-xs text-accent underline">Budget &amp; bid insights →</Link>
           {meta && meta.accounts.length > 1 && (
             <select aria-label="Ads account" className="rounded-md border border-line bg-surface px-2 py-1 text-sm" value={accId ?? ""} onChange={(e) => setAccId(Number(e.target.value))}>
               {meta.accounts.map((a) => <option key={a.id} value={a.id}>{a.name || a.customer_id}</option>)}

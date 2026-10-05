@@ -57,8 +57,8 @@
      "depends_on": ["P02", "P03", "P05", "P21", "P24"], "tables": ["competitors", "competitor_observations", "competitor_analyses"], "api_prefix": "/api/v1/competitors",
      "feature_flags": [{"key": "competitor.research.enabled", "default": false, "description": "Allow outbound public web/SERP research"}], "may_mutate_google_ads": false},
 
-    {"id": "P12", "name": "Budget / Bid / Geo / Device / Time Intelligence", "slug": "budget-bid", "package": "p12_budget_bid", "status": "planned",
-     "depends_on": ["P05", "P06", "P14"], "tables": ["segment_findings"], "api_prefix": "/api/v1/budget-bid",
+    {"id": "P12", "name": "Budget / Bid / Geo / Device / Time Intelligence", "slug": "budget-bid", "package": "p12_budget_bid", "status": "review",
+     "depends_on": ["P02", "P04", "P21"], "tables": ["segment_runs", "segment_findings"], "api_prefix": "/api/v1/budget-bid",
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P13", "name": "Booking Funnel & Revenue Attribution", "slug": "funnel", "package": "p13_booking_funnel", "status": "review",

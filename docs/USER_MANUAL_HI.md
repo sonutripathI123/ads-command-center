@@ -145,6 +145,13 @@ Approve ho chuke changes ko Google Ads tak pahunchane wala module. Abhi sirf do 
   `p17_ads_execution.cli enable`, phir `ADS_EXECUTION_KILL_SWITCH=false`. Abhi sab **locked** hai, isliye Google Ads
   waisa hi hai jaisa tha.
 
+### Budget & Bid Insights (P12 — review; page: `/budget-bid`, Monitoring ke link se)
+Batata hai ki paisa **kis device, din, time aur jagah** par kaam kar raha hai ya waste ho raha hai, aur har campaign ko
+**budget** ya **ad rank** rok raha hai. "Run analysis" dabane par Google Ads se sirf padhta hai (kuch badalta nahi).
+Kam conversions hon to kisi din ya time ko "kharab" nahi bolta (kismat ho sakti hai); har point ke saath confidence aur
+"expected conversions" dikhata hai. Aaj ki run ne pakda: Australia ke bahar ke clicks par ~AUD 296 kharch, aur campaign
+44% searches ad rank par haar raha hai. Bid/schedule badalna Google Ads mein haath se karna hai.
+
 ### Experiments (P20 — review)
 A/B test ya before/after test set up karna (ek change ka asar naapne ke liye). Start karne se pehle Approval Center
 se approval chahiye. Result mein statistical significance test hota hai, aur agar data kam hai to "insufficient
