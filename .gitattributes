@@ -1,0 +1,5 @@
+# Files that run on Linux (server) must always have Unix line endings, whatever OS they are edited on.
+*.sh text eol=lf
+deploy/Caddyfile text eol=lf
+**/Dockerfile text eol=lf
+*.yml text eol=lf
