@@ -84,14 +84,17 @@ def summary(account_id: int, w: Window = Depends(), db: DbSession = Depends(get_
 
 
 @router.get("/accounts/{account_id}/campaigns")
-def campaigns(account_id: int, w: Window = Depends(), db: DbSession = Depends(get_db), _: CurrentUser = READ) -> list[dict]:
-    return service.campaigns(db, account_id, w.d1, w.d2)
+def campaigns(account_id: int, include_removed: bool = False, w: Window = Depends(), db: DbSession = Depends(get_db),
+              _: CurrentUser = READ) -> list[dict]:
+    rows = service.campaigns(db, account_id, w.d1, w.d2)
+    return rows if include_removed else service.hide_idle_removed(rows, "status")
 
 
 @router.get("/accounts/{account_id}/ad-groups")
-def ad_groups(account_id: int, campaign_id: str | None = None, w: Window = Depends(), db: DbSession = Depends(get_db),
+def ad_groups(account_id: int, campaign_id: str | None = None, include_removed: bool = False, w: Window = Depends(), db: DbSession = Depends(get_db),
               _: CurrentUser = READ) -> list[dict]:
-    return service.ad_groups(db, account_id, w.d1, w.d2, campaign_id)
+    rows = service.ad_groups(db, account_id, w.d1, w.d2, campaign_id)
+    return rows if include_removed else service.hide_idle_removed(rows, "effective_status")
 
 
 @router.get("/accounts/{account_id}/keywords")

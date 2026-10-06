@@ -34,9 +34,18 @@ function metricColumns<T extends Metrics>(currency: string): Column<T>[] {
   ];
 }
 
+const STATUS_LABEL: Record<string, string> = { CAMPAIGN_PAUSED: "Campaign paused", CAMPAIGN_REMOVED: "Campaign removed", REMOVED: "Removed" };
 const Status = ({ s }: { s: string | null }) => (
-  <span className={`text-xs ${s === "ENABLED" ? "text-ok" : "text-muted"}`}>{s === "ENABLED" ? "● " : "○ "}{title(s)}</span>
+  <span className={`text-xs ${s === "ENABLED" ? "text-ok" : "text-muted"}`}>{s === "ENABLED" ? "● " : "○ "}{(s && STATUS_LABEL[s]) || title(s)}</span>
 );
+
+function ShowRemoved({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
+  return (
+    <label className="flex items-center gap-1.5 text-xs text-muted">
+      <input type="checkbox" checked={value} onChange={(e) => onChange(e.target.checked)} /> Show removed
+    </label>
+  );
+}
 
 function Loading({ error }: { error: string | null }) {
   return error ? <p className="text-sm text-danger">{error}</p> : <p className="text-sm text-muted">Loading…</p>;
@@ -49,8 +58,9 @@ export function CampaignsPage() {
 }
 
 function CampaignsBody({ accountId, days, currency, refreshKey }: FrameCtx) {
+  const [showRemoved, setShowRemoved] = useState(false);
   const summary = useData<Summary>(() => syncApi.summary(accountId, days), [accountId, days, refreshKey]);
-  const rows = useData<CampaignRow[]>(() => syncApi.campaigns(accountId, days), [accountId, days, refreshKey]);
+  const rows = useData<CampaignRow[]>(() => syncApi.campaigns(accountId, days, showRemoved), [accountId, days, showRemoved, refreshKey]);
   const cols = useMemo<Column<CampaignRow>[]>(() => [
     { key: "name", label: "Campaign", value: (r) => r.name, render: (r) => <span className="font-medium">{r.name}</span> },
     { key: "status", label: "Status", value: (r) => r.status, render: (r) => <Status s={r.status} /> },
@@ -79,7 +89,7 @@ function CampaignsBody({ accountId, days, currency, refreshKey }: FrameCtx) {
         {summary.data ? <SpendChart daily={summary.data.daily} currency={currency} /> : <Loading error={summary.error} />}
       </section>
       <section className={`${card} mt-4`}>
-        <h2 className="mb-2 font-semibold">Campaigns · last {days} days</h2>
+        <div className="mb-2 flex items-center gap-3"><h2 className="font-semibold">Campaigns · last {days} days</h2><span className="ml-auto"><ShowRemoved value={showRemoved} onChange={setShowRemoved} /></span></div>
         {rows.data ? <DataTable rows={rows.data} columns={cols} rowKey={(r) => r.google_id} initialSort="cost" /> : <Loading error={rows.error} />}
       </section>
       <p className="mt-3 text-xs text-muted">Conversions are as counted by Google Ads (not confirmed bookings — those arrive with P06/P13).</p>
@@ -118,18 +128,20 @@ export function AdGroupsPage() {
 
 function AdGroupsBody({ accountId, days, currency, refreshKey }: FrameCtx) {
   const [campaign, setCampaign] = useState("");
-  const rows = useData<AdGroupRow[]>(() => syncApi.adGroups(accountId, days, campaign || undefined), [accountId, days, campaign, refreshKey]);
+  const [showRemoved, setShowRemoved] = useState(false);
+  const rows = useData<AdGroupRow[]>(() => syncApi.adGroups(accountId, days, campaign || undefined, showRemoved), [accountId, days, campaign, showRemoved, refreshKey]);
   const cols = useMemo<Column<AdGroupRow>[]>(() => [
     { key: "name", label: "Ad group", value: (r) => r.name, render: (r) => <span className="font-medium">{r.name}</span> },
-    { key: "campaign_name", label: "Campaign", value: (r) => r.campaign_name },
-    { key: "status", label: "Status", value: (r) => r.status, render: (r) => <Status s={r.status} /> },
+    { key: "campaign_name", label: "Campaign", value: (r) => r.campaign_name, render: (r) => r.campaign_name || <span className="text-muted">(removed campaign)</span> },
+    { key: "status", label: "Status", value: (r) => r.effective_status, render: (r) => <Status s={r.effective_status} /> },
     ...metricColumns<AdGroupRow>(currency),
   ], [currency]);
   return (
     <section className={card}>
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <h2 className="font-semibold">Ad groups · last {days} days</h2>
-        <span className="ml-auto"><CampaignFilter accountId={accountId} days={days} value={campaign} onChange={setCampaign} /></span>
+        <span className="ml-auto flex items-center gap-3"><ShowRemoved value={showRemoved} onChange={setShowRemoved} />
+          <CampaignFilter accountId={accountId} days={days} value={campaign} onChange={setCampaign} /></span>
       </div>
       {rows.data ? <DataTable rows={rows.data} columns={cols} rowKey={(r) => r.google_id} initialSort="cost" /> : <Loading error={rows.error} />}
     </section>

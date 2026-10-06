@@ -77,6 +77,16 @@ def _upsert(db: DbSession, model, account_id: int, key_field: str, items: dict[s
     return len(items)
 
 
+def _mark_missing(db: DbSession, model, account_id: int, seen: set[str]) -> int:
+    """Google's non-removed list is the truth: anything we hold that it no longer returns was removed in Google Ads."""
+    n = 0
+    for o in db.scalars(select(model).where(model.account_id == account_id, model.status != "REMOVED")):
+        if o.google_id not in seen:
+            o.status = "REMOVED"
+            n += 1
+    return n
+
+
 # ---- steps ------------------------------------------------------------------------
 
 def step_campaigns(db, rs, acc: AccountRef, d1, d2) -> int:
@@ -89,6 +99,7 @@ def step_campaigns(db, rs, acc: AccountRef, d1, d2) -> int:
         "bidding_strategy_type": _g(r, "campaign", "biddingStrategyType"),
         "budget_micros": int(_g(r, "campaignBudget", "amountMicros", default=0) or 0) or None} for r in rows}
     n = _upsert(db, Campaign, acc.id, "google_id", items)
+    _mark_missing(db, Campaign, acc.id, set(items))
     mrows: dict = {}
     for r in rs.search(f"SELECT campaign.id, segments.date, {METRICS} FROM campaign WHERE {_between(d1, d2)}"):
         _accumulate(mrows, (str(_g(r, "campaign", "id")), _g(r, "segments", "date")), _metrics(r))
@@ -102,6 +113,7 @@ def step_ad_groups(db, rs, acc, d1, d2) -> int:
         "campaign_google_id": str(_g(r, "campaign", "id")), "name": _g(r, "adGroup", "name", default=""),
         "status": _g(r, "adGroup", "status"), "type": _g(r, "adGroup", "type")} for r in rows}
     n = _upsert(db, AdGroup, acc.id, "google_id", items)
+    _mark_missing(db, AdGroup, acc.id, set(items))
     mrows: dict = {}
     for r in rs.search(f"SELECT ad_group.id, segments.date, {METRICS} FROM ad_group WHERE {_between(d1, d2)}"):
         _accumulate(mrows, (str(_g(r, "adGroup", "id")), _g(r, "segments", "date")), _metrics(r))

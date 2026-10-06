@@ -141,3 +141,47 @@ def test_interface_exposes_performance(client):
     with session_scope() as db:
         rows = search_terms(db, 7, date(2026, 9, 26), date(2026, 9, 27))
     assert {r["search_term"] for r in rows} == {"melbourne airport chauffeur", "uber jobs melbourne"}
+
+
+# ---- removed / paused campaigns are shown truthfully ------------------------------------------------------
+
+def _fake_status(fake_ads, *, drop=(), status=None):
+    orig = fake_ads.search
+
+    def search(q):
+        rows = orig(q)
+        if "FROM campaign" in q and "segments.date" not in q:
+            rows = [r for r in rows if r["campaign"]["id"] not in drop]
+            for r in rows:
+                if status and r["campaign"]["id"] in status:
+                    r["campaign"]["status"] = status[r["campaign"]["id"]]
+        return rows
+
+    fake_ads.search = search
+
+
+def test_campaign_deleted_in_google_becomes_removed_and_is_hidden_when_idle(client, fake_ads):
+    _sync(client)
+    assert {c["name"]: c["status"] for c in client.get(f"{B}/campaigns?{W}").json()}["Brand"] == "PAUSED"
+    _fake_status(fake_ads, drop={"200"})                      # Google no longer returns campaign 200 -> it was removed there
+    _sync(client)
+    everything = {c["name"]: c["status"] for c in client.get(f"{B}/campaigns?{W}&include_removed=true").json()}
+    assert everything["Brand"] == "REMOVED" and everything["Airport Transfers - Search"] == "ENABLED"
+    assert [c["name"] for c in client.get(f"{B}/campaigns?{W}").json()] == ["Airport Transfers - Search"]   # idle removed hidden
+
+
+def test_ad_group_shows_its_campaigns_status(client, fake_ads):
+    _fake_status(fake_ads, status={"100": "PAUSED"})
+    _sync(client)
+    g = client.get(f"{B}/ad-groups?{W}").json()[0]
+    assert g["status"] == "ENABLED" and g["campaign_status"] == "PAUSED" and g["effective_status"] == "CAMPAIGN_PAUSED"
+
+
+def test_effective_status_rules_and_idle_removed_filter():
+    from app.modules.p05_ads_sync import service
+
+    e = service.effective_status
+    assert e("ENABLED", "ENABLED") == "ENABLED" and e("PAUSED", "ENABLED") == "PAUSED"
+    assert e("ENABLED", "PAUSED") == "CAMPAIGN_PAUSED" and e("ENABLED", None) == "REMOVED" and e("REMOVED", "ENABLED") == "REMOVED"
+    rows = [{"s": "REMOVED", "impressions": 0, "cost": 0.0}, {"s": "REMOVED", "impressions": 5, "cost": 1.0}, {"s": "ENABLED", "impressions": 0, "cost": 0.0}]
+    assert service.hide_idle_removed(rows, "s") == rows[1:]

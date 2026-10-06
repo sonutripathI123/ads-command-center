@@ -74,15 +74,33 @@ def _ad_group_names(db: DbSession, account_id: int) -> dict[str, str]:
     return {g.google_id: g.name for g in db.scalars(select(AdGroup).where(AdGroup.account_id == account_id))}
 
 
+def effective_status(own: str | None, campaign: str | None) -> str:
+    """What actually decides whether an ad group can serve: its own status AND its campaign's.
+    A campaign Google no longer returns (campaign is None) was removed."""
+    if own == "REMOVED" or campaign in (None, "REMOVED"):
+        return "REMOVED"
+    if campaign != "ENABLED":
+        return f"CAMPAIGN_{campaign}"
+    return own or "UNKNOWN"
+
+
 def ad_groups(db: DbSession, account_id: int, d1: date, d2: date, campaign_id: str | None = None) -> list[dict]:
     q = select(AdGroup).where(AdGroup.account_id == account_id)
     if campaign_id:
         q = q.where(AdGroup.campaign_google_id == campaign_id)
     m, names = _metric_totals(db, account_id, "ad_group", d1, d2), _campaign_names(db, account_id)
+    cstatus = {c.google_id: c.status for c in db.scalars(select(Campaign).where(Campaign.account_id == account_id))}
     out = [{"google_id": g.google_id, "name": g.name, "status": g.status, "type": g.type,
             "campaign_google_id": g.campaign_google_id, "campaign_name": names.get(g.campaign_google_id, ""),
+            "campaign_status": cstatus.get(g.campaign_google_id),
+            "effective_status": effective_status(g.status, cstatus.get(g.campaign_google_id)),
             **m.get(g.google_id, _empty())} for g in db.scalars(q)]
     return sorted(out, key=lambda r: -r["cost"])
+
+
+def hide_idle_removed(rows: list[dict], status_key: str) -> list[dict]:
+    """Removed things that did nothing in the chosen period are just clutter; removed things that spent stay visible."""
+    return [r for r in rows if r[status_key] != "REMOVED" or r["impressions"] > 0 or r["cost"] > 0]
 
 
 def keywords(db: DbSession, account_id: int, d1: date, d2: date, campaign_id: str | None = None,

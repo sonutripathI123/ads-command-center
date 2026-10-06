@@ -20,7 +20,8 @@ export type CampaignRow = Metrics & {
   google_id: string; name: string; status: string | null; channel_type: string | null;
   bidding_strategy_type: string | null; budget: number | null;
 };
-export type AdGroupRow = Metrics & { google_id: string; name: string; status: string | null; campaign_google_id: string; campaign_name: string };
+export type AdGroupRow = Metrics & { google_id: string; name: string; status: string | null; campaign_google_id: string; campaign_name: string;
+  campaign_status: string | null; effective_status: string };
 export type KeywordRow = Metrics & {
   key: string; text: string; match_type: string | null; status: string | null; quality_score: number | null;
   campaign_name: string; ad_group_name: string; campaign_google_id: string;
@@ -56,8 +57,10 @@ export const syncApi = {
     call<SyncRun>(`/accounts/${accountId}/sync`, { method: "POST", body: JSON.stringify(days ? { days } : {}) }),
   runs: (accountId: number) => call<SyncRun[]>(`/accounts/${accountId}/runs`),
   summary: (a: number, days: number) => call<Summary>(`/accounts/${a}/summary${qs({ days })}`),
-  campaigns: (a: number, days: number) => call<CampaignRow[]>(`/accounts/${a}/campaigns${qs({ days })}`),
-  adGroups: (a: number, days: number, campaign_id?: string) => call<AdGroupRow[]>(`/accounts/${a}/ad-groups${qs({ days, campaign_id })}`),
+  campaigns: (a: number, days: number, include_removed?: boolean) =>
+    call<CampaignRow[]>(`/accounts/${a}/campaigns${qs({ days, include_removed: include_removed ? "true" : undefined })}`),
+  adGroups: (a: number, days: number, campaign_id?: string, include_removed?: boolean) =>
+    call<AdGroupRow[]>(`/accounts/${a}/ad-groups${qs({ days, campaign_id, include_removed: include_removed ? "true" : undefined })}`),
   keywords: (a: number, days: number, campaign_id?: string) => call<KeywordRow[]>(`/accounts/${a}/keywords${qs({ days, campaign_id })}`),
   searchTerms: (a: number, days: number, q?: string) => call<SearchTermRow[]>(`/accounts/${a}/search-terms${qs({ days, q, limit: 2000 })}`),
 };
