@@ -9,6 +9,8 @@ from urllib.parse import urlencode
 
 import httpx
 
+from app.modules.p24_hardening.interface import request_with_retry
+
 AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 REVOKE_URL = "https://oauth2.googleapis.com/revoke"
@@ -89,8 +91,8 @@ class GoogleAdsReadClient:
         return OAuthTokens(access_token=b["access_token"], refresh_token=b.get("refresh_token"), scope=b.get("scope", ""))
 
     def access_token(self, refresh_token: str) -> str:
-        r = self.http.post(TOKEN_URL, data={"refresh_token": refresh_token, "client_id": self.client_id,
-                                            "client_secret": self.client_secret, "grant_type": "refresh_token"})
+        r = request_with_retry(lambda: self.http.post(TOKEN_URL, data={
+            "refresh_token": refresh_token, "client_id": self.client_id, "client_secret": self.client_secret, "grant_type": "refresh_token"}))
         _raise_for(r, "Could not refresh Google access")
         return r.json()["access_token"]
 
@@ -113,8 +115,8 @@ class GoogleAdsReadClient:
         return h
 
     def list_accessible_customers(self, access_token: str) -> list[str]:
-        r = self.http.get(f"{ADS_BASE}/{self.api_version}/customers:listAccessibleCustomers",
-                          headers=self._headers(access_token))
+        headers = self._headers(access_token)
+        r = request_with_retry(lambda: self.http.get(f"{ADS_BASE}/{self.api_version}/customers:listAccessibleCustomers", headers=headers))
         _raise_for(r, "Google Ads: list accounts failed")
         return [rn.split("/")[-1] for rn in r.json().get("resourceNames", [])]
 
@@ -126,8 +128,9 @@ class GoogleAdsReadClient:
         rows, page_token = [], None
         while True:
             body = {"query": query} | ({"pageToken": page_token} if page_token else {})
-            r = self.http.post(f"{ADS_BASE}/{self.api_version}/customers/{customer_id}/googleAds:search",
-                               headers=self._headers(access_token, login_customer_id), json=body)
+            headers = self._headers(access_token, login_customer_id)
+            r = request_with_retry(lambda: self.http.post(f"{ADS_BASE}/{self.api_version}/customers/{customer_id}/googleAds:search",
+                                                          headers=headers, json=body))
             _raise_for(r, f"Google Ads: query on {customer_id} failed")
             b = r.json()
             rows += b.get("results", [])

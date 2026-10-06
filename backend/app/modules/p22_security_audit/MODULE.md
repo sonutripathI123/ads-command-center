@@ -1,6 +1,6 @@
 # P22 — Security / Audit / Rollback
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 An immutable, cross-module audit trail: who did what, when, and what the before/after values were, for every
@@ -36,4 +36,4 @@ Other modules can call `interface.record` the same way; nothing requires a P22 c
 - [x] Immutable audit log with before/after values, queryable by module/actor/action/entity/date.
 - [x] Wired into P16 approval decisions and P09 ad draft review.
 - [x] Rollback/compensation procedures — provided by P17 (`/executions/{id}/rollback`).
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

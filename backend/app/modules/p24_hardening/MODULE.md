@@ -1,6 +1,6 @@
 # P24 — Production Hardening
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 MID §11 P24 lists: deployment, backups, monitoring, retries, rate limits, API quota handling, security review,
@@ -40,5 +40,5 @@ line touched. See CHANGELOG.md for the explicit cross-module note.
 - [x] Security headers (nosniff, frame-deny, referrer-policy, HSTS in prod).
 - [x] Retry with backoff for the Claude API calls in P09/P10/P11/P14.
 - [x] Smoke test script; backup script; recovery runbook.
-- [ ] Retries for P04 (Google Ads) / P06 (GA4/Search Console) external calls — deferred, see CHANGELOG.
-- [ ] User review and approval.
+- [x] Retries for P04 (Google Ads) / P06 (GA4/Search Console) read calls (`request_with_retry`).
+- [x] User review and approval (2026-10-06).

@@ -1,6 +1,6 @@
 # P20 — Experiments
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Test one change at a time and measure it honestly from synced Google Ads data (P05), with the caveats written next to
@@ -35,4 +35,4 @@ Cancel any time before completion.
 ## Acceptance criteria
 - [x] Hypothesis, change, control/variant, primary metric, periods, minimum sample.
 - [x] Approval through P16 before running; results with significance and limitations; conclusion.
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

@@ -21,22 +21,22 @@ Status lifecycle: `planned` → `in_progress` → `review` → `approved_frozen`
 | P06 | Analytics & Conversion Data | `approved_frozen` | `backend/app/modules/p06_analytics/` | `/api/v1/conversions` | conversion_events, leads, quotes, bookings, revenue_records, analytics_daily, search_console_daily, conversion_mappings, analytics_sync_runs | — |
 | P07 | PPC Audit Engine | `approved_frozen` | `backend/app/modules/p07_ppc_audit/` | `/api/v1/audit` | audit_runs, audit_issues | — |
 | P08 | Keyword & Search-Term Intelligence | `approved_frozen` | `backend/app/modules/p08_keyword_intel/` | `/api/v1/keywords` | keyword_candidates, negative_keyword_candidates, search_term_classifications | — |
-| P09 | Ad & Creative Intelligence | `review` | `backend/app/modules/p09_ad_creative/` | `/api/v1/creatives` | ad_drafts, claim_checks | — |
-| P10 | Landing Page & CRO Intelligence | `review` | `backend/app/modules/p10_landing_cro/` | `/api/v1/landing-pages` | landing_page_checks, cro_findings, implementation_briefs | — |
-| P11 | Competitor Intelligence | `review` | `backend/app/modules/p11_competitor_intel/` | `/api/v1/competitors` | competitors, competitor_observations, competitor_analyses | competitor.research.enabled |
-| P12 | Budget / Bid / Geo / Device / Time Intelligence | `review` | `backend/app/modules/p12_budget_bid/` | `/api/v1/budget-bid` | segment_runs, segment_findings | — |
-| P13 | Booking Funnel & Revenue Attribution | `review` | `backend/app/modules/p13_booking_funnel/` | `/api/v1/funnel` | — | — |
+| P09 | Ad & Creative Intelligence | `approved_frozen` | `backend/app/modules/p09_ad_creative/` | `/api/v1/creatives` | ad_drafts, claim_checks | — |
+| P10 | Landing Page & CRO Intelligence | `approved_frozen` | `backend/app/modules/p10_landing_cro/` | `/api/v1/landing-pages` | landing_page_checks, cro_findings, implementation_briefs | — |
+| P11 | Competitor Intelligence | `approved_frozen` | `backend/app/modules/p11_competitor_intel/` | `/api/v1/competitors` | competitors, competitor_observations, competitor_analyses | competitor.research.enabled |
+| P12 | Budget / Bid / Geo / Device / Time Intelligence | `approved_frozen` | `backend/app/modules/p12_budget_bid/` | `/api/v1/budget-bid` | segment_runs, segment_findings | — |
+| P13 | Booking Funnel & Revenue Attribution | `approved_frozen` | `backend/app/modules/p13_booking_funnel/` | `/api/v1/funnel` | — | — |
 | P14 | AI Recommendation Engine | `approved_frozen` | `backend/app/modules/p14_recommendations/` | `/api/v1/recommendations` | recommendations, ai_runs, ai_evidence | ai.live_calls.enabled |
-| P15 | AI Campaign Builder | `review` | `backend/app/modules/p15_campaign_builder/` | `/api/v1/campaign-builder` | campaign_drafts | — |
-| P16 | Approval Center | `review` | `backend/app/modules/p16_approvals/` | `/api/v1/approvals` | approvals, approval_events | — |
-| P17 | Google Ads Execution | `review` | `backend/app/modules/p17_ads_execution/` | `/api/v1/execution` | executions | ads.execution.enabled, ads.execution.automation.enabled |
-| P18 | Monitoring & Alerts | `review` | `backend/app/modules/p18_monitoring/` | `/api/v1/monitoring` | alerts, monitor_checks | monitoring.scheduled.enabled |
-| P19 | Reports & Exports | `review` | `backend/app/modules/p19_reports/` | `/api/v1/reports` | report_runs | — |
-| P20 | Experiments | `review` | `backend/app/modules/p20_experiments/` | `/api/v1/experiments` | experiments | — |
+| P15 | AI Campaign Builder | `approved_frozen` | `backend/app/modules/p15_campaign_builder/` | `/api/v1/campaign-builder` | campaign_drafts | — |
+| P16 | Approval Center | `approved_frozen` | `backend/app/modules/p16_approvals/` | `/api/v1/approvals` | approvals, approval_events | — |
+| P17 | Google Ads Execution | `approved_frozen` | `backend/app/modules/p17_ads_execution/` | `/api/v1/execution` | executions | ads.execution.enabled, ads.execution.automation.enabled |
+| P18 | Monitoring & Alerts | `approved_frozen` | `backend/app/modules/p18_monitoring/` | `/api/v1/monitoring` | alerts, monitor_checks | monitoring.scheduled.enabled |
+| P19 | Reports & Exports | `approved_frozen` | `backend/app/modules/p19_reports/` | `/api/v1/reports` | report_runs | — |
+| P20 | Experiments | `approved_frozen` | `backend/app/modules/p20_experiments/` | `/api/v1/experiments` | experiments | — |
 | P21 | Business Memory & Rules | `approved_frozen` | `backend/app/modules/p21_business_rules/` | `/api/v1/business-rules` | business_rules, business_rule_versions | — |
-| P22 | Security / Audit / Rollback | `review` | `backend/app/modules/p22_security_audit/` | `/api/v1/security` | audit_logs | — |
+| P22 | Security / Audit / Rollback | `approved_frozen` | `backend/app/modules/p22_security_audit/` | `/api/v1/security` | audit_logs | — |
 | P23 | Testing & QA | `planned` | `backend/app/modules/p23_testing_qa/` | — | — | — |
-| P24 | Production Hardening | `review` | `backend/app/modules/p24_hardening/` | — | — | — |
+| P24 | Production Hardening | `approved_frozen` | `backend/app/modules/p24_hardening/` | — | — | — |
 <!-- GENERATED:END -->
 
 ## Shared code (owner: P00)

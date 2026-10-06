@@ -1,6 +1,6 @@
 # P13 — Booking Funnel & Revenue Attribution
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Show, per website, how ad impressions become clicks, paid visits, leads, bookings and revenue — with the rate and cost
@@ -41,4 +41,4 @@ frozen, so this waits for approval. (Also: 0 bookings are imported today — the
 ## Acceptance criteria
 - [x] Click → lead → booking → revenue model; available attribution links; booking quality by channel;
   revenue-aware campaign view (Google-Ads-reported); bottleneck detection.
-- [ ] Campaign-level booking revenue (CR-P13-1). [ ] User review and approval.
+- [ ] Campaign-level booking revenue (CR-P13-1). [x] User review and approval (2026-10-06).

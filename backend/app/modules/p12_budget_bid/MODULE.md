@@ -1,6 +1,6 @@
 # P12 — Budget / Bid / Geo / Device / Time Intelligence
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Show *where* and *when* the Google Ads money works or is wasted: by device, day of week, time of day, location, and per
@@ -37,4 +37,4 @@ The snapshot is stored (`segment_runs`, last 10 per account) and the findings in
 - [x] Device / day / time / location / budget analysis from real Google Ads data; findings with evidence, confidence and action.
 - [x] Read-only (test asserts every query is a SELECT); no change to Google Ads.
 - [ ] Applying bid adjustments / schedules / exclusions from the app (P17 doesn't support those change types yet).
-- [ ] Ad-group / keyword level and audience segments. [ ] User review and approval.
+- [ ] Ad-group / keyword level and audience segments. [x] User review and approval (2026-10-06).

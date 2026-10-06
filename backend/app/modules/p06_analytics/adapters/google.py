@@ -11,6 +11,8 @@ import httpx
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 
+from app.modules.p24_hardening.interface import request_with_retry
+
 SCOPES = ("https://www.googleapis.com/auth/analytics.readonly", "https://www.googleapis.com/auth/webmasters.readonly")
 GA4 = "https://analyticsdata.googleapis.com/v1beta"
 GSC = "https://www.googleapis.com/webmasters/v3"
@@ -64,8 +66,8 @@ class ServiceAccount:
         signing_input = f"{_b64(json.dumps(header).encode())}.{_b64(json.dumps(claims).encode())}".encode()
         key = serialization.load_pem_private_key(self.info["private_key"].encode(), password=None)
         sig = key.sign(signing_input, padding.PKCS1v15(), hashes.SHA256())
-        r = self.http.post(self.info["token_uri"], data={"grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
-                                                          "assertion": f"{signing_input.decode()}.{_b64(sig)}"})
+        r = request_with_retry(lambda: self.http.post(self.info["token_uri"], data={
+            "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer", "assertion": f"{signing_input.decode()}.{_b64(sig)}"}))
         _raise(r, "Service account sign-in failed")
         b = r.json()
         self._token, self._exp = b["access_token"], now + int(b.get("expires_in", 3600))
@@ -84,9 +86,10 @@ class GA4Client:
         """→ rows as {dimension/metric name: value}. Follows offset pagination."""
         rows, offset = [], 0
         while True:
-            r = self.sa.http.post(f"{GA4}/properties/{property_id}:runReport", headers=self.sa.headers(), json={
-                "dateRanges": [{"startDate": start, "endDate": end}], "dimensions": [{"name": d} for d in dimensions],
-                "metrics": [{"name": m} for m in metrics], "limit": min(limit, 100_000), "offset": offset})
+            body = {"dateRanges": [{"startDate": start, "endDate": end}], "dimensions": [{"name": d} for d in dimensions],
+                    "metrics": [{"name": m} for m in metrics], "limit": min(limit, 100_000), "offset": offset}
+            headers = self.sa.headers()
+            r = request_with_retry(lambda: self.sa.http.post(f"{GA4}/properties/{property_id}:runReport", headers=headers, json=body))
             _raise(r, f"GA4 property {property_id}")
             b = r.json()
             for row in b.get("rows", []):
@@ -106,9 +109,10 @@ class SearchConsoleClient:
               max_rows: int = 100_000) -> list[dict]:
         rows, start_row = [], 0
         while True:
-            r = self.sa.http.post(f"{GSC}/sites/{quote(site_url, safe='')}/searchAnalytics/query", headers=self.sa.headers(),
-                                  json={"startDate": start, "endDate": end, "dimensions": dimensions,
-                                        "rowLimit": row_limit, "startRow": start_row})
+            body = {"startDate": start, "endDate": end, "dimensions": dimensions, "rowLimit": row_limit, "startRow": start_row}
+            headers = self.sa.headers()
+            r = request_with_retry(lambda: self.sa.http.post(f"{GSC}/sites/{quote(site_url, safe='')}/searchAnalytics/query",
+                                                             headers=headers, json=body))
             _raise(r, f"Search Console {site_url}")
             batch = r.json().get("rows", [])
             for x in batch:

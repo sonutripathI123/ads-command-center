@@ -31,8 +31,7 @@ Sidebar mein 6 groups hain — Overview, Sources, Google Ads, Insights, Actions,
 
 - **approved_frozen** = business owner (aap) ne review karke final approve kar diya hai — yeh ab locked hai, bina
   approval ke change nahi hoga.
-- **review** = bana hua hai, kaam kar raha hai (real data ke saath), lekin abhi aapki final "haan yeh sahi hai"
-  wali approval baaki hai.
+- **review** = bana hua hai, kaam kar raha hai, par aapki final approval baaki hai (abhi koi module is status mein nahi hai: 2026-10-06 ko sab approve/freeze ho gaye).
 - **planned** = abhi tak banaya hi nahi gaya (sirf future roadmap mein hai).
 
 ---
@@ -87,7 +86,7 @@ P05 raw keyword/search-term data dikhata hai; P08 uske upar intent classify kart
 "galat location" hai ya "competitor ka naam" hai) aur **negative keyword suggestions** deta hai — evidence aur
 confidence % ke saath. Aap accept/reject karte ho, kuch bhi automatically Google Ads mein nahi jaata.
 
-### Ads & Assets (P09 — review)
+### Ads & Assets (P09 — approved_frozen)
 Existing ads ko check karta hai (Google ke rules ke against — headline zyada lamba, "!" use hua, competitor naam
 aaya, wagera), aur naye ad (RSA) likhta hai — **Claude AI se (abhi live hai) ya template se**. Draft banta hai,
 approve karne ke baad CSV export hota hai (Google Ads Editor ke liye) — **kabhi bhi seedha Google Ads mein launch
@@ -97,18 +96,18 @@ nahi hota**.
 
 ## INSIGHTS
 
-### Bookings / Revenue (P13 — review)
+### Bookings / Revenue (P13 — approved_frozen)
 Ek funnel dikhata hai: ad impressions → clicks → website visits → leads (estimate) → bookings → revenue. Jo step
 measure nahi ho paaya (abhi tak koi booking import nahi hui, koi lead event set nahi hai) uspe "not measured"
 likha hota hai. Jahan funnel leak ho raha hai (jaise "GA4 mein koi lead event set nahi hai") woh bataya jaata hai.
 
-### Landing Pages (P10 — review)
+### Landing Pages (P10 — approved_frozen)
 Har page jahan ads bhejte hain use check karta hai — CTA hai ya nahi, form hai ya nahi, trust signals (reviews,
 guarantee) hain ya nahi, mobile-friendly hai ya nahi, speed kaisi hai. Fir developer ke liye ek "implementation
 brief" banata hai (kya fix karna hai) — **Claude AI se ya template se**, dono mein fake facts/ratings kabhi invent
 nahi kiye jaate, sirf `[your Google rating]` jaise bracket placeholders diye jaate hain jo aapko khud bharne hain.
 
-### Competitors (P11 — review)
+### Competitors (P11 — approved_frozen)
 Named competitors ki **public** website research karta hai (unki Google Ads ka data kabhi nahi le sakta — woh kisi
 ko bhi nahi dikhta). Service/location coverage compare karta hai (kaunsi cheez competitor ke paas hai jo aapke paas
 nahi), aur ek AI/template interpretation deta hai (strengths/weaknesses/opportunities). **Flag `competitor.research.enabled`
@@ -122,18 +121,18 @@ action plan bhi hai (**Claude AI se, abhi live**) jo bataata hai kya karna hai a
 
 ## ACTIONS
 
-### Campaign Builder (P15 — review)
+### Campaign Builder (P15 — approved_frozen)
 Existing keywords se ek **draft, paused** campaign banata hai — service ke hisaab se ad groups (Airport, Wedding,
 Corporate, wagera), negatives, ads (P09 se), aur ek launch checklist. **Kabhi bhi Google Ads mein khud se create
 nahi karta** — sirf draft + CSV export.
 
-### Approval Center (P16 — review)
+### Approval Center (P16 — approved_frozen)
 Har proposed change (chahe woh negative keyword ho, naya ad ho, naya campaign ho) yahan ek queue mein aata hai —
 before/after, evidence, risk ke saath. Aap approve/reject/withdraw karte ho. **Approve karne ka matlab yeh nahi ki
 Google Ads mein change ho gaya** — asli execution alag module (P17) karta hai, jo **locked** hai (neeche dekho),
 aur ek "kill switch" hamesha on hai jo kisi bhi live change ko rokta hai.
 
-### Google Ads Execution (P17 — review, **locked**; page: `/execution`, Approval Center ke link se)
+### Google Ads Execution (P17 — approved_frozen, **locked**; page: `/execution`, Approval Center ke link se)
 Approve ho chuke changes ko Google Ads tak pahunchane wala module. Abhi sirf do type: **negative keywords add karna** aur
 **naya responsive search ad add karna (hamesha PAUSED)**. Baaki sab (naya campaign, bid/budget) haath se karna hai.
 - **Validate:** Google se poochhta hai "ye request theek hai?" — **kuch change nahi karta**.
@@ -145,14 +144,14 @@ Approve ho chuke changes ko Google Ads tak pahunchane wala module. Abhi sirf do 
   `p17_ads_execution.cli enable`, phir `ADS_EXECUTION_KILL_SWITCH=false`. Abhi sab **locked** hai, isliye Google Ads
   waisa hi hai jaisa tha.
 
-### Budget & Bid Insights (P12 — review; page: `/budget-bid`, Monitoring ke link se)
+### Budget & Bid Insights (P12 — approved_frozen; page: `/budget-bid`, Monitoring ke link se)
 Batata hai ki paisa **kis device, din, time aur jagah** par kaam kar raha hai ya waste ho raha hai, aur har campaign ko
 **budget** ya **ad rank** rok raha hai. "Run analysis" dabane par Google Ads se sirf padhta hai (kuch badalta nahi).
 Kam conversions hon to kisi din ya time ko "kharab" nahi bolta (kismat ho sakti hai); har point ke saath confidence aur
 "expected conversions" dikhata hai. Aaj ki run ne pakda: Australia ke bahar ke clicks par ~AUD 296 kharch, aur campaign
 44% searches ad rank par haar raha hai. Bid/schedule badalna Google Ads mein haath se karna hai.
 
-### Experiments (P20 — review)
+### Experiments (P20 — approved_frozen)
 A/B test ya before/after test set up karna (ek change ka asar naapne ke liye). Start karne se pehle Approval Center
 se approval chahiye. Result mein statistical significance test hota hai, aur agar data kam hai to "insufficient
 data" saaf bataya jaata hai — jhootha result kabhi nahi diya jaata.
@@ -161,12 +160,12 @@ data" saaf bataya jaata hai — jhootha result kabhi nahi diya jaata.
 
 ## OPERATIONS
 
-### Monitoring & Alerts (P18 — review)
+### Monitoring & Alerts (P18 — approved_frozen)
 Account ko regularly check karta hai — spend achanak badh gaya, spend ruk gaya, conversions gir gaye, CTR/CPC mein
 badlaav, tracking toot gaya, wagera. Ek problem ke liye ek hi alert rehta hai jab tak woh khud clear na ho jaaye.
 Abhi "Run checks now" button se manual chalana padta hai (automatic daily schedule off hai).
 
-### Reports (P19 — review)
+### Reports (P19 — approved_frozen)
 Daily/weekly/monthly ya custom date ka report banata hai (account ke liye ya website ke liye) — key figures,
 campaigns, funnel, recommendations, approvals, alerts sab ek jagah. CSV download ya PDF (print) ho sakta hai. Yeh
 module khud koi naya data nahi banata, sirf baaki modules ka data ek report mein jodta hai.
@@ -177,7 +176,7 @@ competitor/brand names, thresholds (kitna spend hone ke baad negative keyword su
 (P08, P09, wagera) is jaankari ko use karte hain. Har change ek naya version banata hai (purana history mein rehta
 hai, delete nahi hota).
 
-### Audit Log (P22 — review, **naya module, abhi-abhi banaya**)
+### Audit Log (P22 — approved_frozen, **naya module, abhi-abhi banaya**)
 Yeh security ke liye hai — kaun, kab, kya approve/reject kiya (ads change ho ya ad draft review), before/after
 values ke saath. Sirf admin dekh sakta hai, aur yeh **kabhi edit ya delete nahi ho sakta** — ek permanent trail hai.
 

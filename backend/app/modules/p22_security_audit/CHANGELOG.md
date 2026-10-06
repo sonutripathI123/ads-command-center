@@ -9,3 +9,6 @@
   depends on P22. Migration `0018_p19` → `0019_p22`. Status: `review`.
 - Rollback/compensation procedures deferred: nothing executes against Google Ads yet (P17 still planned), so there
   is nothing to compensate for.
+
+## 2026-10-06 — approved and frozen by the owner
+- Status `review` -> `approved_frozen`. Further changes need an explicit request that targets this module (docs/CHANGE_PROTOCOL.md).

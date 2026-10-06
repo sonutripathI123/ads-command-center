@@ -17,3 +17,7 @@
 - New `cli.py`: `python -m app.modules.p06_analytics.cli sync [--days N]` runs the existing GA4 + Search Console sync for every
   linked website (same functions the Sync button uses; read-only; mirrors `p05_ads_sync.cli`). Used by `scripts/daily_sync.ps1`.
   No existing P06 file changed.
+
+## 2026-10-06 — retries on Google reads (owner-approved change to a frozen module)
+- Service-account sign-in, GA4 `runReport` and Search Console queries go through P24's `request_with_retry` (timeouts, connection
+  errors, HTTP 429/5xx: up to 3 tries with backoff; last response returned unchanged). `depends_on` gained P24. Tests: `tests/test_retries.py`.

@@ -8,3 +8,6 @@
 - First real run (90 days): flagged AUD 296 of clicks from outside Australia, two places marked "not served" that still got
   spend, 44% of searches lost on ad rank, and Maximize-clicks bidding. No change was made to Google Ads.
 - Not done: applying bid adjustments/schedules (P17 supports only negatives + RSAs), ad-group/keyword-level and audience segments.
+
+## 2026-10-06 — approved and frozen by the owner
+- Status `review` -> `approved_frozen`. Further changes need an explicit request that targets this module (docs/CHANGE_PROTOCOL.md).

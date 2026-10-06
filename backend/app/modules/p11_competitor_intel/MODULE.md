@@ -1,6 +1,6 @@
 # P11 — Competitor Intelligence
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Compare the business with named competitors using **public** information only, and keep facts (observations) apart
@@ -40,4 +40,4 @@ Claude (flag `ai.live_calls.enabled` + key) or a rule-based template: positionin
 - [x] Public website research; public SERP observations (manual); service/location coverage; messaging; landing-page
   themes; content gaps; observations separate from AI interpretation; no private Ads data claimed.
 - [ ] Flag `competitor.research.enabled` switched on by the owner; real competitors added and researched.
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

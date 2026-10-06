@@ -1,6 +1,6 @@
 # P17 — Google Ads Execution
 
-**Status:** review (awaiting user acceptance, MID §22). **Ships LOCKED:** nothing here can change Google Ads until
+**Status:** approved_frozen (user approved 2026-10-06)
 the owner deliberately unlocks it (see "Unlocking").
 
 ## Purpose
@@ -56,4 +56,4 @@ build — always **validate first**; Google's answer is the final word on whethe
 - [x] Locked by default; proven by tests with a fake Google (no real call is ever made by the test suite).
 - [ ] Verified against the live Google Ads account (needs the owner to unlock and run validate on a real approved change).
 - [ ] `create_campaign` execution; campaign-level bid/budget changes.
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

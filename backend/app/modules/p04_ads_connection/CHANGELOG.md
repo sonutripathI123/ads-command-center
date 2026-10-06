@@ -13,3 +13,9 @@
   (store encrypted connection + add account) — for accounts whose tokens already exist.
 - Default Google Ads API version v26 -> v25 (v26 returned 'Method not found' with a real token; v22-v25 work).
 - Status: `approved_frozen` (user approved 2026-09-28).
+
+## 2026-10-06 — retries on read calls (owner-approved change to a frozen module)
+- Token refresh, list-accessible-customers and GAQL search now go through P24's `request_with_retry`: timeouts, connection errors
+  and HTTP 429/5xx are retried up to 3 times with backoff; the last response is returned unchanged, so error handling is as before.
+  The one-time authorization-code exchange, revoke and userinfo calls are deliberately NOT retried. `depends_on` gained P24.
+  Still read-only: no mutate call exists here. Tests: `tests/test_retries.py`.

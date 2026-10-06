@@ -135,3 +135,68 @@ def test_smoke_script_against_our_own_app():
     results.append(smoke._check(client, "GET", "/api/v1/does-not-exist", {200, 401, 422}))
     assert results[0][0] and results[1][0]
     assert results[2][0] is False  # 404 correctly reported as a failure
+
+
+# ---- request_with_retry (Google reads) --------------------------------------------------------------------
+
+def _fake_sleep(monkeypatch):
+    import time as _t
+
+    waits = []
+    monkeypatch.setattr(_t, "sleep", waits.append)
+    return waits
+
+
+def _flaky(*steps):
+    import httpx as _h
+
+    it = iter(steps)
+    calls = []
+
+    def do():
+        calls.append(1)
+        step = next(it)
+        if isinstance(step, Exception):
+            raise step
+        return _h.Response(step, headers={"retry-after": "2"} if step == 429 else {})
+
+    return do, calls
+
+
+def test_http_retry_recovers_from_503_and_429(monkeypatch):
+    from app.modules.p24_hardening.retry import request_with_retry
+
+    waits = _fake_sleep(monkeypatch)
+    do, calls = _flaky(503, 429, 200)
+    assert request_with_retry(do).status_code == 200 and len(calls) == 3 and waits == [1.0, 2.0]   # 429 honours Retry-After
+
+
+def test_http_retry_returns_last_error_response_unchanged(monkeypatch):
+    from app.modules.p24_hardening.retry import request_with_retry
+
+    _fake_sleep(monkeypatch)
+    do, calls = _flaky(503, 503, 503)
+    assert request_with_retry(do).status_code == 503 and len(calls) == 3        # caller's own error handling still runs
+
+
+def test_http_retry_does_not_retry_client_errors(monkeypatch):
+    from app.modules.p24_hardening.retry import request_with_retry
+
+    _fake_sleep(monkeypatch)
+    for code in (400, 401, 403, 404):
+        do, calls = _flaky(code)
+        assert request_with_retry(do).status_code == code and len(calls) == 1
+
+
+def test_http_retry_transport_errors(monkeypatch):
+    import httpx as _h
+
+    from app.modules.p24_hardening.retry import request_with_retry
+
+    _fake_sleep(monkeypatch)
+    do, calls = _flaky(_h.ConnectTimeout("t"), 200)
+    assert request_with_retry(do).status_code == 200 and len(calls) == 2
+    do, calls = _flaky(_h.ReadTimeout("a"), _h.ReadTimeout("b"), _h.ReadTimeout("c"))
+    with pytest.raises(_h.ReadTimeout):
+        request_with_retry(do)
+    assert len(calls) == 3

@@ -28,3 +28,10 @@
 - `retry.py`: generic `with_retry()` backoff wrapper.
 - `smoke.py`: standalone post-deploy smoke test script (no DB/app import — plain HTTP against a running instance).
 - `scripts/backup.sh`, `docs/RUNBOOK.md`: backup + recovery documentation.
+
+## 2026-10-06 — HTTP retries for Google reads
+- New `request_with_retry` (interface): for idempotent READ requests only. Now used by P04 (token refresh, account list, GAQL search)
+  and P06 (service-account sign-in, GA4, Search Console). P17 mutations are never retried. This closes the "P04/P06 retries" gap.
+
+## 2026-10-06 — approved and frozen by the owner
+- Status `review` -> `approved_frozen`. Further changes need an explicit request that targets this module (docs/CHANGE_PROTOCOL.md).

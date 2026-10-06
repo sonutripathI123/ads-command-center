@@ -1,6 +1,6 @@
 # P15 — AI Campaign Builder
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Turn existing keywords (usually one oversized ad group) into a **draft, paused** Search campaign organised by service
@@ -35,4 +35,4 @@ checklist and a Google Ads Editor export. Nothing is created in Google Ads by th
 - [x] Goal/service/location input; campaign structure; ad groups; keywords; negative candidates; RSA ads (via P09);
   landing-page recommendation; launch checklist; draft/paused output (Editor CSV).
 - [x] Real draft for Corporate Cars "Ad group 1" (284 keywords → 6 themed ad groups, 76 negatives).
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

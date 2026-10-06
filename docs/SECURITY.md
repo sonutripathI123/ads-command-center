@@ -42,8 +42,8 @@ Controls already enforced in P00:
   fallback otherwise. Off during the test suite (`APP_ENV=test`) so it can never affect test runs.
 - Security headers on every response: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, plus HSTS
   when `APP_ENV=production`.
-- Retries with exponential backoff (`with_retry`) around the Claude API call in P09/P10/P11/P14 — a transient
-  network blip or momentary 5xx/429 no longer fails the whole request.
+- Retries with exponential backoff around the Claude API call in P09/P10/P11/P14 (`with_retry`) and around the Google read
+  calls in P04/P06 (`request_with_retry`: timeouts and HTTP 429/5xx). Mutations (P17) are never retried.
 - Deployment, backups, smoke tests and the recovery runbook: see `docs/DEPLOY.md` and `docs/RUNBOOK.md`.
 
 ## Errors
@@ -51,4 +51,4 @@ Controls already enforced in P00:
 
 ## Open items (owned by later modules)
 - P02: session security, RBAC (read / recommend / execute; execute off by default).
-- P24: retries for P04 (Google Ads) / P06 (GA4/Search Console) external calls; formal dependency scanning.
+- P24: formal dependency scanning.

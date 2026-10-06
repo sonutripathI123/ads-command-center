@@ -1,6 +1,6 @@
 # P09 — Ad & Creative Intelligence
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Analyse existing responsive search ads (RSAs), write new RSA copy (Claude or template), check every line against
@@ -39,4 +39,4 @@ approved USPs and existing headlines. Otherwise a deterministic template that pa
 - [x] Draft first — no automatic launch; approval blocked by errors; CSV export as paused ads.
 - [x] Real live draft for Corporate Cars (2026-09-28): 15/4, 0 findings.
 - [ ] Performance comparison between ad variants (needs P20 experiments / more ad-level data).
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

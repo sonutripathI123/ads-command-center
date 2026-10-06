@@ -7,3 +7,6 @@
 - First live draft (Corporate Cars, "Corporate Chauffeur Melbourne"): 15 headlines / 4 descriptions, 0 findings.
 - Status: `review`.
 - Interface: `write_rsa`, `get_draft` (for P15 Campaign Builder).
+
+## 2026-10-06 — approved and frozen by the owner
+- Status `review` -> `approved_frozen`. Further changes need an explicit request that targets this module (docs/CHANGE_PROTOCOL.md).

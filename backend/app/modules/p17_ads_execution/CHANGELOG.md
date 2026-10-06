@@ -17,3 +17,6 @@
 - `docs/modules.json`: P17 `planned` → `review`; `depends_on` gained `P09` (reads the approved ad draft's ad group).
 - Not done: `create_campaign` execution (P15), bid/budget/enable changes (P14), P24 retries around Google calls
   (mutations are deliberately NOT auto-retried).
+
+## 2026-10-06 — approved and frozen by the owner
+- Status `review` -> `approved_frozen`. Further changes need an explicit request that targets this module (docs/CHANGE_PROTOCOL.md).

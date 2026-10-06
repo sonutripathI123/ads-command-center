@@ -1,6 +1,6 @@
 # P16 — Approval Center
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 One queue for every proposed Google Ads change, with before/after, evidence, risk and impact, and a recorded human
@@ -36,4 +36,4 @@ P08 batches are never auto-withdrawn.
 - [x] Pending / approved / rejected / withdrawn / executed lists with before/after, evidence, risk, impact.
 - [x] Approve / reject / withdraw with notes; confirmation for high-impact; full history.
 - [x] Sources: P08, P09, P14, P15 + interface for other modules; P17 reads `approved_changes` only.
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

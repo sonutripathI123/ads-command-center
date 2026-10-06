@@ -11,11 +11,11 @@ from fastapi import FastAPI
 
 from app.modules.p24_hardening.config import P24Settings
 from app.modules.p24_hardening.rate_limit import RateLimitMiddleware, build_counter
-from app.modules.p24_hardening.retry import with_retry
+from app.modules.p24_hardening.retry import request_with_retry, with_retry
 from app.modules.p24_hardening.security_headers import SecurityHeadersMiddleware
 from app.shared.config import get_settings
 
-__all__ = ["with_retry", "install"]
+__all__ = ["with_retry", "request_with_retry", "install"]
 
 HEALTH_PATH = "/api/v1/foundation/health"
 

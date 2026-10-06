@@ -1,6 +1,6 @@
 # P10 — Landing Page & CRO Intelligence
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Check every page the account's ads send people to — on any domain the business owns (e.g. corporatecarsmelbourne.com.au
@@ -40,4 +40,4 @@ website implementation brief for the developer. Nothing is changed on the websit
 ## Acceptance criteria
 - [x] Keyword/ad/page intent matching; CTA; booking form; trust; mobile; speed/technical; implementation briefs.
 - [x] Real check of the 3 Corporate Cars / Opal landing pages.
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

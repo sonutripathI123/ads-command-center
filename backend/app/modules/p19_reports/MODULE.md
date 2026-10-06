@@ -1,6 +1,6 @@
 # P19 — Reports & Exports
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Daily, weekly, monthly or custom reports for a Google Ads account or a website, stored as snapshots and exported as
@@ -28,4 +28,4 @@ when data changes later. Any signed-in user may generate a report (read-only).
 
 ## Acceptance criteria
 - [x] Daily/weekly/monthly; website-, account- and campaign-level; bookings/revenue; recommendations/actions; CSV/PDF.
-- [ ] User review and approval.
+- [x] User review and approval (2026-10-06).

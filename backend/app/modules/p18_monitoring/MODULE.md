@@ -1,6 +1,6 @@
 # P18 — Monitoring & Alerts
 
-**Status:** review (awaiting user acceptance, MID §22)
+**Status:** approved_frozen (user approved 2026-10-06)
 
 ## Purpose
 Watch each Google Ads account for things that need attention and keep one alert per problem until it clears.
@@ -37,4 +37,4 @@ clears. Acknowledge (keeps it listed) or resolve by hand. Every run is recorded 
 
 ## Acceptance criteria
 - [x] Scheduled checks (flag-gated entry point); spend spikes; conversion drops; CPC changes; tracking failures;
-  search-term shifts. [ ] Change-impact monitoring (after P17). [ ] User review and approval.
+  search-term shifts. [ ] Change-impact monitoring (after P17). [x] User review and approval (2026-10-06).
