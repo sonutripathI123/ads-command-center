@@ -1,0 +1,13 @@
+{
+  "headlines": ["Melbourne Airport Transfers", "Book A Chauffeur Online", "Corporate Cars Melbourne", "Get An Instant Quote",
+    "Professional Chauffeur Drivers", "Premium Sedans, SUVs & Vans", "On-Time Every Time", "Executive Chauffeur Hire",
+    "Request A Quote Today", "Luxury Chauffeur Cars", "Hourly Chauffeur Service", "Citywide Pickups & Drop-offs",
+    "Melbourne Chauffeur Service", "Book Online In Minutes", "Private Chauffeur Melbourne"],
+  "descriptions": ["Book a professional chauffeur in Melbourne. Premium cars, on-time service, easy booking.",
+    "Private chauffeur-driven cars for business, events & city transfers. Get a quote now.",
+    "Safe, stylish and reliable chauffeur service across Melbourne. Instant quote online.",
+    "Hire a chauffeur by the hour or for a single trip. Sedans, SUVs & vans available."],
+  "path1": "Melbourne",
+  "path2": "Chauffeur",
+  "notes": "Recorded fixture: no claims beyond the approved USPs."
+}

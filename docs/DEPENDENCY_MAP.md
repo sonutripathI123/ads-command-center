@@ -15,7 +15,7 @@ Generated from `modules.json` — do not edit the table by hand.
 |---|---|---|---|
 | P00 Foundation & Governance | — (shared only) | — | no |
 | P01 Dashboard Shell | P02 Authentication & User Access | — | no |
-| P02 Authentication & User Access | — (shared only) | P01, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22 | no |
+| P02 Authentication & User Access | — (shared only) | P01, P03, P04, P05, P06, P07, P08, P09, P10, P11, P12, P13, P14, P15, P16, P17, P18, P19, P20, P21, P22, P23 | no |
 | P03 Website Intelligence | P02 Authentication & User Access, P05 Google Ads Data Sync & Warehouse, P21 Business Memory & Rules | P06, P07, P10, P11, P13, P15, P18, P19, P20 | no |
 | P04 Google Ads Connection | P02 Authentication & User Access, P24 Production Hardening | P05, P12, P17 | no |
 | P05 Google Ads Data Sync & Warehouse | P02 Authentication & User Access, P04 Google Ads Connection | P03, P06, P07, P08, P09, P10, P11, P13, P14, P15, P16, P17, P18, P19, P20 | no |
@@ -36,7 +36,7 @@ Generated from `modules.json` — do not edit the table by hand.
 | P20 Experiments | P02 Authentication & User Access, P03 Website Intelligence, P05 Google Ads Data Sync & Warehouse, P06 Analytics & Conversion Data, P16 Approval Center | — | no |
 | P21 Business Memory & Rules | P02 Authentication & User Access | P03, P07, P08, P09, P10, P11, P12, P14, P15 | no |
 | P22 Security / Audit / Rollback | P02 Authentication & User Access | P09, P14, P16, P17 | no |
-| P23 Testing & QA | — (shared only) | — | no |
+| P23 Testing & QA | P02 Authentication & User Access | — | no |
 | P24 Production Hardening | — (shared only) | P04, P06, P09, P10, P11, P14 | no |
 <!-- GENERATED:END -->
 

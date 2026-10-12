@@ -104,8 +104,8 @@
      "depends_on": ["P02"], "tables": ["audit_logs"], "api_prefix": "/api/v1/security",
      "feature_flags": [], "may_mutate_google_ads": false},
 
-    {"id": "P23", "name": "Testing & QA", "slug": "qa", "package": "p23_testing_qa", "status": "planned",
-     "depends_on": [], "tables": [], "api_prefix": null,
+    {"id": "P23", "name": "Testing & QA", "slug": "qa", "package": "p23_testing_qa", "status": "approved_frozen",
+     "depends_on": ["P02"], "tables": [], "api_prefix": null,
      "feature_flags": [], "may_mutate_google_ads": false},
 
     {"id": "P24", "name": "Production Hardening", "slug": "hardening", "package": "p24_hardening", "status": "approved_frozen",
