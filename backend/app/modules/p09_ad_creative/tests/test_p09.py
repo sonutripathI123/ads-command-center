@@ -295,5 +295,11 @@ def test_history_source_failure_does_not_block_drafting(client, monkeypatch):
     assert d.status_code == 201 and "No history" in d.json()["notes"] or "Template mode cannot learn" in d.json()["notes"]
 
 
+def test_keywords_lose_match_type_decoration(client, monkeypatch):
+    assert service.clean_keywords(["[executive chauffeur melbourne]", '"vip chauffeur hire"', "+limo +hire", "  ", "VIP chauffeur hire"]) ==         ["executive chauffeur melbourne", "vip chauffeur hire", "limo hire"]
+    d = _new(client, keywords=["[melbourne airport transfer]", '"melbourne airport transfer"']).json()
+    assert d["keywords"] == ["melbourne airport transfer"]
+
+
 def test_bad_goal_is_rejected(client):
     assert _new(client, goal="revenue").status_code == 422

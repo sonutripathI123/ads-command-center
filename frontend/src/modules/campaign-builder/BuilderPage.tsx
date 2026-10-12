@@ -205,8 +205,12 @@ function DraftView({ d, busy, edit, run }: { d: Draft; busy: string | null; edit
             <div className="mt-1 flex max-h-40 flex-wrap gap-1 overflow-y-auto">
               {g.keywords.map((k) => (
                 <span key={k.text} className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-xs" title={`${k.clicks} clicks · ${k.conversions} conv · AUD ${k.cost}`}>
-                  {k.match_type === "EXACT" ? `[${k.text}]` : `"${k.text}"`}
+                  {k.match_type === "EXACT" ? `[${k.text}]` : k.match_type === "BROAD" ? k.text : `"${k.text}"`}
                   {!locked && <>
+                    <select aria-label={`Match type of ${k.text}`} className="bg-transparent text-muted" value={k.match_type}
+                      onChange={(e) => edit({ op: "set_match_type", text: k.text, from: g.key, match_type: e.target.value })}>
+                      <option value="EXACT">Exact</option><option value="PHRASE">Phrase</option><option value="BROAD">Broad</option>
+                    </select>
                     <select aria-label={`Move ${k.text}`} className="bg-transparent text-muted" value="" onChange={(e) => e.target.value && edit({ op: "move_keyword", text: k.text, from: g.key, to: e.target.value })}>
                       <option value="">↪</option>
                       {groupKeys.filter((x) => x !== g.key).map((x) => <option key={x} value={x}>{d.ad_groups.find((y) => y.key === x)?.theme}</option>)}

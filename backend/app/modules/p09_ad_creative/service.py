@@ -127,6 +127,18 @@ def _smart_context(db: DbSession, account_id: int, goal: str) -> tuple[str, dict
         return text, summary, [], []
 
 
+def clean_keywords(kw: list[str]) -> list[str]:
+    """Plain keyword text for the writer: match-type decoration ([exact], "phrase", +broad modifier) is removed,
+    blanks and duplicates dropped. Match types belong to keywords in a campaign, never to ad copy."""
+    out, seen = [], set()
+    for k in kw:
+        c = " ".join(k.replace("[", " ").replace("]", " ").replace('"', " ").replace("+", " ").split())
+        if c and c.lower() not in seen:
+            seen.add(c.lower())
+            out.append(c)
+    return out
+
+
 def draft_dict_light(d: AdDraft) -> dict:
     return {"headlines": json.loads(d.headlines), "descriptions": json.loads(d.descriptions)}
 
@@ -137,6 +149,7 @@ def create_draft(db: DbSession, account_id: int, *, ad_group_name: str, campaign
     account(db, account_id)
     if not ad_group_name.strip():
         raise ValidationFailed("Ad group name is required", module_id=MODULE_ID)
+    kw = clean_keywords(kw)
     rules = get_rules(db, account_id)
     brand = rules.brand_terms[0] if rules.brand_terms else None
     existing = []

@@ -163,6 +163,18 @@ def test_edit_ops(client):
     assert client.patch(f"{B}/drafts/{did}", json={"op": "nope"}).status_code == 422
 
 
+def test_set_match_type(client):
+    did = _build(client).json()["id"]
+    r = client.patch(f"{B}/drafts/{did}", json={"op": "set_match_type", "group": "limo", "from": "limo",
+                                                "text": "limousine hire melbourne", "match_type": "broad"}).json()
+    g = {x["key"]: x for x in r["ad_groups"]}
+    assert [k["match_type"] for k in g["limo"]["keywords"] if k["text"] == "limousine hire melbourne"] == ["BROAD"]
+    bad = client.patch(f"{B}/drafts/{did}", json={"op": "set_match_type", "from": "limo", "text": "limousine hire melbourne", "match_type": "fuzzy"})
+    assert bad.status_code == 422
+    missing = client.patch(f"{B}/drafts/{did}", json={"op": "set_match_type", "from": "limo", "text": "nope", "match_type": "exact"})
+    assert missing.status_code == 422
+
+
 def test_write_ads_approve_and_export(client):
     d = _build(client).json()
     did = d["id"]

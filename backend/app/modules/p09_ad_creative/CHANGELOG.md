@@ -26,3 +26,7 @@ Explicit change request targeting this frozen module: one click writes an ad fro
 - No migration, no new tables, no new imports of other modules beyond `search_terms` from P05's existing interface.
 - Tests: 9 new (ranking per goal, avoid-list, honesty text, repeat count, history sent to Claude, second draft avoids the
   first, learn off, source failure, bad goal rejected).
+
+## 2026-10-12 — keywords are cleaned before writing (owner request)
+- `clean_keywords`: `[exact]`, `"phrase"` and `+broad` decoration is stripped from the keyword box, blanks and duplicates dropped.
+  Match types belong to keywords in a campaign, never to ad copy, and the decoration could leak into a headline. 1 new test.

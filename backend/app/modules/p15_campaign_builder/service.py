@@ -23,6 +23,7 @@ from app.shared.logging import get_logger
 
 MODULE_ID = "P15"
 MAX_PER_GROUP = 30
+MATCH_TYPES = ("EXACT", "PHRASE", "BROAD")
 log = get_logger(MODULE_ID)
 
 
@@ -148,7 +149,7 @@ def _editable(d: CampaignDraft) -> None:
 
 
 def edit(db: DbSession, draft_id: int, op: dict, by: str) -> CampaignDraft:
-    """Ops: rename_group · set_url · move_keyword · remove_keyword · add_negative · remove_negative · settings · rename."""
+    """Ops: rename_group · set_url · move_keyword · remove_keyword · set_match_type · add_negative · remove_negative · settings · rename."""
     d = get(db, draft_id)
     kind = op.get("op")
     if kind == "status":
@@ -178,6 +179,16 @@ def edit(db: DbSession, draft_id: int, op: dict, by: str) -> CampaignDraft:
         if kind == "move_keyword":
             to = op["to"]
             (unassigned if to == "unassigned" else grp(to)["keywords"]).append(kw)
+    elif kind == "set_match_type":
+        mt = str(op.get("match_type", "")).upper()
+        if mt not in MATCH_TYPES:
+            raise ValidationFailed(f"match_type must be one of {list(MATCH_TYPES)}", module_id=MODULE_ID)
+        src = op.get("from")
+        pool = unassigned if src in (None, "unassigned") else grp(src)["keywords"]
+        kw = next((k for k in pool if k["text"] == op.get("text")), None)
+        if kw is None:
+            raise ValidationFailed(f"Keyword '{op.get('text')}' not found", module_id=MODULE_ID)
+        kw["match_type"] = mt
     elif kind == "add_negative":
         t = " ".join(str(op["text"]).lower().split())
         if t and all(n["text"] != t for n in negs):
