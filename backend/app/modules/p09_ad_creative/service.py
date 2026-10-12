@@ -3,13 +3,13 @@ import csv
 import io
 import json
 from collections import defaultdict
-from datetime import date, timedelta
+from datetime import UTC, date, datetime, timedelta
 
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session as DbSession
 
-from app.modules.p05_ads_sync.interface import ad_groups, ads, keywords, list_accounts
-from app.modules.p09_ad_creative import writer
+from app.modules.p05_ads_sync.interface import ad_groups, ads, keywords, list_accounts, search_terms
+from app.modules.p09_ad_creative import context, writer
 from app.modules.p09_ad_creative.checks import check_ad, strength
 from app.modules.p09_ad_creative.models import AdDraft, ClaimCheck
 from app.modules.p21_business_rules.interface import get_rules
@@ -101,8 +101,39 @@ def ai_live(db: DbSession) -> bool:
     return is_enabled(AI_FLAG, db) and bool(writer.P09Settings().anthropic_api_key)
 
 
+RECENT_DRAFT_DAYS = 30
+RECENT_DRAFT_LIMIT = 15
+
+
+def _smart_context(db: DbSession, account_id: int, goal: str) -> tuple[str, dict, list[str], list[str]]:
+    """What worked, what didn't, converting search terms, and copy written/run recently. A failing source must not
+    block drafting, so any error degrades to "no history"."""
+    try:
+        d1, d2 = _window(90)
+        account_ads = ads(db, account_id, d1, d2)
+        terms = search_terms(db, account_id, d1, d2, limit=500)
+        cutoff = datetime.now(UTC) - timedelta(days=RECENT_DRAFT_DAYS)
+        recent = [draft_dict_light(d) for d in db.scalars(select(AdDraft).where(
+            AdDraft.account_id == account_id, AdDraft.created_at >= cutoff).order_by(AdDraft.id.desc()).limit(RECENT_DRAFT_LIMIT))]
+        ran = [a for a in account_ads if (a.get("impressions") or 0) > 0 and a.get("type") == "RESPONSIVE_SEARCH_AD"]
+        winners, losers = context.split_ads(account_ads, goal)
+        avoid_h, avoid_d = context.avoid_lines(recent + ran)
+        text, summary = context.build(goal, winners, losers, context.converted_terms(terms), avoid_h, avoid_d)
+        return text, summary, avoid_h, avoid_d
+    except Exception as e:  # noqa: BLE001
+        log.warning("smart_context_failed", extra={"error": str(e)[:200]})
+        db.rollback()
+        text, summary = context.build(goal, [], [], [], [], [])
+        return text, summary, [], []
+
+
+def draft_dict_light(d: AdDraft) -> dict:
+    return {"headlines": json.loads(d.headlines), "descriptions": json.loads(d.descriptions)}
+
+
 def create_draft(db: DbSession, account_id: int, *, ad_group_name: str, campaign_name: str, ad_group_google_id: str | None,
-                 final_url: str, kw: list[str], usps: list[str], use_ai: bool, by: str) -> AdDraft:
+                 final_url: str, kw: list[str], usps: list[str], use_ai: bool, by: str,
+                 goal: str = "conversions", learn: bool = False) -> AdDraft:
     account(db, account_id)
     if not ad_group_name.strip():
         raise ValidationFailed("Ad group name is required", module_id=MODULE_ID)
@@ -112,11 +143,15 @@ def create_draft(db: DbSession, account_id: int, *, ad_group_name: str, campaign
     if ad_group_google_id:
         d1, d2 = _window(90)
         existing = [h for a in ads(db, account_id, d1, d2) if a["ad_group_name"] == ad_group_name for h in a["headlines"]]
+    extra, summary, avoid_h, avoid_d = ("", None, [], [])
+    if learn:
+        extra, summary, avoid_h, avoid_d = _smart_context(db, account_id, goal)
     d = AdDraft(account_id=account_id, ad_group_name=ad_group_name.strip()[:255], campaign_name=campaign_name[:255],
                 ad_group_google_id=ad_group_google_id, final_url=final_url.strip()[:1024], keywords=json.dumps(kw[:50]),
                 usps=json.dumps([u.strip() for u in usps if u.strip()][:20]), created_by=by, mode="template")
     if use_ai and ai_live(db):
-        brief = writer.brief_text(d.ad_group_name, kw, d.final_url, rules.services, rules.locations, json.loads(d.usps), brand, existing)
+        brief = writer.brief_text(d.ad_group_name, kw, d.final_url, rules.services, rules.locations, json.loads(d.usps), brand, existing,
+                                  extra)
         try:
             copy, tin, tout, model = writer.write_with_claude(brief, writer.P09Settings())
         except writer.WriterError as e:
@@ -126,11 +161,14 @@ def create_draft(db: DbSession, account_id: int, *, ad_group_name: str, campaign
         copy = writer.template_copy(d.ad_group_name, kw, rules.locations, json.loads(d.usps), brand)
     d.headlines, d.descriptions = json.dumps(copy.headlines), json.dumps(copy.descriptions)
     d.path1, d.path2, d.notes = copy.path1[:32], copy.path2[:32], copy.notes
+    if summary is not None:
+        smart = context.note(summary, d.mode, context.repeat_count(copy.headlines, copy.descriptions, avoid_h, avoid_d))
+        d.notes = "\n".join(x for x in (copy.notes, smart) if x)
     db.add(d)
     db.flush()
     _apply_checks(db, d)
     db.commit()
-    log.info("ad_draft_created", extra={"draft_id": d.id, "mode": d.mode, "tokens_out": d.output_tokens})
+    log.info("ad_draft_created", extra={"draft_id": d.id, "mode": d.mode, "tokens_out": d.output_tokens, "smart": summary is not None})
     return d
 
 

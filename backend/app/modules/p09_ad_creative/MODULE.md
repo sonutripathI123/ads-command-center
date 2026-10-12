@@ -40,3 +40,8 @@ approved USPs and existing headlines. Otherwise a deterministic template that pa
 - [x] Real live draft for Corporate Cars (2026-09-28): 15/4, 0 findings.
 - [ ] Performance comparison between ad variants (needs P20 experiments / more ad-level data).
 - [x] User review and approval (2026-10-06).
+
+## Smart ad copy (added 2026-10-12)
+`context.py` turns the account's history into briefing text for the writer: best and weakest ads for the goal
+(`conversions` / `clicks` / `cpa`), converting search terms, and lines written or run recently (avoided). Live Claude only;
+template mode cannot learn and the draft notes say so. Covers Google Ads only (no other ad platforms).

@@ -49,13 +49,14 @@ SYSTEM = (
 
 
 def brief_text(ad_group: str, keywords: list[str], final_url: str, services: list[str], locations: list[str],
-               usps: list[str], brand: str | None, existing: list[str]) -> str:
+               usps: list[str], brand: str | None, existing: list[str], extra: str = "") -> str:
     return "\n".join([
         f"Ad group: {ad_group}", f"Main keywords: {', '.join(keywords[:15]) or '(none)'}",
         f"Landing page: {final_url or '(not set)'}", f"Brand: {brand or '(not provided)'}",
         f"Services offered: {', '.join(services[:20])}", f"Areas served: {', '.join(locations[:15])}",
         f"Approved USPs / claims (only these may be claimed): {'; '.join(usps) or '(none — make no claims)'}",
         f"Existing headlines (do not simply copy): {' | '.join(existing[:15]) or '(none)'}",
+        *([extra] if extra else []),
     ])
 
 

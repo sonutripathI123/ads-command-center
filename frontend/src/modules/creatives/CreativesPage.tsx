@@ -112,6 +112,8 @@ function Writer({ accId, aiLive, onCreated }: { accId: number; aiLive: boolean; 
   const [pick, setPick] = useState<string>("");
   const [f, setF] = useState({ ad_group_name: "", campaign_name: "", final_url: "", keywords: "", usps: "" });
   const [useAi, setUseAi] = useState(true);
+  const [goal, setGoal] = useState<"conversions" | "clicks" | "cpa">("conversions");
+  const [learn, setLearn] = useState(true);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   useEffect(() => { call<Group[]>(`/accounts/${accId}/ad-groups`).then(setGroups).catch(() => setGroups([])); }, [accId]);
@@ -127,7 +129,7 @@ function Writer({ accId, aiLive, onCreated }: { accId: number; aiLive: boolean; 
     try {
       await call("/accounts/" + accId + "/drafts", { method: "POST", body: JSON.stringify({
         ad_group_name: f.ad_group_name, campaign_name: f.campaign_name, ad_group_google_id: pick || null, final_url: f.final_url,
-        keywords: f.keywords.split("\n").map((s) => s.trim()).filter(Boolean), usps: f.usps.split("\n").map((s) => s.trim()).filter(Boolean), use_ai: useAi }) });
+        keywords: f.keywords.split("\n").map((s) => s.trim()).filter(Boolean), usps: f.usps.split("\n").map((s) => s.trim()).filter(Boolean), use_ai: useAi, goal, learn }) });
       onCreated();
     } catch (e) { setErr((e as Error).message); } finally { setBusy(false); }
   }
@@ -149,6 +151,21 @@ function Writer({ accId, aiLive, onCreated }: { accId: number; aiLive: boolean; 
         <label className="text-sm">Main keywords (one per line)<textarea className={`${input} mt-1 h-28 font-mono text-xs`} value={f.keywords} onChange={(e) => setF({ ...f, keywords: e.target.value })} /></label>
         <label className="text-sm">Approved USPs / claims (one per line — only these may be claimed)
           <textarea className={`${input} mt-1 h-28 text-xs`} value={f.usps} onChange={(e) => setF({ ...f, usps: e.target.value })} placeholder={"Fixed price airport transfers\nFlight tracking & free waiting\nMercedes-Benz fleet\n15+ years in Melbourne"} />
+        </label>
+      </div>
+      <div className="mt-3 grid gap-3 rounded-md bg-surface-2 p-3 md:grid-cols-2">
+        <label className="text-sm">Goal of this ad
+          <select className={`${input} mt-1`} value={goal} onChange={(e) => setGoal(e.target.value as typeof goal)}>
+            <option value="conversions">More conversions (quote requests / bookings)</option>
+            <option value="clicks">More clicks at a low cost per click</option>
+            <option value="cpa">Lower cost per conversion</option>
+          </select>
+        </label>
+        <label className="flex items-start gap-2 text-sm">
+          <input type="checkbox" className="mt-1" checked={learn} onChange={(e) => setLearn(e.target.checked)} />
+          <span>Smart copy: learn from my past ads and avoid recent copy
+            <span className="block text-xs text-muted">Uses the last 90 days: best and weakest ads, search terms that converted, and everything written or run recently, so each new ad takes a fresh angle. Needs live Claude{aiLive ? "" : " (off right now)"}.</span>
+          </span>
         </label>
       </div>
       {err && <p className="mt-2 text-sm text-danger" role="alert">{err}</p>}
@@ -229,7 +246,7 @@ function DraftEditor({ d, onSaved, onError }: { d: Draft; onSaved: () => void; o
             <div className="font-medium text-accent">{hs.slice(0, 3).join(" | ")}</div>
             <div className="text-xs">{ds.slice(0, 2).join(" ")}</div>
           </div>
-          {d.notes && <p className="text-xs text-muted">Notes: {d.notes}</p>}
+          {d.notes && <p className="whitespace-pre-line text-xs text-muted">Notes: {d.notes}</p>}
         </div>
       </div>
     </section>

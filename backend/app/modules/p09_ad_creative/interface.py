@@ -21,10 +21,11 @@ def approved_drafts(db: DbSession, account_id: int) -> list[dict]:
 
 
 def write_rsa(db: DbSession, account_id: int, *, ad_group_name: str, campaign_name: str, final_url: str,
-              keywords: list[str], usps: list[str], use_ai: bool, by: str) -> dict:
+              keywords: list[str], usps: list[str], use_ai: bool, by: str,
+              goal: str = "conversions", learn: bool = False) -> dict:
     """Create a checked RSA draft (Claude if live, else template). Raises P09 errors (e.g. ai_failed)."""
     d = service.create_draft(db, account_id, ad_group_name=ad_group_name, campaign_name=campaign_name, ad_group_google_id=None,
-                             final_url=final_url, kw=keywords, usps=usps, use_ai=use_ai, by=by)
+                             final_url=final_url, kw=keywords, usps=usps, use_ai=use_ai, by=by, goal=goal, learn=learn)
     return service.draft_dict(db, d)
 
 

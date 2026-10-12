@@ -1,4 +1,6 @@
 """P09 — routes under /api/v1/creatives. Drafts only; nothing is published to Google Ads."""
+from typing import Literal
+
 from fastapi import APIRouter, Depends, Query
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
@@ -21,6 +23,8 @@ class DraftIn(BaseModel):
     keywords: list[str] = Field(default_factory=list, max_length=50)
     usps: list[str] = Field(default_factory=list, max_length=20)
     use_ai: bool = True
+    goal: Literal["conversions", "clicks", "cpa"] = "conversions"
+    learn: bool = True   # Smart ad copy: learn from past ads, avoid recent copy
 
 
 class DraftPatch(BaseModel):
@@ -57,7 +61,7 @@ def create(account_id: int, body: DraftIn, db: DbSession = Depends(get_db),
            user: CurrentUser = Depends(require_permission(Permission.RECOMMEND))) -> dict:
     d = service.create_draft(db, account_id, ad_group_name=body.ad_group_name, campaign_name=body.campaign_name,
                              ad_group_google_id=body.ad_group_google_id, final_url=body.final_url, kw=body.keywords,
-                             usps=body.usps, use_ai=body.use_ai, by=user.email)
+                             usps=body.usps, use_ai=body.use_ai, by=user.email, goal=body.goal, learn=body.learn)
     return service.draft_dict(db, d)
 
 
