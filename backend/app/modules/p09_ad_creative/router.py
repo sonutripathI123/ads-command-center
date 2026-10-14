@@ -46,9 +46,9 @@ def accounts(db: DbSession = Depends(get_db), _: CurrentUser = READ) -> list[dic
 
 
 @router.get("/accounts/{account_id}/analysis")
-def analysis(account_id: int, days: int = Query(default=90, ge=7, le=365), db: DbSession = Depends(get_db),
-             _: CurrentUser = READ) -> list[dict]:
-    return service.analyse_existing(db, account_id, days)
+def analysis(account_id: int, days: int = Query(default=90, ge=7, le=365), campaign: str | None = Query(default=None, max_length=255),
+             db: DbSession = Depends(get_db), _: CurrentUser = READ) -> list[dict]:
+    return service.analyse_existing(db, account_id, days, campaign)
 
 
 @router.get("/accounts/{account_id}/ad-groups")

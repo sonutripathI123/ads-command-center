@@ -303,3 +303,51 @@ def test_keywords_lose_match_type_decoration(client, monkeypatch):
 
 def test_bad_goal_is_rejected(client):
     assert _new(client, goal="revenue").status_code == 422
+
+
+# ---- Campaign review: strength + suggestions -----------------------------------------------------------
+
+from app.modules.p09_ad_creative import review  # noqa: E402
+
+
+def _row(**kw):
+    base = {"headlines": ["h"] * 15, "descriptions": ["d"] * 4, "strength": 90, "findings": [], "impressions": 1000, "clicks": 50,
+            "cost": 100.0, "conversions": 2.0, "ctr": 0.05}
+    return base | kw
+
+
+BENCH = {"ctr": 0.05, "cpa": 50.0}
+
+
+def test_benchmark_is_account_wide():
+    b = review.benchmark([_row(impressions=1000, clicks=50, cost=100, conversions=2), _row(impressions=1000, clicks=100, cost=300, conversions=2)])
+    assert b == {"ctr": 0.075, "cpa": 100.0}
+    assert review.benchmark([_row(impressions=0, clicks=0, cost=0, conversions=0)]) == {"ctr": None, "cpa": None}
+
+
+def test_suggestions_cover_structure_and_performance():
+    s = " | ".join(review.suggest(_row(headlines=["a"] * 9, descriptions=["d"] * 2, strength=40,
+                                       findings=[{"severity": "error", "message": "Headline too long"}]), BENCH))
+    assert "Fix 1 error" in s and "Add 6 more headline" in s and "Add 2 more description" in s and "strength is low" in s
+    assert "no conversion" in " ".join(review.suggest(_row(conversions=0.0, cost=80.0, clicks=40), BENCH))
+    assert "well below" in " ".join(review.suggest(_row(ctr=0.01), BENCH))
+    assert "above the account" in " ".join(review.suggest(_row(cost=500.0, conversions=2.0), BENCH))
+    assert "Converts cheaper" in " ".join(review.suggest(_row(cost=40.0, conversions=2.0), BENCH))
+
+
+def test_suggestions_are_honest_without_data():
+    s = review.suggest(_row(impressions=0, clicks=0, cost=0.0, conversions=0.0, ctr=None), BENCH)
+    assert any("cannot be judged" in x for x in s)
+    assert not any("no conversion" in x for x in s)
+    assert review.suggest(_row(conversions=5.0, cost=250.0), BENCH) == ["Nothing urgent. Keep it running and re-check when there is more data."]
+    assert any("Only a few conversions" in x for x in review.suggest(_row(), BENCH))
+
+
+def test_analysis_filters_by_campaign_and_adds_suggestions(client, monkeypatch):
+    other = dict(ADS[0], key="10~2", ad_id="2", campaign_name="Other", headlines=["x"] * 15, descriptions=["y"] * 4)
+    monkeypatch.setattr(service, "ads", lambda db, a, d1, d2: ADS + [other])
+    all_rows = client.get(f"{B}/accounts/7/analysis").json()
+    assert {r["campaign_name"] for r in all_rows} == {"Search", "Other"}
+    rows = client.get(f"{B}/accounts/7/analysis", params={"campaign": "Search"}).json()
+    assert [r["campaign_name"] for r in rows] == ["Search"] and rows[0]["suggestions"] and rows[0]["benchmark"]["ctr"] is not None
+    assert client.get(f"{B}/accounts/7/analysis", params={"campaign": "Nope"}).json() == []

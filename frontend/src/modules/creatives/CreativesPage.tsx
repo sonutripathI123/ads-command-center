@@ -1,12 +1,13 @@
 "use client";
 // P09 — existing RSA analysis, AI/template ad writer with live checks, draft review, CSV export.
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { API_BASE, PageHeader } from "@/shell";
 
 type Finding = { field: string; index: number; text: string; code: string; severity: "error" | "warning"; message: string };
-type Existing = { key: string; ad_group_name: string; campaign_name: string; status: string; headlines: string[]; descriptions: string[];
-  final_urls: string[]; strength: number; findings: Finding[]; cost: number; clicks: number; ctr: number | null; conversions: number };
+type Existing = { key: string; ad_group_name: string; ad_group_google_id: string | null; campaign_name: string; status: string; headlines: string[]; descriptions: string[];
+  final_urls: string[]; strength: number; findings: Finding[]; cost: number; clicks: number; impressions: number; ctr: number | null; conversions: number;
+  suggestions: string[]; benchmark: { ctr: number | null; cpa: number | null } };
 type Group = { google_id: string; name: string; campaign_name: string; status: string; keywords: string[]; keyword_count: number; final_url: string };
 type Draft = { id: number; campaign_name: string; ad_group_name: string; ad_group_google_id: string | null; final_url: string; keywords: string[];
   usps: string[]; headlines: string[]; descriptions: string[]; path1: string; path2: string; notes: string; mode: string; model: string | null;
@@ -35,6 +36,10 @@ export function CreativesPage() {
   const [accId, setAccId] = useState<number | null>(null);
   const [tab, setTab] = useState<"existing" | "write" | "drafts">("existing");
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const campaignParam = useSearchParams().get("campaign");          // set by the "Analyse ads" link on the Campaigns page
+  const [cleared, setCleared] = useState(false);
+  const campaign = cleared ? null : campaignParam;
+  const [preset, setPreset] = useState<string | null>(null);       // ad group to prefill when improving an ad
 
   useEffect(() => {
     call<Account[]>("/accounts").then((a) => { setAccounts(a); if (a[0]) setAccId(a[0].id); })
@@ -58,21 +63,30 @@ export function CreativesPage() {
         ))}
       </div>
       {msg && <div role="status" className={`mb-4 rounded-md border px-3 py-2 text-sm ${msg.ok ? "border-ok/30 bg-ok/10 text-ok" : "border-danger/30 bg-danger/10 text-danger"}`}>{msg.text}</div>}
-      {accId && tab === "existing" && <ExistingAds accId={accId} />}
-      {accId && tab === "write" && <Writer accId={accId} aiLive={!!acc?.ai_live} onCreated={() => { setTab("drafts"); setMsg({ ok: true, text: "Draft created — review it below." }); }} />}
+      {accId && tab === "existing" && <ExistingAds key={campaign ?? "all"} accId={accId} campaign={campaign} onClear={() => { setCleared(true); router.replace("/ads-assets"); }}
+        onImprove={(groupId) => { setPreset(groupId); setTab("write"); }} />}
+      {accId && tab === "write" && <Writer key={preset ?? "new"} accId={accId} aiLive={!!acc?.ai_live} preset={preset} onCreated={() => { setTab("drafts"); setMsg({ ok: true, text: "Draft created — review it below." }); }} />}
       {accId && tab === "drafts" && <Drafts accId={accId} />}
       <p className="mt-4 text-xs text-muted">Nothing here is published. Approved drafts export as a CSV for Google Ads Editor (imported as paused ads).</p>
     </>
   );
 }
 
-function ExistingAds({ accId }: { accId: number }) {
+function ExistingAds({ accId, campaign, onClear, onImprove }: { accId: number; campaign: string | null; onClear: () => void; onImprove: (groupId: string) => void }) {
   const [rows, setRows] = useState<Existing[] | null>(null);
   const [open, setOpen] = useState<string | null>(null);
-  useEffect(() => { call<Existing[]>(`/accounts/${accId}/analysis`).then(setRows).catch(() => setRows([])); }, [accId]);
+  useEffect(() => {
+    call<Existing[]>(`/accounts/${accId}/analysis${campaign ? `?campaign=${encodeURIComponent(campaign)}` : ""}`).then(setRows).catch(() => setRows([]));
+  }, [accId, campaign]);
   if (!rows) return <p className="text-sm text-muted">Loading…</p>;
-  if (!rows.length) return <p className="text-sm text-muted">No responsive search ads found — sync the account on the Campaigns page.</p>;
+  const banner = campaign && (
+    <div className="mb-3 flex items-center gap-3 rounded-md border border-line bg-surface-2 px-3 py-2 text-sm">
+      Campaign: <b>{campaign}</b> <button className="ml-auto text-xs text-accent underline" onClick={onClear}>Show all campaigns</button>
+    </div>
+  );
+  if (!rows.length) return <>{banner}<p className="text-sm text-muted">{campaign ? "No responsive search ads found in this campaign (not synced yet, or it has no ads). Press Sync now, then try again." : "No responsive search ads found — sync the account on the Campaigns page."}</p></>;
   return (
+    <>{banner}
     <section className={card}>
       <h2 className="mb-2 font-semibold">Responsive search ads (weakest first)</h2>
       <table className="w-full text-left text-sm">
@@ -91,6 +105,13 @@ function ExistingAds({ accId }: { accId: number }) {
               </tr>
               {open === r.key && (
                 <tr><td colSpan={8} className="bg-surface-2 p-3 text-xs">
+                  <div className="mb-3 rounded-md border border-line bg-surface p-3">
+                    <div className="mb-1 flex items-center gap-2 text-sm font-medium">Suggestions
+                      <span className="text-xs font-normal text-muted">{r.impressions ? `${r.clicks} clicks · ${r.conversions} conv · ${money(r.cost)}` : "no impressions in this period"}</span>
+                      {r.ad_group_google_id && <button className={`${primary} ml-auto`} onClick={(e) => { e.stopPropagation(); onImprove(r.ad_group_google_id as string); }}>Improve with AI</button>}
+                    </div>
+                    <ul className="list-disc pl-5 text-xs">{r.suggestions.map((s, i) => <li key={i}>{s}</li>)}</ul>
+                  </div>
                   <div className="grid gap-1 md:grid-cols-2">
                     <div>{r.headlines.map((h, i) => <div key={i}>H{i + 1}: {h} <span className="text-muted">({h.length})</span></div>)}</div>
                     <div>{r.descriptions.map((d, i) => <div key={i}>D{i + 1}: {d} <span className="text-muted">({d.length})</span></div>)}
@@ -102,12 +123,13 @@ function ExistingAds({ accId }: { accId: number }) {
           ))}
         </tbody>
       </table>
-      <p className="mt-2 text-xs text-muted">*Our estimate of Ad Strength from the rules below — Google&apos;s own rating isn&apos;t available with read-only access.</p>
+      <p className="mt-2 text-xs text-muted">*Our estimate of Ad Strength from the rules below — Google&apos;s own rating isn&apos;t available with read-only access. Click a row for suggestions.</p>
     </section>
+    </>
   );
 }
 
-function Writer({ accId, aiLive, onCreated }: { accId: number; aiLive: boolean; onCreated: () => void }) {
+function Writer({ accId, aiLive, preset, onCreated }: { accId: number; aiLive: boolean; preset: string | null; onCreated: () => void }) {
   const [groups, setGroups] = useState<Group[]>([]);
   const [pick, setPick] = useState<string>("");
   const [f, setF] = useState({ ad_group_name: "", campaign_name: "", final_url: "", keywords: "", usps: "" });
@@ -116,7 +138,13 @@ function Writer({ accId, aiLive, onCreated }: { accId: number; aiLive: boolean; 
   const [learn, setLearn] = useState(true);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  useEffect(() => { call<Group[]>(`/accounts/${accId}/ad-groups`).then(setGroups).catch(() => setGroups([])); }, [accId]);
+  useEffect(() => {
+    call<Group[]>(`/accounts/${accId}/ad-groups`).then((gs) => {
+      setGroups(gs);
+      const g = preset ? gs.find((x) => x.google_id === preset) : null;   // "Improve with AI": prefill the ad group of that ad
+      if (g) { setPick(g.google_id); setF((p) => ({ ...p, ad_group_name: g.name, campaign_name: g.campaign_name, final_url: g.final_url, keywords: g.keywords.slice(0, 10).join("\n") })); }
+    }).catch(() => setGroups([]));
+  }, [accId, preset]);
 
   function choose(id: string) {
     setPick(id);

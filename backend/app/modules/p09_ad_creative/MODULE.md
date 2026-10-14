@@ -45,3 +45,8 @@ approved USPs and existing headlines. Otherwise a deterministic template that pa
 `context.py` turns the account's history into briefing text for the writer: best and weakest ads for the goal
 (`conversions` / `clicks` / `cpa`), converting search terms, and lines written or run recently (avoided). Live Claude only;
 template mode cannot learn and the draft notes say so. Covers Google Ads only (no other ad platforms).
+
+## Campaign review (added 2026-10-14)
+`review.py` gives every existing ad plain-language suggestions from its checks, estimated strength and performance versus the
+account's own average. The Campaigns page (P05) links each campaign to `/ads-assets?campaign=<name>`; "Improve with AI"
+hands the ad group to the Smart copy writer. Read-only: nothing is changed in Google Ads.

@@ -9,7 +9,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session as DbSession
 
 from app.modules.p05_ads_sync.interface import ad_groups, ads, keywords, list_accounts, search_terms
-from app.modules.p09_ad_creative import context, writer
+from app.modules.p09_ad_creative import context, review, writer
 from app.modules.p09_ad_creative.checks import check_ad, strength
 from app.modules.p09_ad_creative.models import AdDraft, ClaimCheck
 from app.modules.p21_business_rules.interface import get_rules
@@ -50,7 +50,7 @@ def _kw_by_group(db: DbSession, account_id: int, d1: date, d2: date) -> dict[str
     return out
 
 
-def analyse_existing(db: DbSession, account_id: int, days: int) -> list[dict]:
+def analyse_existing(db: DbSession, account_id: int, days: int, campaign: str | None = None) -> list[dict]:
     account(db, account_id)
     d1, d2 = _window(days)
     rules = get_rules(db, account_id)
@@ -71,6 +71,12 @@ def analyse_existing(db: DbSession, account_id: int, days: int) -> list[dict]:
                     "strength": strength(a["headlines"], a["descriptions"], f),
                     "findings": [x.__dict__ for x in f], "cost": a["cost"], "clicks": a["clicks"],
                     "impressions": a["impressions"], "ctr": a["ctr"], "conversions": a["conversions"]})
+    bench = review.benchmark(out)
+    for r in out:
+        r["suggestions"] = review.suggest(r, bench)
+        r["benchmark"] = bench
+    if campaign:
+        out = [r for r in out if r["campaign_name"] == campaign]
     return sorted(out, key=lambda r: (r["strength"], -r["cost"]))
 
 

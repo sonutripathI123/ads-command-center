@@ -23,3 +23,7 @@
   (`?include_removed=true` shows them); rows that spent stay visible. The service/interface functions used by other modules
   keep returning everything. Pages show the effective status plus a "Show removed" toggle. Display + status bookkeeping
   only; nothing is sent to Google Ads. Tests: 3 added.
+
+## 2026-10-14 — "Analyse ads" link on the Campaigns table (owner request)
+- Frontend only: one extra column on the Campaigns table linking each campaign to `/ads-assets?campaign=<name>` (P09 shows
+  ad strength and suggestions there). No backend, API or data change.

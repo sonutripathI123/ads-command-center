@@ -30,3 +30,13 @@ Explicit change request targeting this frozen module: one click writes an ad fro
 ## 2026-10-12 — keywords are cleaned before writing (owner request)
 - `clean_keywords`: `[exact]`, `"phrase"` and `+broad` decoration is stripped from the keyword box, blanks and duplicates dropped.
   Match types belong to keywords in a campaign, never to ad copy, and the decoration could leak into a headline. 1 new test.
+
+## 2026-10-14 — campaign review: ad strength + suggestions (owner request)
+- New `review.py` (pure): account-wide CTR / cost-per-conversion benchmark and plain-language suggestions per ad (fix errors,
+  add headlines/descriptions, low strength, no conversions after enough spend, CTR well below the account, cost per
+  conversion far above or below the account). With no impressions or few conversions it says so instead of judging.
+- `GET /accounts/{id}/analysis` takes an optional `campaign` (exact name) and every row now carries `suggestions` and
+  `benchmark`. The benchmark is always account-wide, even when the list is filtered to one campaign.
+- Frontend: Existing ads tab filters to a campaign (`/ads-assets?campaign=...`), shows suggestions per ad and an
+  "Improve with AI" button that opens Write new ads with that ad group prefilled (Smart copy on).
+- No migration, no new imports of other modules. 5 new tests.

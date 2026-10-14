@@ -67,6 +67,10 @@ function CampaignsBody({ accountId, days, currency, refreshKey }: FrameCtx) {
     { key: "channel_type", label: "Type", value: (r) => r.channel_type, render: (r) => title(r.channel_type) },
     { key: "budget", label: "Budget/day", numeric: true, value: (r) => r.budget, render: (r) => money(r.budget, currency) },
     ...metricColumns<CampaignRow>(currency),
+    { key: "analyse", label: "", value: () => null, render: (r) => (
+      <Link href={`/ads-assets?campaign=${encodeURIComponent(r.name)}`} className="whitespace-nowrap text-xs text-accent underline"
+        title="Check ad strength and get suggestions for this campaign's ads">Analyse ads →</Link>
+    ) },
   ], [currency]);
   const t = summary.data?.totals;
   const allPaused = rows.data && rows.data.length > 0 && rows.data.every((r) => r.status !== "ENABLED");
